@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import type { MnxDocument } from '@polyhymnia/mnx';
-import { LOGO_URL } from '@/lib/logo';
+import { FRAMED_LOGO_URL } from '@/lib/logo';
 import { TitleText } from '@/components/Initial';
 import { PaperSheet } from '@/components/PaperSheet';
 import { SaltarelloScore } from '@/components/SaltarelloScore';
@@ -60,7 +60,7 @@ function HomePage() {
 
       <FrameBorder frame={HERO_FRAME} className="-my-loose">
         <header className="flex flex-col items-center gap-base text-center">
-          <img src={LOGO_URL} alt="" className="size-[5.75rem] sm:size-30" />
+          <img src={FRAMED_LOGO_URL} alt="" width={1254} height={1254} className="h-auto w-40 sm:w-48" />
           <div className="flex flex-col items-center gap-tight">
             <h1 className="font-display text-title sm:text-display">
               <TitleText title="Polyhymnia" />
