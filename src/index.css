@@ -4,10 +4,12 @@
 @import '@fontsource-variable/eb-garamond';
 @import '@fontsource-variable/jetbrains-mono';
 @import '@fontsource-variable/texturina/opsz.css';
+@import '@ranx729/elder-scrolls/styles.css';
 @import './styles/palette.css';
 @import './styles/fonts.css';
 @import './styles/theme.css';
 @import './styles/paper.css';
+@import './styles/surfaces.css';
 
 @source '../index.html';
 @source './**/*.{ts,tsx}';

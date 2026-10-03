@@ -5,6 +5,7 @@ import { passedLesson, scoreOf, type AnsweredQuestion, type LessonFlowState } fr
 import { LazyReveal } from './LazyReveal';
 import { ExerciseMasthead } from './ExerciseMasthead';
 import { Ornament } from '@/components/Ornament';
+import { PaperSheet } from '@/components/PaperSheet';
 
 export interface LessonSummaryProps<Q, A> {
   exerciseTitle: string;
@@ -34,7 +35,7 @@ export function LessonSummary<Q, A>({
   const percent = Math.round(scoreOf(flow.answered) * 100);
   const passed = passedLesson(flow);
   return (
-    <div className="page-column mx-auto flex w-full max-w-4xl flex-col items-center gap-loose px-base py-section text-center">
+    <PaperSheet size="exercise" className="page-column flex flex-col items-center gap-loose px-base py-section text-center">
       <nav aria-label="Breadcrumb" className="self-start">
         <ExerciseMasthead />
       </nav>
@@ -85,6 +86,6 @@ export function LessonSummary<Q, A>({
           </div>
         ))}
       </div>
-    </div>
+    </PaperSheet>
   );
 }

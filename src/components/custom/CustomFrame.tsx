@@ -4,6 +4,7 @@ import { ArrowLeft, Play, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ExerciseMasthead } from '@/components/lesson/ExerciseMasthead';
 import { TitleText } from '@/components/Initial';
+import { PaperSheet } from '@/components/PaperSheet';
 
 const TITLE = 'Custom exercise';
 
@@ -19,12 +20,12 @@ interface CustomFrameProps {
 
 export function CustomErrorFallback({ lessonsTo }: { lessonsTo: LinkProps['to'] }) {
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-16 text-center">
+    <PaperSheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
       <p>Something went wrong setting up this exercise.</p>
       <Button asChild>
         <Link to={lessonsTo}>Back to lessons</Link>
       </Button>
-    </div>
+    </PaperSheet>
   );
 }
 
@@ -34,7 +35,7 @@ export function CustomFrame({ lessonsTo, help, summary, errors, onReset, runner,
   if (running) return <>{runner({ title: TITLE, onBack: () => setRunning(false) })}</>;
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6 px-4 pt-8">
+    <PaperSheet paper="sage" size="custom" className="flex flex-col gap-6 px-base pt-loose">
       <div className="flex flex-col gap-3">
         <nav aria-label="Breadcrumb">
           <ExerciseMasthead />
@@ -76,6 +77,6 @@ export function CustomFrame({ lessonsTo, help, summary, errors, onReset, runner,
           Start
         </Button>
       </div>
-    </div>
+    </PaperSheet>
   );
 }

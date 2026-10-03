@@ -214,7 +214,7 @@
   --pn-focus: oklch(0.43 0.16 30);
   --pn-selected: oklch(0.47 0.17 30);
   --pn-playing: oklch(0.5 0.18 32);
-  --pn-cursor: oklch(0.52 0.1 30);
+  --pn-cursor: var(--pn-focus);
   --pn-staff-mensural: var(--primary);
   --pn-lapis-mensural: var(--color-blue-600);
   --pn-gold-mensural: var(--color-gold-500);

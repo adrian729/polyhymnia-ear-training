@@ -1,0 +1,113 @@
+/* The npm package owns the artwork and its fixed scale. These rules only
+   accommodate that artwork around the app's existing content widths. */
+.worktable {
+  padding: var(--spacing-loose) var(--spacing-base);
+  overflow-x: clip;
+  background-attachment: fixed;
+}
+
+.paper-sheet {
+  --paper-content-width: 48rem;
+  --es-content-gutter: var(--spacing-base);
+  --es-content-block-padding: 0px;
+  width: 100%;
+  max-width: calc(var(--paper-content-width) + 2 * (42px + var(--es-content-gutter)));
+  margin-inline: auto;
+  min-width: 0;
+}
+
+.paper-sheet-exercise {
+  --paper-content-width: 56rem;
+}
+
+.paper-sheet-custom {
+  --paper-content-width: 42rem;
+}
+
+.paper-sheet-message {
+  --paper-content-width: 28rem;
+}
+
+.paper-sheet-sidebar {
+  --paper-content-width: 15rem;
+}
+
+.paper-sheet-sidebar nav a {
+  font-size: var(--text-meta);
+}
+
+.paper-content {
+  min-width: 0;
+  color: var(--foreground);
+}
+
+.paper-sheet :where(a, button, input, select, summary):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* A readable sheet also serves as the fallback while artwork loads or if an
+   image fails. Once ready, the real paper supplies the entire background. */
+.paper-sheet:not([data-theme]) > .mr-scroll > .mr-body {
+  background-color: var(--background);
+}
+
+.workshop-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--spacing-base);
+  height: calc(100svh - 2 * var(--spacing-loose));
+  max-width: calc(48rem + 15rem + 4 * (42px + var(--spacing-base)) + var(--spacing-base));
+  margin-inline: auto;
+}
+
+.workshop-pane {
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.workshop-pane:focus-visible {
+  outline: 2px solid var(--card);
+  outline-offset: -2px;
+}
+
+.workshop-sidebar {
+  max-height: min(18rem, 35svh);
+}
+
+@media (width >= 64rem) {
+  .workshop-layout {
+    grid-template-columns: calc(15rem + 2 * (42px + var(--spacing-base))) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .workshop-sidebar {
+    max-height: none;
+  }
+}
+
+@media (width < 48rem) {
+  .worktable {
+    padding: var(--spacing-base) var(--spacing-tight);
+  }
+
+  .workshop-layout {
+    height: calc(100svh - 2 * var(--spacing-base));
+  }
+
+  .paper-sheet {
+    /* Let the unused outer part of each atlas extend into the page margin.
+       This keeps mobile text and answer grids wide without scaling the grain. */
+    width: calc(100% + 2 * var(--spacing-loose));
+    max-width: none;
+    margin-inline: calc(-1 * var(--spacing-loose));
+  }
+
+  .paper-content {
+    padding-inline: 0;
+  }
+}

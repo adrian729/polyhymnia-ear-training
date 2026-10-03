@@ -18,6 +18,7 @@ import {
 import { LessonSummary } from './LessonSummary';
 import { ExerciseMasthead } from './ExerciseMasthead';
 import { OrnamentRule } from '@/components/Ornament';
+import { PaperSheet } from '@/components/PaperSheet';
 
 interface RunnerOptions {
   questionCount: number | 'endless';
@@ -294,7 +295,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
 
   if (state.phase === 'error') {
     return (
-      <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-16 text-center">
+      <PaperSheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
         <nav aria-label="Breadcrumb" className="self-start">
           <ExerciseMasthead />
         </nav>
@@ -308,7 +309,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
           </Button>
           <Button onClick={() => dispatch({ type: 'retryGeneration', options })}>Try again</Button>
         </div>
-      </div>
+      </PaperSheet>
     );
   }
 
@@ -335,7 +336,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
   }
 
   return (
-    <div className="page-column mx-auto flex w-full max-w-4xl flex-col gap-loose px-base py-loose">
+    <PaperSheet size="exercise" className="page-column flex flex-col gap-loose px-base py-loose">
       <nav aria-label="Breadcrumb">
         <ExerciseMasthead />
       </nav>
@@ -449,6 +450,6 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
       </div>
 
       {answeredYet && <div className="flex justify-center">{renderReveal(question)}</div>}
-    </div>
+    </PaperSheet>
   );
 }

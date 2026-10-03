@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import type { MnxDocument } from '@polyhymnia/mnx';
 import { LOGO_URL } from '@/lib/logo';
 import { TitleText } from '@/components/Initial';
+import { PaperSheet } from '@/components/PaperSheet';
 import { SaltarelloScore } from '@/components/SaltarelloScore';
 import { BarBorder, FlourishRule, FrameBorder, Ornament, OrnamentRule, type FrameSpec } from '@/components/Ornament';
 import saltarello from '@/assets/scores/saltarello.mnx.json';
@@ -51,7 +52,7 @@ const EXERCISES = [
 
 function HomePage() {
   return (
-    <div className="page-column mx-auto flex w-full max-w-3xl flex-col gap-section px-base pt-base pb-section">
+    <PaperSheet paper="original" className="page-column flex flex-col gap-section px-base pt-base pb-section">
       <div className="rubricated font-specimen flex items-baseline justify-between border-b border-border pb-tight text-meta text-muted-foreground">
         <span>Polyhymnia</span>
         <span>Ear training</span>
@@ -116,6 +117,6 @@ function HomePage() {
           <SaltarelloScore score={SALTARELLO} />
         </BarBorder>
       </footer>
-    </div>
+    </PaperSheet>
   );
 }

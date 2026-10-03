@@ -22,6 +22,7 @@
     "@polyhymnia/notation-engine": "^0.2.0",
     "@polyhymnia/notation-react": "^0.2.0",
     "@polyhymnia/web-audio": "^0.1.0",
+    "@ranx729/elder-scrolls": "^0.1.0",
     "@tanstack/react-router": "^1.170.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",

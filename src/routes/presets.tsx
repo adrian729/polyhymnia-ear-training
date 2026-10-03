@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import type { ScaleName } from '@polyhymnia/music-theory';
 import { NotesReveal } from '@/components/presets/NotesReveal';
 import { ScaleReveal } from '@/components/presets/ScaleReveal';
+import { PaperSheet } from '@/components/PaperSheet';
 
 export const Route = createFileRoute('/presets')({
   component: PresetsPage,
@@ -114,7 +115,7 @@ const SCALES: readonly Scale[] = [
 
 function PresetsPage() {
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-8">
+    <PaperSheet className="flex flex-col gap-loose px-base py-loose">
       <h1 className="text-title">Notation presets</h1>
       <Section title="Chords">
         {CHORDS.map((c) => (
@@ -142,7 +143,7 @@ function PresetsPage() {
           </Demo>
         ))}
       </Section>
-    </div>
+    </PaperSheet>
   );
 }
 

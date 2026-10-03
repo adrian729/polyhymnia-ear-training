@@ -76,7 +76,9 @@ The split is deliberate and domain-justified: a playing note must not look like 
 
 ## Texture
 
-A very low opacity paper grain on `body`, from a single inline SVG `feTurbulence` filter, plus a faint warm vignette. Opacity between 0.015 and 0.04 — it must be felt, not seen. This is the hand-made signature of the system; it is what separates this from a clean vector UI. It must not scroll independently of content, and must not intercept pointer events.
+Use the published `@ranx729/elder-scrolls` React components and geometry stylesheet for a dark walnut worktable and independent paper sheets. Use only the four light materials: aged parchment (`original`) for the home page, ivory vellum (`ivory`) for lesson catalogs, players, results, presets and error screens, cool vellum (`sage`) for custom forms, and warm linen rag (`rag`) for the separate contents sidebar. Main sheets have a rolled top and a plain-paper bottom; compact sidebars have paper edges at both ends. Contact shadows are disabled.
+
+The package owns paper/table artwork; the app retains its fonts, ornaments, colors and controls. Keep the texture's physical scale. The wooden background stays fixed to the viewport. Lesson catalogs have separate scroll areas around the complete main and sidebar papers, so each sheet's edges, texture and contents move together while the other sheet stays in place. The paper content itself has no internal scroller. On narrow screens retain the collapsible contents list in a compact upper scroll area and the main paper below. Other pages use native document scrolling over the same fixed wood. Allow decorative edges into small-screen margins to preserve usable text width; never scale the whole sheet. Do not add a global grain or vignette over the packaged textures. Decoration must not intercept pointer events.
 
 ## Motion
 
@@ -136,8 +138,8 @@ Mechanical. A change touching any of these is not done.
 3. Every changed file uses semantic tokens only — grep the diff for `text-(teal|pink|blue|neutral|red|green|peach|yellow|lavender|mauve|white|black)-`, `bg-` equivalents, `#`, and `rgb(`.
 4. Every interactive element has hover, focus-visible, active and disabled states.
 5. Focus rings are visible and meet WCAG 2.2 AA.
-6. Both light and dark themes reviewed at 390px, 768px and 1440px.
-7. All `--pn-*` tokens verified ≥ 4.5:1 on `--background` in both themes.
+6. The four light paper surfaces reviewed at 390px, 768px and 1440px; dark papers are outside the current visual scope.
+7. All `--pn-*` tokens verified ≥ 4.5:1 against the light paper surfaces they appear on.
 
 ## Scope boundary
 

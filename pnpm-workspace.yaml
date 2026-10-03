@@ -1,4 +1,5 @@
 allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
-  - "@polyhymnia/*"
+  - '@polyhymnia/*'
+  - '@ranx729/elder-scrolls@0.1.0'

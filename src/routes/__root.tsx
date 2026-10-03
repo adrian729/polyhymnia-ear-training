@@ -1,30 +1,42 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
+import { PaperSheet, Worktable } from '@/components/PaperSheet';
 
 export const Route = createRootRoute({
   component: RootLayout,
   errorComponent: RootErrorFallback,
+  notFoundComponent: RootNotFoundFallback,
 });
 
 function RootLayout() {
   return (
-    <div className="min-h-svh text-foreground">
+    <Worktable>
       <main>
         <Outlet />
       </main>
-    </div>
+    </Worktable>
+  );
+}
+
+function RootNotFoundFallback() {
+  return (
+    <PaperSheet size="message" className="flex flex-col items-center px-base py-section text-center">
+      <p>Not Found</p>
+    </PaperSheet>
   );
 }
 
 function RootErrorFallback() {
   return (
-    <div className="min-h-svh text-foreground">
-      <main className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-16 text-center">
-        <p>Something went wrong.</p>
-        <Button asChild>
-          <Link to="/">Back to home</Link>
-        </Button>
-      </main>
-    </div>
+    <Worktable>
+      <PaperSheet size="message">
+        <main className="flex flex-col items-center gap-base px-base py-section text-center">
+          <p>Something went wrong.</p>
+          <Button asChild>
+            <Link to="/">Back to home</Link>
+          </Button>
+        </main>
+      </PaperSheet>
+    </Worktable>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { ExerciseMasthead } from './ExerciseMasthead';
+import { PaperSheet } from '@/components/PaperSheet';
 
 export interface TocModule {
   id: string;
@@ -22,17 +23,20 @@ function useActiveModule(modules: readonly TocModule[]): string | undefined {
   useEffect(() => {
     const last = modules[modules.length - 1];
     if (!last) return;
+    const scroller = document.getElementById(modules[0].id)?.closest<HTMLElement>('[data-workshop-main]');
+    if (!scroller) return;
     let frame = 0;
     const measure = () => {
       frame = 0;
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      if (scroller.clientHeight + scroller.scrollTop >= scroller.scrollHeight - 2) {
         setActive(last.id);
         return;
       }
       let current = modules[0].id;
+      const headingBand = scroller.getBoundingClientRect().top + HEADING_BAND;
       for (const module of modules) {
         const heading = document.getElementById(module.id);
-        if (heading && heading.getBoundingClientRect().top <= HEADING_BAND) current = module.id;
+        if (heading && heading.getBoundingClientRect().top <= headingBand) current = module.id;
       }
       setActive(current);
     };
@@ -40,11 +44,11 @@ function useActiveModule(modules: readonly TocModule[]): string | undefined {
       if (frame === 0) frame = window.requestAnimationFrame(measure);
     };
     measure();
-    window.addEventListener('scroll', schedule, { passive: true });
+    scroller.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     return () => {
       if (frame !== 0) window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', schedule);
+      scroller.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
     };
   }, [modules]);
@@ -87,24 +91,26 @@ export function WorkshopAside({ modules }: { modules: readonly TocModule[] }) {
   const list: ReactNode | null =
     modules.length < 2 ? null : <TocList modules={modules} active={active} />;
   return (
-    <aside className="flex flex-col gap-base lg:sticky lg:top-base lg:max-h-[calc(100vh-2.5rem)] lg:self-start">
-      <nav aria-label="Breadcrumb">
-        <ExerciseMasthead />
-      </nav>
+    <aside className="workshop-pane workshop-sidebar" aria-label="Exercise contents" tabIndex={0}>
+      <PaperSheet paper="rag" size="sidebar" className="flex flex-col gap-base py-base">
+        <nav aria-label="Breadcrumb">
+          <ExerciseMasthead />
+        </nav>
 
-      {list && (
-        <details className="lg:hidden">
-          <summary className="rubricated font-specimen cursor-pointer text-subhead text-muted-foreground">Contents</summary>
-          <div className="pt-tight">{list}</div>
-        </details>
-      )}
+        {list && (
+          <details className="lg:hidden">
+            <summary className="rubricated font-specimen cursor-pointer text-subhead text-muted-foreground">Contents</summary>
+            <div className="pt-tight">{list}</div>
+          </details>
+        )}
 
-      {list && (
-        <div className="hidden min-h-0 flex-1 overflow-y-auto overscroll-contain pb-base lg:block">
-          <p className="rubricated font-specimen border-b border-border pb-tight text-subhead text-muted-foreground">Contents</p>
-          {list}
-        </div>
-      )}
+        {list && (
+          <div className="hidden pb-base lg:block">
+            <p className="rubricated font-specimen border-b border-border pb-tight text-subhead text-muted-foreground">Contents</p>
+            {list}
+          </div>
+        )}
+      </PaperSheet>
     </aside>
   );
 }

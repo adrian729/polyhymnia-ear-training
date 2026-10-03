@@ -5,6 +5,7 @@ import { InstrumentSelect } from '@/components/custom/InstrumentSelect';
 import type { HelpSection, LessonResult, OverviewSection } from '@/exercises/shared';
 import { TitleText } from '@/components/Initial';
 import { Ornament } from '@/components/Ornament';
+import { PaperSheet } from '@/components/PaperSheet';
 import { WorkshopAside } from './WorkshopAside';
 import { LessonLinkTile, ModuleCard, OverviewHelpPopover } from './LessonListParts';
 
@@ -28,40 +29,42 @@ export function WorkshopPage({
   headerAction?: ReactNode;
 }) {
   return (
-    <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-section px-base py-loose lg:grid-cols-[15rem_minmax(0,1fr)]">
+    <div className="workshop-layout">
       <WorkshopAside modules={modules} />
 
-      <div className="page-column mx-auto flex w-full max-w-3xl flex-col gap-loose">
-        <div className="flex flex-col gap-tight">
-          <div className="flex flex-wrap items-center justify-between gap-base">
-            <div className="flex min-w-0 items-center gap-1">
-              <h1 className="font-display text-title text-primary-strong">
-                <TitleText title={title} />
-              </h1>
-              <OverviewHelpPopover ariaLabel={`About ${title}`} sections={overview} />
+      <div className="workshop-pane" data-workshop-main role="region" aria-label={`${title} lessons`} tabIndex={0}>
+        <PaperSheet className="page-column flex flex-col gap-loose py-loose">
+          <div className="flex flex-col gap-tight">
+            <div className="flex flex-wrap items-center justify-between gap-base">
+              <div className="flex min-w-0 items-center gap-1">
+                <h1 className="font-display text-title text-primary-strong">
+                  <TitleText title={title} />
+                </h1>
+                <OverviewHelpPopover ariaLabel={`About ${title}`} sections={overview} />
+              </div>
+              <InstrumentSelect />
             </div>
-            <InstrumentSelect />
+            <p className="max-w-[64ch] text-body text-muted-foreground">{blurb}</p>
           </div>
-          <p className="max-w-[64ch] text-body text-muted-foreground">{blurb}</p>
-        </div>
 
-        {headerAction}
+          {headerAction}
 
-        <div className="flex flex-col gap-base">
-          {modules.map((mod, index) => (
-            <ModuleCard key={mod.id} id={mod.id} title={mod.title} help={mod.help} lead={index === 0}>
-              {lessonsForModule(mod.id).map((lesson) => (
-                <LessonLinkTile
-                  key={lesson.id}
-                  title={lesson.title}
-                  result={getLessonResult(lesson.id)}
-                  render={(className, children) => renderLessonLink(lesson.id, className, children)}
-                />
-              ))}
-            </ModuleCard>
-          ))}
-          <Ornament name="tailpiece" className="mx-auto mt-loose size-14 text-primary-strong" />
-        </div>
+          <div className="flex flex-col gap-base">
+            {modules.map((mod, index) => (
+              <ModuleCard key={mod.id} id={mod.id} title={mod.title} help={mod.help} lead={index === 0}>
+                {lessonsForModule(mod.id).map((lesson) => (
+                  <LessonLinkTile
+                    key={lesson.id}
+                    title={lesson.title}
+                    result={getLessonResult(lesson.id)}
+                    render={(className, children) => renderLessonLink(lesson.id, className, children)}
+                  />
+                ))}
+              </ModuleCard>
+            ))}
+            <Ornament name="tailpiece" className="mx-auto mt-loose size-14 text-primary-strong" />
+          </div>
+        </PaperSheet>
       </div>
     </div>
   );
@@ -69,11 +72,11 @@ export function WorkshopPage({
 
 export function LessonNotFound({ backTo }: { backTo: LinkProps['to'] }) {
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-16 text-center">
+    <PaperSheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
       <p>Lesson not found.</p>
       <Button asChild>
         <Link to={backTo}>Back to lessons</Link>
       </Button>
-    </div>
+    </PaperSheet>
   );
 }
