@@ -128,11 +128,11 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       '@polyhymnia/notation-engine':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@polyhymnia/notation-react':
-        specifier: ^0.3.0
-        version: 0.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: ^0.4.0
+        version: 0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@polyhymnia/web-audio':
         specifier: ^0.1.0
         version: 0.1.0
@@ -579,16 +579,16 @@ packages:
     resolution: {integrity: sha512-YD3aWqquYCw7r1WD4slqrjlSiaM8bnMW4Uojl6uiq0t/XDp51WQzzbxDA4EruN/c+GNxmN8/jnZh9I5KKLv/Ig==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-engine@0.3.0':
-    resolution: {integrity: sha512-DDf+sWJZjttv7nuIzkci7jkZ7F1MhZkLWPmz/Lwhc5OD5Ni58HYckiiYh5kjVDwI7Wj7NnNStxEVI0ZrcimLEA==}
+  '@polyhymnia/notation-engine@0.4.0':
+    resolution: {integrity: sha512-Juw8vZgDm4fJtvZMinE/ASsy/Wacm9I5lEghmi9ZMp46hIR33ur4EmDq42NgH+yAvDwJ5IMo41nGMK1Eok2+rQ==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-fonts@0.2.0':
-    resolution: {integrity: sha512-5v9d7G3cm8UUUAMnukNy//biJt9umH0BBbH+akSALbOQkYNBVBVMNQQ40QVZOtcruzb1ajPegJA/o+ncAPEarw==}
+  '@polyhymnia/notation-fonts@0.3.0':
+    resolution: {integrity: sha512-V0pj0dAmdcvleQToEzd0Qtpjd3MTc+FNSpjRinHzho31fBBRdKcqzeYozwBXwj75PD3G43N0nY1qv4iVhi9JMw==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-react@0.3.0':
-    resolution: {integrity: sha512-+Z+ArO5Ltji1WdNh7Fg+1BxyaYodTX4b6PnDvt3NFF0yxZMz2xW5esIlQhX0DtmdXXNUWgrAaUph1Jr2s/zTRQ==}
+  '@polyhymnia/notation-react@0.4.0':
+    resolution: {integrity: sha512-HIqBVKdFFYlEMmoptaF1ygYcRquQfsAWFOgKCjSWofwhOpCOOBgeZgG3tFBpjO+65GEq2Rzp965cBK+704iBGw==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^19.0.0
@@ -3837,21 +3837,21 @@ snapshots:
 
   '@polyhymnia/music-theory@0.1.0': {}
 
-  '@polyhymnia/notation-engine@0.3.0':
+  '@polyhymnia/notation-engine@0.4.0':
     dependencies:
       '@polyhymnia/mnx': 0.3.0
       '@polyhymnia/mnx-score': 0.3.0
       '@polyhymnia/music-theory': 0.1.0
-      '@polyhymnia/notation-fonts': 0.2.0
+      '@polyhymnia/notation-fonts': 0.3.0
 
-  '@polyhymnia/notation-fonts@0.2.0': {}
+  '@polyhymnia/notation-fonts@0.3.0': {}
 
-  '@polyhymnia/notation-react@0.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@polyhymnia/notation-react@0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@polyhymnia/mnx': 0.3.0
       '@polyhymnia/mnx-score': 0.3.0
-      '@polyhymnia/notation-engine': 0.3.0
-      '@polyhymnia/notation-fonts': 0.2.0
+      '@polyhymnia/notation-engine': 0.4.0
+      '@polyhymnia/notation-fonts': 0.3.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
