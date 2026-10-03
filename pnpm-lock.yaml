@@ -119,20 +119,20 @@ importers:
         specifier: 5.3.0
         version: 5.3.0
       '@polyhymnia/mnx':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@polyhymnia/mnx-score':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@polyhymnia/music-theory':
         specifier: ^0.1.0
         version: 0.1.0
       '@polyhymnia/notation-engine':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@polyhymnia/notation-react':
-        specifier: ^0.2.0
-        version: 0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: ^0.3.0
+        version: 0.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@polyhymnia/web-audio':
         specifier: ^0.1.0
         version: 0.1.0
@@ -567,28 +567,28 @@ packages:
   '@oxc-project/types@0.152.0':
     resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
 
-  '@polyhymnia/mnx-score@0.2.0':
-    resolution: {integrity: sha512-yeS6XhiPSkFubgnG4bB+wBiQf7JswCjWnlw/KQdZWj6+oeyESvTAxOD0kDwAoTZ5YZo1G0UIpJ2PvdpZeqhZjA==}
+  '@polyhymnia/mnx-score@0.3.0':
+    resolution: {integrity: sha512-NHtOOEGCxZsLUoJ9AJMQ6AfbRv+OOJAVmqjsjKo9MmLH1J8yWDWZCmOceUWvkxTCTAo9LgkFMnTKOX2i6bOHlg==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/mnx@0.2.0':
-    resolution: {integrity: sha512-dDlDSD/HRHZmaJCGPvJ1RkIKGO4TnDwtBcJzToajJh8AXu39kZTEkUmNit2CYd2V2TWFXHtYv/BE2CCAfsLRxg==}
+  '@polyhymnia/mnx@0.3.0':
+    resolution: {integrity: sha512-QqRuGFBjGybnQ9MElU2n85lnOdBkYRzC2iaYbXSMpBMdX+zYGVpnfnad4CSiW7SIamFbjyCP/m6KX2NQh2Eruw==}
     engines: {node: '>=20'}
 
   '@polyhymnia/music-theory@0.1.0':
     resolution: {integrity: sha512-YD3aWqquYCw7r1WD4slqrjlSiaM8bnMW4Uojl6uiq0t/XDp51WQzzbxDA4EruN/c+GNxmN8/jnZh9I5KKLv/Ig==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-engine@0.2.0':
-    resolution: {integrity: sha512-j1hCx5/VVyjKquWSs1Sfp2Hd7b94neSD4+ifMEqOKeb7Nj5P64EV8ZU0prJA4lni/g5N6upLoqHVNXg9sDWNFA==}
+  '@polyhymnia/notation-engine@0.3.0':
+    resolution: {integrity: sha512-DDf+sWJZjttv7nuIzkci7jkZ7F1MhZkLWPmz/Lwhc5OD5Ni58HYckiiYh5kjVDwI7Wj7NnNStxEVI0ZrcimLEA==}
     engines: {node: '>=20'}
 
   '@polyhymnia/notation-fonts@0.2.0':
     resolution: {integrity: sha512-5v9d7G3cm8UUUAMnukNy//biJt9umH0BBbH+akSALbOQkYNBVBVMNQQ40QVZOtcruzb1ajPegJA/o+ncAPEarw==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-react@0.2.0':
-    resolution: {integrity: sha512-W7uPDuavb3cZ+gduZLOH5ESBB/DGMEt6gwMbFunEfDbBVS/UxVo62ELBgzicX5bJIYmBpXIXuC6lEVrruqXqiQ==}
+  '@polyhymnia/notation-react@0.3.0':
+    resolution: {integrity: sha512-+Z+ArO5Ltji1WdNh7Fg+1BxyaYodTX4b6PnDvt3NFF0yxZMz2xW5esIlQhX0DtmdXXNUWgrAaUph1Jr2s/zTRQ==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^19.0.0
@@ -3828,29 +3828,29 @@ snapshots:
 
   '@oxc-project/types@0.152.0': {}
 
-  '@polyhymnia/mnx-score@0.2.0':
+  '@polyhymnia/mnx-score@0.3.0':
     dependencies:
-      '@polyhymnia/mnx': 0.2.0
+      '@polyhymnia/mnx': 0.3.0
       '@polyhymnia/music-theory': 0.1.0
 
-  '@polyhymnia/mnx@0.2.0': {}
+  '@polyhymnia/mnx@0.3.0': {}
 
   '@polyhymnia/music-theory@0.1.0': {}
 
-  '@polyhymnia/notation-engine@0.2.0':
+  '@polyhymnia/notation-engine@0.3.0':
     dependencies:
-      '@polyhymnia/mnx': 0.2.0
-      '@polyhymnia/mnx-score': 0.2.0
+      '@polyhymnia/mnx': 0.3.0
+      '@polyhymnia/mnx-score': 0.3.0
       '@polyhymnia/music-theory': 0.1.0
       '@polyhymnia/notation-fonts': 0.2.0
 
   '@polyhymnia/notation-fonts@0.2.0': {}
 
-  '@polyhymnia/notation-react@0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@polyhymnia/notation-react@0.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
-      '@polyhymnia/mnx': 0.2.0
-      '@polyhymnia/mnx-score': 0.2.0
-      '@polyhymnia/notation-engine': 0.2.0
+      '@polyhymnia/mnx': 0.3.0
+      '@polyhymnia/mnx-score': 0.3.0
+      '@polyhymnia/notation-engine': 0.3.0
       '@polyhymnia/notation-fonts': 0.2.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)

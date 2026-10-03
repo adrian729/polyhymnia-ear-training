@@ -72,6 +72,7 @@ export function NotesReveal({
 function eventCenters(layout: LayoutResult, slot: number): number[] {
   const events = new Map<string, { tick: number; left: number; right: number }>();
   for (const box of Object.values(layout.elements)) {
+    if (!box.eventId || !['note', 'chord', 'grace'].includes(box.kind)) continue;
     const seen = events.get(box.eventId);
     events.set(box.eventId, {
       tick: box.tick,
