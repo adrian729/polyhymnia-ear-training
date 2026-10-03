@@ -35,7 +35,7 @@ export function LessonSummary<Q, A>({
   const percent = Math.round(scoreOf(flow.answered) * 100);
   const passed = passedLesson(flow);
   return (
-    <PaperSheet size="exercise" className="page-column flex flex-col items-center gap-loose px-base py-section text-center">
+    <PaperSheet size="exercise" className="flex flex-col items-center gap-loose px-base py-section text-center">
       <nav aria-label="Breadcrumb" className="self-start">
         <ExerciseMasthead />
       </nav>

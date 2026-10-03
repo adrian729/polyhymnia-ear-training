@@ -336,7 +336,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
   }
 
   return (
-    <PaperSheet size="exercise" className="page-column flex flex-col gap-loose px-base py-loose">
+    <PaperSheet size="exercise" className="flex flex-col gap-loose px-base py-loose">
       <nav aria-label="Breadcrumb">
         <ExerciseMasthead />
       </nav>

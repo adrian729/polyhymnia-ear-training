@@ -33,7 +33,7 @@ export function WorkshopPage({
       <WorkshopAside modules={modules} />
 
       <div className="workshop-pane" data-workshop-main role="region" aria-label={`${title} lessons`} tabIndex={0}>
-        <PaperSheet className="page-column flex flex-col gap-loose py-loose">
+        <PaperSheet className="flex flex-col gap-loose py-loose">
           <div className="flex flex-col gap-tight">
             <div className="flex flex-wrap items-center justify-between gap-base">
               <div className="flex min-w-0 items-center gap-1">

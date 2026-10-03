@@ -52,7 +52,7 @@ const EXERCISES = [
 
 function HomePage() {
   return (
-    <PaperSheet paper="original" className="page-column flex flex-col gap-section px-base pt-base pb-section">
+    <PaperSheet paper="original" className="flex flex-col gap-section px-base pt-base pb-section">
       <div className="rubricated font-specimen flex items-baseline justify-between border-b border-border pb-tight text-meta text-muted-foreground">
         <span>Polyhymnia</span>
         <span>Ear training</span>

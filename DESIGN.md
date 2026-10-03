@@ -78,7 +78,7 @@ The split is deliberate and domain-justified: a playing note must not look like 
 
 Use the published `@ranx729/elder-scrolls` React components and geometry stylesheet for a dark walnut worktable and independent paper sheets. Use only the four light materials: aged parchment (`original`) for the home page, ivory vellum (`ivory`) for lesson catalogs, players, results, presets and error screens, cool vellum (`sage`) for custom forms, and warm linen rag (`rag`) for the separate contents sidebar. Main sheets have a rolled top and a plain-paper bottom; compact sidebars have paper edges at both ends. Contact shadows are disabled.
 
-The package owns paper/table artwork; the app retains its fonts, ornaments, colors and controls. Keep the texture's physical scale. The wooden background stays fixed to the viewport. Lesson catalogs have separate scroll areas around the complete main and sidebar papers, so each sheet's edges, texture and contents move together while the other sheet stays in place. The paper content itself has no internal scroller. On narrow screens retain the collapsible contents list in a compact upper scroll area and the main paper below. Other pages use native document scrolling over the same fixed wood. Allow decorative edges into small-screen margins to preserve usable text width; never scale the whole sheet. Do not add a global grain or vignette over the packaged textures. Decoration must not intercept pointer events.
+The package owns paper/table artwork; the app retains its fonts, ornaments, colors and controls. Keep the texture's physical scale. The wooden background stays fixed to the viewport. Lesson catalogs have separate scroll areas around the complete main and sidebar papers, so each sheet's edges, texture and contents move together while the other sheet stays in place. Keep the initial top and bottom gaps inside these scroll areas so the papers can reach their visible boundaries while scrolling. The paper content itself has no internal scroller. On narrow screens retain the collapsible contents list in a compact upper scroll area and the main paper below. Other pages use native document scrolling over the same fixed wood. Allow decorative edges into small-screen margins to preserve usable text width; never scale the whole sheet. Do not add a global grain or vignette over the packaged textures. Decoration must not intercept pointer events.
 
 ## Motion
 
@@ -91,7 +91,9 @@ Named tokens only:
 --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1)
 ```
 
-Transform and opacity only. No bounce, no spring, no scale-pop, no fade-up-on-scroll, no `transition-all` — always name the properties. Motion is slow and few, matching paper: it settles, it does not perform.
+Use transform and opacity for UI transitions. No bounce, no spring, no scale-pop, no fade-up-on-scroll, no `transition-all` — always name the properties. Motion is slow and few, matching paper: it settles, it does not perform.
+
+Contents anchors use native smooth scrolling for the main paper, with instant navigation when reduced motion is requested.
 
 ## Layout
 

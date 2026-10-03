@@ -1,7 +1,8 @@
 /* The npm package owns the artwork and its fixed scale. These rules only
    accommodate that artwork around the app's existing content widths. */
 .worktable {
-  padding: var(--spacing-loose) var(--spacing-base);
+  --worktable-block-gap: var(--spacing-loose);
+  padding: var(--worktable-block-gap) var(--spacing-base);
   overflow-x: clip;
   background-attachment: fixed;
 }
@@ -57,14 +58,18 @@
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   gap: var(--spacing-base);
-  height: calc(100svh - 2 * var(--spacing-loose));
+  height: 100svh;
   max-width: calc(48rem + 15rem + 4 * (42px + var(--spacing-base)) + var(--spacing-base));
+  margin-block: calc(-1 * var(--worktable-block-gap));
   margin-inline: auto;
 }
 
 .workshop-pane {
   min-width: 0;
   min-height: 0;
+  /* Keep the initial gap inside the scrollport so the sheet can travel all
+     the way to its edges instead of clipping at the worktable's padding. */
+  padding-block: var(--worktable-block-gap);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
@@ -77,6 +82,12 @@
 
 .workshop-sidebar {
   max-height: min(18rem, 35svh);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .workshop-pane[data-workshop-main] {
+    scroll-behavior: smooth;
+  }
 }
 
 @media (width >= 64rem) {
@@ -92,11 +103,8 @@
 
 @media (width < 48rem) {
   .worktable {
-    padding: var(--spacing-base) var(--spacing-tight);
-  }
-
-  .workshop-layout {
-    height: calc(100svh - 2 * var(--spacing-base));
+    --worktable-block-gap: var(--spacing-base);
+    padding-inline: var(--spacing-tight);
   }
 
   .paper-sheet {
