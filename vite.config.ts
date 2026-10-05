@@ -5,6 +5,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import { existsSync, readdirSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import { fontFaces } from './scripts/font-faces.ts';
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url));
 const packageScope = resolve(appRoot, 'node_modules/@polyhymnia');
@@ -17,7 +18,7 @@ const packageRoots = existsSync(packageScope) ? readdirSync(packageScope).flatMa
 export default defineConfig({
   base: process.env.PAGES_BASE ?? '/',
   server: { fs: { allow: [appRoot, ...packageRoots] } },
-  plugins: [tanstackRouter({ target: 'react', autoCodeSplitting: true }), react(), tailwindcss()],
+  plugins: [fontFaces(), tanstackRouter({ target: 'react', autoCodeSplitting: true }), react(), tailwindcss()],
   resolve: {
     dedupe: ['react', 'react-dom'],
     alias: {

@@ -19,7 +19,7 @@ The failure mode this document exists to prevent: a centered logo, a row of iden
 
 ## Typography
 
-Four families, four roles, no overlap. Display and data come from `@fontsource-variable`; Junicode and the initials are vendored WOFF2 in `apps/app/src/assets/fonts/` because neither is published on fontsource. No Google Fonts CDN.
+Four families, four roles, no overlap. Display and data come from `@fontsource-variable`; Junicode and the initials are vendored WOFF2 in `src/assets/fonts/` because neither is published on fontsource; the build splits them the way fontsource ships its families (`scripts/font-faces.ts`), so pages download only the characters they show. No Google Fonts CDN.
 
 | Role | Family | Token | Used for |
 | --- | --- | --- | --- |
