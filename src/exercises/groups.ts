@@ -54,6 +54,15 @@ export const EXERCISE_GROUPS = [
       { title: 'Silent-bar Timing', description: 'Keep the pulse when the metronome falls silent.', to: '/exercises/silent-bar-timing' },
     ],
   },
+  {
+    id: 'pitch',
+    title: 'Pitch',
+    description: 'Match a reference note with your voice and see live pitch feedback.',
+    to: '/exercises/pitch',
+    exercises: [
+      { title: 'Match a note', description: 'Hear a note, then sing and hold it in the same octave using your microphone.', to: '/exercises/pitch-matching' },
+    ],
+  },
 ] as const;
 
 export type ExerciseGroupId = typeof EXERCISE_GROUPS[number]['id'];

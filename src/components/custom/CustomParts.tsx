@@ -85,7 +85,8 @@ export function HelpPopover({ label, children }: { label: string; children: Reac
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex w-[min(24rem,calc(100vw-2rem))] flex-col gap-3 text-meta leading-relaxed"
+        collisionPadding={16}
+        className="flex max-h-[min(80dvh,var(--radix-popover-content-available-height))] w-[min(24rem,calc(100vw-2rem))] flex-col gap-3 overflow-y-auto text-meta leading-relaxed"
       >
         {children}
       </PopoverContent>

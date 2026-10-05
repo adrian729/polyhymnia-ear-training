@@ -18,7 +18,7 @@ Polyhymnia trains the part of musicianship that reading notation alone does not:
 
 ## Exercises
 
-Exercises are grouped into Intervals, Chords and Rhythm:
+Exercises are grouped into Intervals, Chords, Rhythm and Pitch:
 
 | Group | Exercise | What it trains |
 |---|---|---|
@@ -33,8 +33,15 @@ Exercises are grouped into Intervals, Chords and Rhythm:
 | Rhythm | **Rhythm Reading** | Read a short score and tap its rhythm. |
 | Rhythm | **Rhythm Error Detection** | Compare related rhythms by ear or against a score. |
 | Rhythm | **Silent-bar Timing** | Keep the pulse when the metronome falls silent. |
+| Pitch | **Match a note** | Hear a reference, then sing and hold it in the same octave with live pitch feedback and accepted-hold measurements. |
 
-Each has lesson and custom modes, and the app is entirely client-side. Specs live in [`docs/exercises/`](docs/exercises/); product research in [`docs/`](docs/).
+All exercises have lesson and custom modes. **Rhythm settings** on the Rhythm page and timed lesson catalogs offer **Enable microphone claps**, alongside click/touch and Space. While enabled, the same section exposes minimum sound level, required sound rise, minimum clap gap and microphone timing adjustment; explanations are in one helper popup. These settings are saved and shared across timed rhythm exercises. Microphone access always needs explicit activation, starts off after a reload, and is released when disabled, hidden, rhythm practice finishes or you leave the exercise group. Use headphones; sharp sounds other than claps may register. Clap sessions show timing results but do not update saved lesson progress while physical microphone delay is being evaluated.
+
+**Pitch settings** on the Pitch page, Match a note lesson catalog and custom setup provide the same blue enabled button and conditional microphone controls. Set minimum sound level and pitch clarity while enabled. Vocal range remains available with the microphone off: choose Bass, Baritone, Tenor, Alto, Mezzo-soprano, Soprano or Custom, then edit either note limit. Presets apply both bounds; later edits retain your selected kind and are saved. Starting ranges follow [Yale Library’s vocal-range guide](https://yalelibrary.atlassian.net/wiki/spaces/YMD/pages/202030334), and are conventions rather than a classification of your voice. Note limits support every semitone from C2 to F6, including a single-note range.
+
+Match a note uses the standard lesson catalog, progress and summary components. Lesson entries stay disabled until the microphone is ready. Pitch settings show “Microphone required to start” with the enable button directly beneath it; custom Start follows the same prerequisite. Direct lesson URLs show Pitch settings before practice. References play automatically on each question, with a flat/sharp guide and continuous-hold bar. After a match, the guide shows the accepted minimum-to-maximum range and an average-pitch marker; a table shows the same measurements in Hz and cents. Only the required successful hold contributes, with overlapping samples counted once; measurements remain in the session summary. If input stops, a setup screen keeps completed answers and requires explicit resume; summaries and replay remain available with the microphone off. Each lesson asks five notes inside your saved range, with ±50 cents and a half-second or one-second continuous hold. Four correct matches pass (80%); Skip counts as wrong. There is no answer time limit, and replay before a match resets the hold. Completed lesson results persist; interrupted questions and custom sessions do not update lesson progress. Custom sessions support question counts, endless practice, automatic continuation, tolerance and hold duration. Pitch activation carries between settings, lessons and summaries within Pitch until disabled, hidden or the group is left; capture analysis pauses at the summary.
+
+The app is entirely client-side. Microphone input is analyzed locally, without recording or uploads. Specs live in [`docs/exercises/`](docs/exercises/); product research and the [audio integration plan](docs/audio-input-implementation-plan.md) live in [`docs/`](docs/).
 
 ## Development
 
@@ -54,4 +61,4 @@ Rhythm exercises use the published `@polyhymnia/rhythm`, `@polyhymnia/rhythm-rea
 
 ## License
 
-[MIT](LICENSE) © 2026 Adrián Sánchez Albanell. Bundled fonts, samples and ornaments keep their own licences — see the OFL and CREDITS files beside them.
+[MIT](LICENSE) © 2026 Adrián Sánchez Albanell. Bundled fonts, samples and ornaments keep their own licences — see the OFL and CREDITS files beside them. The pitch worker preserves Pitchy and fft.js MIT notices; a copy ships in [public/licenses/pitchy-fft.txt](public/licenses/pitchy-fft.txt).

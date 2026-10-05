@@ -13,6 +13,7 @@ interface CustomFrameProps {
   help: string;
   summary: readonly string[];
   errors: readonly string[];
+  startDisabledReason?: string;
   onReset: () => void;
   runner: (run: { title: string; onBack: () => void }) => ReactNode;
   children: ReactNode;
@@ -29,7 +30,7 @@ export function CustomErrorFallback({ lessonsTo }: { lessonsTo: LinkProps['to'] 
   );
 }
 
-export function CustomFrame({ lessonsTo, help, summary, errors, onReset, runner, children }: CustomFrameProps) {
+export function CustomFrame({ lessonsTo, help, summary, errors, startDisabledReason, onReset, runner, children }: CustomFrameProps) {
   const [running, setRunning] = useState(false);
 
   if (running) return <>{runner({ title: TITLE, onBack: () => setRunning(false) })}</>;
@@ -64,7 +65,7 @@ export function CustomFrame({ lessonsTo, help, summary, errors, onReset, runner,
 
       <div className="sticky bottom-0 -mx-4 flex flex-col gap-2 border-t bg-background/95 px-4 py-4 backdrop-blur sm:flex-row sm:items-center sm:justify-between">
         {errors.length === 0 ? (
-          <p className="text-meta text-muted-foreground">{summary.join(' · ')}</p>
+          <p className="text-meta text-muted-foreground">{startDisabledReason ?? summary.join(' · ')}</p>
         ) : (
           <ul className="text-meta text-destructive" role="alert">
             {errors.map((err) => (
@@ -72,7 +73,7 @@ export function CustomFrame({ lessonsTo, help, summary, errors, onReset, runner,
             ))}
           </ul>
         )}
-        <Button size="lg" className="px-6" disabled={errors.length > 0} onClick={() => setRunning(true)}>
+        <Button size="lg" className="px-6" disabled={errors.length > 0 || !!startDisabledReason} onClick={() => setRunning(true)}>
           <Play />
           Start
         </Button>

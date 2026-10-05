@@ -13,9 +13,11 @@ export interface TimingPreferences {
   volume: number;
   feedbackSound: 'kick' | 'snare' | 'woodblock';
   feedbackVolume: number;
+  microphone: { offsetMs: number; minimumRms: number; riseRatio: number; minimumSpacingMs: number };
 }
 export const DEFAULT_TIMING: TimingPreferences = { method: 'keyboard', tolerance: 'standard', customMs: 80,
-  offsets: { keyboard: 0, pointer: 0 }, volume: 0.7, feedbackSound: 'woodblock', feedbackVolume: 0.7 };
+  offsets: { keyboard: 0, pointer: 0 }, volume: 0.7, feedbackSound: 'woodblock', feedbackVolume: 0.7,
+  microphone: { offsetMs: 0, minimumRms: 0.025, riseRatio: 3, minimumSpacingMs: 65 } };
 const PREFS_KEY = 'polyhymnia:rhythm:timing:v1';
 const RESULTS_KEY = 'polyhymnia:rhythm:results:v1';
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -24,12 +26,19 @@ export function readTimingPreferences(): TimingPreferences {
   const raw = readJson(PREFS_KEY);
   const value = object(raw) ? raw : {};
   const offsets = object(value.offsets) ? value.offsets : {};
+  const microphone = object(value.microphone) ? value.microphone : {};
   return { method: value.method === 'pointer' ? 'pointer' : 'keyboard',
     tolerance: typeof value.tolerance === 'string' && ['relaxed', 'standard', 'strict', 'custom'].includes(value.tolerance) ? value.tolerance as Tolerance : 'standard',
     customMs: numberIn(value.customMs, 10, 250) ? value.customMs : 80,
     volume: numberIn(value.volume, 0, 1) ? value.volume : 0.7,
     feedbackSound: value.feedbackSound === 'kick' || value.feedbackSound === 'snare' ? value.feedbackSound : 'woodblock',
     feedbackVolume: numberIn(value.feedbackVolume, 0, 1) ? value.feedbackVolume : 0.7,
+    microphone: {
+      offsetMs: numberIn(microphone.offsetMs, 0, 250) ? microphone.offsetMs : DEFAULT_TIMING.microphone.offsetMs,
+      minimumRms: numberIn(microphone.minimumRms, 0.001, 0.2) ? microphone.minimumRms : DEFAULT_TIMING.microphone.minimumRms,
+      riseRatio: numberIn(microphone.riseRatio, 1.1, 10) ? microphone.riseRatio : DEFAULT_TIMING.microphone.riseRatio,
+      minimumSpacingMs: numberIn(microphone.minimumSpacingMs, 20, 500) ? microphone.minimumSpacingMs : DEFAULT_TIMING.microphone.minimumSpacingMs,
+    },
     offsets: { keyboard: numberIn(offsets.keyboard, 0, 250) ? offsets.keyboard : 0,
       pointer: numberIn(offsets.pointer, 0, 250) ? offsets.pointer : 0 } };
 }

@@ -3,7 +3,10 @@ import { ChevronDown, Play, Square } from 'lucide-react';
 import type { RhythmPlaybackHandle } from '@polyhymnia/rhythm/browser';
 import { Button } from '@/components/ui/button';
 import { HelpPopover } from '@/components/custom/CustomParts';
-import type { TimingPreferences } from '@/exercises/shared/rhythm/store';
+import { DEFAULT_TIMING, type TimingPreferences } from '@/exercises/shared/rhythm/store';
+import { MicrophoneControl } from '@/components/audio/MicrophoneControl';
+import { useExerciseMicrophone } from '@/components/audio/MicrophoneProvider';
+import { NumericSetting } from '@/components/audio/NumericSetting';
 import { createRhythmSound } from '@/lib/rhythmSound';
 import { cn } from '@/lib/utils';
 
@@ -67,22 +70,6 @@ const SETTINGS_CONTROL_CLASS = cn(CONTROL_CLASS, 'min-w-0 w-full focus-visible:r
 const LABEL_CLASS = 'flex min-w-0 flex-col gap-tight text-meta text-muted-foreground';
 const INLINE_LABEL_CLASS = 'grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-base text-meta text-muted-foreground';
 
-function NumericSetting({ value, min, max, step = 1, onChange }: {
-  value: number; min: number; max: number; step?: number; onChange: (value: number) => void;
-}) {
-  const [draft, setDraft] = useState(String(value));
-  useEffect(() => { setDraft(String(value)); }, [value]);
-  return <input className={cn(SETTINGS_CONTROL_CLASS, 'tabular-nums text-foreground')} type="number"
-    min={min} max={max} step={step} value={draft}
-    onChange={event => {
-      const text = event.target.value;
-      setDraft(text);
-      const number = Number(text);
-      if (text.trim() !== '' && Number.isFinite(number) && number >= min && number <= max) onChange(number);
-    }}
-    onBlur={() => setDraft(String(value))} />;
-}
-
 function VolumeControl({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {
   return <label className={LABEL_CLASS}>
     <span className="flex items-baseline justify-between gap-tight">
@@ -96,6 +83,9 @@ function VolumeControl({ label, value, onChange }: { label: string; value: numbe
 
 export function TimingSetup({ value, onChange }: { value: TimingPreferences; onChange: (value: TimingPreferences) => void }) {
   const toleranceId = useId();
+  const microphone = useExerciseMicrophone();
+  const updateMicrophone = (settings: Partial<TimingPreferences['microphone']>) =>
+    onChange({ ...value, microphone: { ...value.microphone, ...settings } });
   return <fieldset className="@container flex min-w-0 flex-col gap-tight">
     <legend className="mb-tight w-full border-b border-border pb-tight font-display text-subhead">Rhythm settings</legend>
     <div className="grid items-center gap-tight @min-[28rem]:grid-cols-2 @min-[28rem]:gap-x-base">
@@ -140,6 +130,50 @@ export function TimingSetup({ value, onChange }: { value: TimingPreferences; onC
       </section>
     </div>
     <p className="text-meta text-muted-foreground">Press Space or click / touch the pad during practice. Both inputs are always available.</p>
+    <section aria-label="Microphone claps" className="flex min-w-0 flex-col gap-base rounded border border-border p-base">
+      <div className="flex flex-wrap items-start gap-tight">
+        <MicrophoneControl microphone={microphone} label="Enable microphone claps" />
+        <HelpPopover label="About microphone claps">
+          <div className="flex flex-col gap-base">
+            <p>Microphone input is off by default. Enable it here before starting a timed exercise; your browser will ask for access. Activation carries into timed Rhythm exercises and resets when you leave, reload, hide the page, or finish practice. Your settings are saved; activation is not.</p>
+            <p>Use headphones. Other sharp sounds, noisy keys and speaker playback may count as claps. Tap feedback is muted in practice while the microphone is enabled. Clap sessions show results but do not update saved lesson progress while microphone timing is being evaluated.</p>
+            <dl className="flex flex-col gap-tight">
+              <dt className="font-semibold">Minimum sound level (RMS)</dt>
+              <dd>Lower detects quieter sounds; higher rejects more background noise. This is normalized signal level, not microphone gain.</dd>
+              <dt className="font-semibold">Required sound rise (ratio)</dt>
+              <dd>Lower accepts softer attacks; higher requires a sharper rise above recent sound levels.</dd>
+              <dt className="font-semibold">Minimum gap between claps (ms)</dt>
+              <dd>Higher helps reject echoes but can miss closely spaced claps.</dd>
+              <dt className="font-semibold">Microphone timing adjustment (ms)</dt>
+              <dd>Leave at zero unless you have measured a stable input delay. Shifts microphone hits earlier without widening tolerance. Changing lag cannot be corrected by this adjustment.</dd>
+            </dl>
+            <p>Click/touch and Space remain available. Audio is analyzed on your device without recording or uploads.</p>
+          </div>
+        </HelpPopover>
+      </div>
+      {microphone.resource && <>
+        <div className="grid gap-base @min-[28rem]:grid-cols-2">
+          <label className={LABEL_CLASS}>Minimum sound level (RMS)
+            <NumericSetting min={0.001} max={0.2} step={0.001} value={value.microphone.minimumRms}
+              onChange={minimumRms => updateMicrophone({ minimumRms })} />
+          </label>
+          <label className={LABEL_CLASS}>Required sound rise (ratio)
+            <NumericSetting min={1.1} max={10} step={0.1} value={value.microphone.riseRatio}
+              onChange={riseRatio => updateMicrophone({ riseRatio })} />
+          </label>
+          <label className={LABEL_CLASS}>Minimum gap between claps (ms)
+            <NumericSetting min={20} max={500} step={5} value={value.microphone.minimumSpacingMs}
+              onChange={minimumSpacingMs => updateMicrophone({ minimumSpacingMs })} />
+          </label>
+          <label className={LABEL_CLASS}>Microphone timing adjustment (ms)
+            <NumericSetting min={0} max={250} step={5} value={value.microphone.offsetMs}
+              onChange={offsetMs => updateMicrophone({ offsetMs })} />
+          </label>
+        </div>
+        <Button type="button" variant="outline" className="rubricated font-specimen self-start text-meta font-normal transition-colors duration-fast"
+          onClick={() => onChange({ ...value, microphone: { ...DEFAULT_TIMING.microphone } })}>Reset microphone settings</Button>
+      </>}
+    </section>
     <details className="group border-t border-border pt-tight">
       <summary className="rubricated font-specimen flex cursor-pointer list-none items-center justify-between gap-base text-meta text-primary-strong [&::-webkit-details-marker]:hidden">
         Optional timing adjustment

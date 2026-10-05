@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PresetsRouteImport } from './routes/presets'
 import { Route as ExercisesChordsRouteImport } from './routes/exercises/chords'
 import { Route as ExercisesIntervalsRouteImport } from './routes/exercises/intervals'
+import { Route as ExercisesPitchRouteImport } from './routes/exercises/pitch'
 import { Route as ExercisesRhythmRouteImport } from './routes/exercises/rhythm'
 import { Route as ExercisesChordIdentificationIndexRouteImport } from './routes/exercises/chord-identification/index'
 import { Route as ExercisesChordIdentificationCustomRouteImport } from './routes/exercises/chord-identification/custom'
@@ -24,6 +25,8 @@ import { Route as ExercisesMetreIdentificationIndexRouteImport } from './routes/
 import { Route as ExercisesMetreIdentificationCustomRouteImport } from './routes/exercises/metre-identification/custom'
 import { Route as ExercisesMultiIntervalIdentificationIndexRouteImport } from './routes/exercises/multi-interval-identification/index'
 import { Route as ExercisesMultiIntervalIdentificationCustomRouteImport } from './routes/exercises/multi-interval-identification/custom'
+import { Route as ExercisesPitchMatchingIndexRouteImport } from './routes/exercises/pitch-matching/index'
+import { Route as ExercisesPitchMatchingCustomRouteImport } from './routes/exercises/pitch-matching/custom'
 import { Route as ExercisesPulseTappingIndexRouteImport } from './routes/exercises/pulse-tapping/index'
 import { Route as ExercisesPulseTappingCustomRouteImport } from './routes/exercises/pulse-tapping/custom'
 import { Route as ExercisesRhythmErrorDetectionIndexRouteImport } from './routes/exercises/rhythm-error-detection/index'
@@ -41,6 +44,7 @@ import { Route as ExercisesIntervalComparisonLessonLessonIdRouteImport } from '.
 import { Route as ExercisesIntervalIdentificationLessonLessonIdRouteImport } from './routes/exercises/interval-identification/lesson.$lessonId'
 import { Route as ExercisesMetreIdentificationLessonLessonIdRouteImport } from './routes/exercises/metre-identification/lesson.$lessonId'
 import { Route as ExercisesMultiIntervalIdentificationLessonLessonIdRouteImport } from './routes/exercises/multi-interval-identification/lesson.$lessonId'
+import { Route as ExercisesPitchMatchingLessonLessonIdRouteImport } from './routes/exercises/pitch-matching/lesson.$lessonId'
 import { Route as ExercisesPulseTappingLessonLessonIdRouteImport } from './routes/exercises/pulse-tapping/lesson.$lessonId'
 import { Route as ExercisesRhythmErrorDetectionLessonLessonIdRouteImport } from './routes/exercises/rhythm-error-detection/lesson.$lessonId'
 import { Route as ExercisesRhythmReadingLessonLessonIdRouteImport } from './routes/exercises/rhythm-reading/lesson.$lessonId'
@@ -66,6 +70,11 @@ const ExercisesChordsRoute = ExercisesChordsRouteImport.update({
 const ExercisesIntervalsRoute = ExercisesIntervalsRouteImport.update({
   id: '/exercises/intervals',
   path: '/exercises/intervals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExercisesPitchRoute = ExercisesPitchRouteImport.update({
+  id: '/exercises/pitch',
+  path: '/exercises/pitch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExercisesRhythmRoute = ExercisesRhythmRouteImport.update({
@@ -131,6 +140,18 @@ const ExercisesMultiIntervalIdentificationCustomRoute =
   ExercisesMultiIntervalIdentificationCustomRouteImport.update({
     id: '/exercises/multi-interval-identification/custom',
     path: '/exercises/multi-interval-identification/custom',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExercisesPitchMatchingIndexRoute =
+  ExercisesPitchMatchingIndexRouteImport.update({
+    id: '/exercises/pitch-matching/',
+    path: '/exercises/pitch-matching/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExercisesPitchMatchingCustomRoute =
+  ExercisesPitchMatchingCustomRouteImport.update({
+    id: '/exercises/pitch-matching/custom',
+    path: '/exercises/pitch-matching/custom',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ExercisesPulseTappingIndexRoute =
@@ -235,6 +256,12 @@ const ExercisesMultiIntervalIdentificationLessonLessonIdRoute =
     path: '/exercises/multi-interval-identification/lesson/$lessonId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ExercisesPitchMatchingLessonLessonIdRoute =
+  ExercisesPitchMatchingLessonLessonIdRouteImport.update({
+    id: '/exercises/pitch-matching/lesson/$lessonId',
+    path: '/exercises/pitch-matching/lesson/$lessonId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ExercisesPulseTappingLessonLessonIdRoute =
   ExercisesPulseTappingLessonLessonIdRouteImport.update({
     id: '/exercises/pulse-tapping/lesson/$lessonId',
@@ -277,12 +304,14 @@ export interface FileRoutesByFullPath {
   '/presets': typeof PresetsRoute
   '/exercises/chords': typeof ExercisesChordsRoute
   '/exercises/intervals': typeof ExercisesIntervalsRoute
+  '/exercises/pitch': typeof ExercisesPitchRoute
   '/exercises/rhythm': typeof ExercisesRhythmRoute
   '/exercises/chord-identification/custom': typeof ExercisesChordIdentificationCustomRoute
   '/exercises/interval-comparison/custom': typeof ExercisesIntervalComparisonCustomRoute
   '/exercises/interval-identification/custom': typeof ExercisesIntervalIdentificationCustomRoute
   '/exercises/metre-identification/custom': typeof ExercisesMetreIdentificationCustomRoute
   '/exercises/multi-interval-identification/custom': typeof ExercisesMultiIntervalIdentificationCustomRoute
+  '/exercises/pitch-matching/custom': typeof ExercisesPitchMatchingCustomRoute
   '/exercises/pulse-tapping/custom': typeof ExercisesPulseTappingCustomRoute
   '/exercises/rhythm-error-detection/custom': typeof ExercisesRhythmErrorDetectionCustomRoute
   '/exercises/rhythm-reading/custom': typeof ExercisesRhythmReadingCustomRoute
@@ -294,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/exercises/interval-identification/': typeof ExercisesIntervalIdentificationIndexRoute
   '/exercises/metre-identification/': typeof ExercisesMetreIdentificationIndexRoute
   '/exercises/multi-interval-identification/': typeof ExercisesMultiIntervalIdentificationIndexRoute
+  '/exercises/pitch-matching/': typeof ExercisesPitchMatchingIndexRoute
   '/exercises/pulse-tapping/': typeof ExercisesPulseTappingIndexRoute
   '/exercises/rhythm-error-detection/': typeof ExercisesRhythmErrorDetectionIndexRoute
   '/exercises/rhythm-reading/': typeof ExercisesRhythmReadingIndexRoute
@@ -305,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/exercises/interval-identification/lesson/$lessonId': typeof ExercisesIntervalIdentificationLessonLessonIdRoute
   '/exercises/metre-identification/lesson/$lessonId': typeof ExercisesMetreIdentificationLessonLessonIdRoute
   '/exercises/multi-interval-identification/lesson/$lessonId': typeof ExercisesMultiIntervalIdentificationLessonLessonIdRoute
+  '/exercises/pitch-matching/lesson/$lessonId': typeof ExercisesPitchMatchingLessonLessonIdRoute
   '/exercises/pulse-tapping/lesson/$lessonId': typeof ExercisesPulseTappingLessonLessonIdRoute
   '/exercises/rhythm-error-detection/lesson/$lessonId': typeof ExercisesRhythmErrorDetectionLessonLessonIdRoute
   '/exercises/rhythm-reading/lesson/$lessonId': typeof ExercisesRhythmReadingLessonLessonIdRoute
@@ -317,12 +348,14 @@ export interface FileRoutesByTo {
   '/presets': typeof PresetsRoute
   '/exercises/chords': typeof ExercisesChordsRoute
   '/exercises/intervals': typeof ExercisesIntervalsRoute
+  '/exercises/pitch': typeof ExercisesPitchRoute
   '/exercises/rhythm': typeof ExercisesRhythmRoute
   '/exercises/chord-identification/custom': typeof ExercisesChordIdentificationCustomRoute
   '/exercises/interval-comparison/custom': typeof ExercisesIntervalComparisonCustomRoute
   '/exercises/interval-identification/custom': typeof ExercisesIntervalIdentificationCustomRoute
   '/exercises/metre-identification/custom': typeof ExercisesMetreIdentificationCustomRoute
   '/exercises/multi-interval-identification/custom': typeof ExercisesMultiIntervalIdentificationCustomRoute
+  '/exercises/pitch-matching/custom': typeof ExercisesPitchMatchingCustomRoute
   '/exercises/pulse-tapping/custom': typeof ExercisesPulseTappingCustomRoute
   '/exercises/rhythm-error-detection/custom': typeof ExercisesRhythmErrorDetectionCustomRoute
   '/exercises/rhythm-reading/custom': typeof ExercisesRhythmReadingCustomRoute
@@ -334,6 +367,7 @@ export interface FileRoutesByTo {
   '/exercises/interval-identification': typeof ExercisesIntervalIdentificationIndexRoute
   '/exercises/metre-identification': typeof ExercisesMetreIdentificationIndexRoute
   '/exercises/multi-interval-identification': typeof ExercisesMultiIntervalIdentificationIndexRoute
+  '/exercises/pitch-matching': typeof ExercisesPitchMatchingIndexRoute
   '/exercises/pulse-tapping': typeof ExercisesPulseTappingIndexRoute
   '/exercises/rhythm-error-detection': typeof ExercisesRhythmErrorDetectionIndexRoute
   '/exercises/rhythm-reading': typeof ExercisesRhythmReadingIndexRoute
@@ -345,6 +379,7 @@ export interface FileRoutesByTo {
   '/exercises/interval-identification/lesson/$lessonId': typeof ExercisesIntervalIdentificationLessonLessonIdRoute
   '/exercises/metre-identification/lesson/$lessonId': typeof ExercisesMetreIdentificationLessonLessonIdRoute
   '/exercises/multi-interval-identification/lesson/$lessonId': typeof ExercisesMultiIntervalIdentificationLessonLessonIdRoute
+  '/exercises/pitch-matching/lesson/$lessonId': typeof ExercisesPitchMatchingLessonLessonIdRoute
   '/exercises/pulse-tapping/lesson/$lessonId': typeof ExercisesPulseTappingLessonLessonIdRoute
   '/exercises/rhythm-error-detection/lesson/$lessonId': typeof ExercisesRhythmErrorDetectionLessonLessonIdRoute
   '/exercises/rhythm-reading/lesson/$lessonId': typeof ExercisesRhythmReadingLessonLessonIdRoute
@@ -358,12 +393,14 @@ export interface FileRoutesById {
   '/presets': typeof PresetsRoute
   '/exercises/chords': typeof ExercisesChordsRoute
   '/exercises/intervals': typeof ExercisesIntervalsRoute
+  '/exercises/pitch': typeof ExercisesPitchRoute
   '/exercises/rhythm': typeof ExercisesRhythmRoute
   '/exercises/chord-identification/custom': typeof ExercisesChordIdentificationCustomRoute
   '/exercises/interval-comparison/custom': typeof ExercisesIntervalComparisonCustomRoute
   '/exercises/interval-identification/custom': typeof ExercisesIntervalIdentificationCustomRoute
   '/exercises/metre-identification/custom': typeof ExercisesMetreIdentificationCustomRoute
   '/exercises/multi-interval-identification/custom': typeof ExercisesMultiIntervalIdentificationCustomRoute
+  '/exercises/pitch-matching/custom': typeof ExercisesPitchMatchingCustomRoute
   '/exercises/pulse-tapping/custom': typeof ExercisesPulseTappingCustomRoute
   '/exercises/rhythm-error-detection/custom': typeof ExercisesRhythmErrorDetectionCustomRoute
   '/exercises/rhythm-reading/custom': typeof ExercisesRhythmReadingCustomRoute
@@ -375,6 +412,7 @@ export interface FileRoutesById {
   '/exercises/interval-identification/': typeof ExercisesIntervalIdentificationIndexRoute
   '/exercises/metre-identification/': typeof ExercisesMetreIdentificationIndexRoute
   '/exercises/multi-interval-identification/': typeof ExercisesMultiIntervalIdentificationIndexRoute
+  '/exercises/pitch-matching/': typeof ExercisesPitchMatchingIndexRoute
   '/exercises/pulse-tapping/': typeof ExercisesPulseTappingIndexRoute
   '/exercises/rhythm-error-detection/': typeof ExercisesRhythmErrorDetectionIndexRoute
   '/exercises/rhythm-reading/': typeof ExercisesRhythmReadingIndexRoute
@@ -386,6 +424,7 @@ export interface FileRoutesById {
   '/exercises/interval-identification/lesson/$lessonId': typeof ExercisesIntervalIdentificationLessonLessonIdRoute
   '/exercises/metre-identification/lesson/$lessonId': typeof ExercisesMetreIdentificationLessonLessonIdRoute
   '/exercises/multi-interval-identification/lesson/$lessonId': typeof ExercisesMultiIntervalIdentificationLessonLessonIdRoute
+  '/exercises/pitch-matching/lesson/$lessonId': typeof ExercisesPitchMatchingLessonLessonIdRoute
   '/exercises/pulse-tapping/lesson/$lessonId': typeof ExercisesPulseTappingLessonLessonIdRoute
   '/exercises/rhythm-error-detection/lesson/$lessonId': typeof ExercisesRhythmErrorDetectionLessonLessonIdRoute
   '/exercises/rhythm-reading/lesson/$lessonId': typeof ExercisesRhythmReadingLessonLessonIdRoute
@@ -400,12 +439,14 @@ export interface FileRouteTypes {
     | '/presets'
     | '/exercises/chords'
     | '/exercises/intervals'
+    | '/exercises/pitch'
     | '/exercises/rhythm'
     | '/exercises/chord-identification/custom'
     | '/exercises/interval-comparison/custom'
     | '/exercises/interval-identification/custom'
     | '/exercises/metre-identification/custom'
     | '/exercises/multi-interval-identification/custom'
+    | '/exercises/pitch-matching/custom'
     | '/exercises/pulse-tapping/custom'
     | '/exercises/rhythm-error-detection/custom'
     | '/exercises/rhythm-reading/custom'
@@ -417,6 +458,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification/'
     | '/exercises/metre-identification/'
     | '/exercises/multi-interval-identification/'
+    | '/exercises/pitch-matching/'
     | '/exercises/pulse-tapping/'
     | '/exercises/rhythm-error-detection/'
     | '/exercises/rhythm-reading/'
@@ -428,6 +470,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification/lesson/$lessonId'
     | '/exercises/metre-identification/lesson/$lessonId'
     | '/exercises/multi-interval-identification/lesson/$lessonId'
+    | '/exercises/pitch-matching/lesson/$lessonId'
     | '/exercises/pulse-tapping/lesson/$lessonId'
     | '/exercises/rhythm-error-detection/lesson/$lessonId'
     | '/exercises/rhythm-reading/lesson/$lessonId'
@@ -440,12 +483,14 @@ export interface FileRouteTypes {
     | '/presets'
     | '/exercises/chords'
     | '/exercises/intervals'
+    | '/exercises/pitch'
     | '/exercises/rhythm'
     | '/exercises/chord-identification/custom'
     | '/exercises/interval-comparison/custom'
     | '/exercises/interval-identification/custom'
     | '/exercises/metre-identification/custom'
     | '/exercises/multi-interval-identification/custom'
+    | '/exercises/pitch-matching/custom'
     | '/exercises/pulse-tapping/custom'
     | '/exercises/rhythm-error-detection/custom'
     | '/exercises/rhythm-reading/custom'
@@ -457,6 +502,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification'
     | '/exercises/metre-identification'
     | '/exercises/multi-interval-identification'
+    | '/exercises/pitch-matching'
     | '/exercises/pulse-tapping'
     | '/exercises/rhythm-error-detection'
     | '/exercises/rhythm-reading'
@@ -468,6 +514,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification/lesson/$lessonId'
     | '/exercises/metre-identification/lesson/$lessonId'
     | '/exercises/multi-interval-identification/lesson/$lessonId'
+    | '/exercises/pitch-matching/lesson/$lessonId'
     | '/exercises/pulse-tapping/lesson/$lessonId'
     | '/exercises/rhythm-error-detection/lesson/$lessonId'
     | '/exercises/rhythm-reading/lesson/$lessonId'
@@ -480,12 +527,14 @@ export interface FileRouteTypes {
     | '/presets'
     | '/exercises/chords'
     | '/exercises/intervals'
+    | '/exercises/pitch'
     | '/exercises/rhythm'
     | '/exercises/chord-identification/custom'
     | '/exercises/interval-comparison/custom'
     | '/exercises/interval-identification/custom'
     | '/exercises/metre-identification/custom'
     | '/exercises/multi-interval-identification/custom'
+    | '/exercises/pitch-matching/custom'
     | '/exercises/pulse-tapping/custom'
     | '/exercises/rhythm-error-detection/custom'
     | '/exercises/rhythm-reading/custom'
@@ -497,6 +546,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification/'
     | '/exercises/metre-identification/'
     | '/exercises/multi-interval-identification/'
+    | '/exercises/pitch-matching/'
     | '/exercises/pulse-tapping/'
     | '/exercises/rhythm-error-detection/'
     | '/exercises/rhythm-reading/'
@@ -508,6 +558,7 @@ export interface FileRouteTypes {
     | '/exercises/interval-identification/lesson/$lessonId'
     | '/exercises/metre-identification/lesson/$lessonId'
     | '/exercises/multi-interval-identification/lesson/$lessonId'
+    | '/exercises/pitch-matching/lesson/$lessonId'
     | '/exercises/pulse-tapping/lesson/$lessonId'
     | '/exercises/rhythm-error-detection/lesson/$lessonId'
     | '/exercises/rhythm-reading/lesson/$lessonId'
@@ -521,12 +572,14 @@ export interface RootRouteChildren {
   PresetsRoute: typeof PresetsRoute
   ExercisesChordsRoute: typeof ExercisesChordsRoute
   ExercisesIntervalsRoute: typeof ExercisesIntervalsRoute
+  ExercisesPitchRoute: typeof ExercisesPitchRoute
   ExercisesRhythmRoute: typeof ExercisesRhythmRoute
   ExercisesChordIdentificationCustomRoute: typeof ExercisesChordIdentificationCustomRoute
   ExercisesIntervalComparisonCustomRoute: typeof ExercisesIntervalComparisonCustomRoute
   ExercisesIntervalIdentificationCustomRoute: typeof ExercisesIntervalIdentificationCustomRoute
   ExercisesMetreIdentificationCustomRoute: typeof ExercisesMetreIdentificationCustomRoute
   ExercisesMultiIntervalIdentificationCustomRoute: typeof ExercisesMultiIntervalIdentificationCustomRoute
+  ExercisesPitchMatchingCustomRoute: typeof ExercisesPitchMatchingCustomRoute
   ExercisesPulseTappingCustomRoute: typeof ExercisesPulseTappingCustomRoute
   ExercisesRhythmErrorDetectionCustomRoute: typeof ExercisesRhythmErrorDetectionCustomRoute
   ExercisesRhythmReadingCustomRoute: typeof ExercisesRhythmReadingCustomRoute
@@ -538,6 +591,7 @@ export interface RootRouteChildren {
   ExercisesIntervalIdentificationIndexRoute: typeof ExercisesIntervalIdentificationIndexRoute
   ExercisesMetreIdentificationIndexRoute: typeof ExercisesMetreIdentificationIndexRoute
   ExercisesMultiIntervalIdentificationIndexRoute: typeof ExercisesMultiIntervalIdentificationIndexRoute
+  ExercisesPitchMatchingIndexRoute: typeof ExercisesPitchMatchingIndexRoute
   ExercisesPulseTappingIndexRoute: typeof ExercisesPulseTappingIndexRoute
   ExercisesRhythmErrorDetectionIndexRoute: typeof ExercisesRhythmErrorDetectionIndexRoute
   ExercisesRhythmReadingIndexRoute: typeof ExercisesRhythmReadingIndexRoute
@@ -549,6 +603,7 @@ export interface RootRouteChildren {
   ExercisesIntervalIdentificationLessonLessonIdRoute: typeof ExercisesIntervalIdentificationLessonLessonIdRoute
   ExercisesMetreIdentificationLessonLessonIdRoute: typeof ExercisesMetreIdentificationLessonLessonIdRoute
   ExercisesMultiIntervalIdentificationLessonLessonIdRoute: typeof ExercisesMultiIntervalIdentificationLessonLessonIdRoute
+  ExercisesPitchMatchingLessonLessonIdRoute: typeof ExercisesPitchMatchingLessonLessonIdRoute
   ExercisesPulseTappingLessonLessonIdRoute: typeof ExercisesPulseTappingLessonLessonIdRoute
   ExercisesRhythmErrorDetectionLessonLessonIdRoute: typeof ExercisesRhythmErrorDetectionLessonLessonIdRoute
   ExercisesRhythmReadingLessonLessonIdRoute: typeof ExercisesRhythmReadingLessonLessonIdRoute
@@ -585,6 +640,13 @@ declare module '@tanstack/react-router' {
       path: '/exercises/intervals'
       fullPath: '/exercises/intervals'
       preLoaderRoute: typeof ExercisesIntervalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exercises/pitch': {
+      id: '/exercises/pitch'
+      path: '/exercises/pitch'
+      fullPath: '/exercises/pitch'
+      preLoaderRoute: typeof ExercisesPitchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/exercises/rhythm': {
@@ -662,6 +724,20 @@ declare module '@tanstack/react-router' {
       path: '/exercises/multi-interval-identification/custom'
       fullPath: '/exercises/multi-interval-identification/custom'
       preLoaderRoute: typeof ExercisesMultiIntervalIdentificationCustomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exercises/pitch-matching/': {
+      id: '/exercises/pitch-matching/'
+      path: '/exercises/pitch-matching'
+      fullPath: '/exercises/pitch-matching/'
+      preLoaderRoute: typeof ExercisesPitchMatchingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exercises/pitch-matching/custom': {
+      id: '/exercises/pitch-matching/custom'
+      path: '/exercises/pitch-matching/custom'
+      fullPath: '/exercises/pitch-matching/custom'
+      preLoaderRoute: typeof ExercisesPitchMatchingCustomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/exercises/pulse-tapping/': {
@@ -783,6 +859,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExercisesMultiIntervalIdentificationLessonLessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exercises/pitch-matching/lesson/$lessonId': {
+      id: '/exercises/pitch-matching/lesson/$lessonId'
+      path: '/exercises/pitch-matching/lesson/$lessonId'
+      fullPath: '/exercises/pitch-matching/lesson/$lessonId'
+      preLoaderRoute: typeof ExercisesPitchMatchingLessonLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/exercises/pulse-tapping/lesson/$lessonId': {
       id: '/exercises/pulse-tapping/lesson/$lessonId'
       path: '/exercises/pulse-tapping/lesson/$lessonId'
@@ -833,6 +916,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresetsRoute: PresetsRoute,
   ExercisesChordsRoute: ExercisesChordsRoute,
   ExercisesIntervalsRoute: ExercisesIntervalsRoute,
+  ExercisesPitchRoute: ExercisesPitchRoute,
   ExercisesRhythmRoute: ExercisesRhythmRoute,
   ExercisesChordIdentificationCustomRoute:
     ExercisesChordIdentificationCustomRoute,
@@ -844,6 +928,7 @@ const rootRouteChildren: RootRouteChildren = {
     ExercisesMetreIdentificationCustomRoute,
   ExercisesMultiIntervalIdentificationCustomRoute:
     ExercisesMultiIntervalIdentificationCustomRoute,
+  ExercisesPitchMatchingCustomRoute: ExercisesPitchMatchingCustomRoute,
   ExercisesPulseTappingCustomRoute: ExercisesPulseTappingCustomRoute,
   ExercisesRhythmErrorDetectionCustomRoute:
     ExercisesRhythmErrorDetectionCustomRoute,
@@ -860,6 +945,7 @@ const rootRouteChildren: RootRouteChildren = {
     ExercisesMetreIdentificationIndexRoute,
   ExercisesMultiIntervalIdentificationIndexRoute:
     ExercisesMultiIntervalIdentificationIndexRoute,
+  ExercisesPitchMatchingIndexRoute: ExercisesPitchMatchingIndexRoute,
   ExercisesPulseTappingIndexRoute: ExercisesPulseTappingIndexRoute,
   ExercisesRhythmErrorDetectionIndexRoute:
     ExercisesRhythmErrorDetectionIndexRoute,
@@ -877,6 +963,8 @@ const rootRouteChildren: RootRouteChildren = {
     ExercisesMetreIdentificationLessonLessonIdRoute,
   ExercisesMultiIntervalIdentificationLessonLessonIdRoute:
     ExercisesMultiIntervalIdentificationLessonLessonIdRoute,
+  ExercisesPitchMatchingLessonLessonIdRoute:
+    ExercisesPitchMatchingLessonLessonIdRoute,
   ExercisesPulseTappingLessonLessonIdRoute:
     ExercisesPulseTappingLessonLessonIdRoute,
   ExercisesRhythmErrorDetectionLessonLessonIdRoute:

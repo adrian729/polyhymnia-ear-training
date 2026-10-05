@@ -16,6 +16,8 @@ export interface LessonSummaryProps<Q, A> {
   renderReveal: (question: Q) => ReactNode;
   revealPlaceholder: ReactNode;
   summaryNote?: (item: AnsweredQuestion<Q, A>) => string;
+  renderAnswer?: (item: AnsweredQuestion<Q, A>) => ReactNode;
+  controls?: ReactNode;
 }
 
 export function LessonSummary<Q, A>({
@@ -29,6 +31,8 @@ export function LessonSummary<Q, A>({
   renderReveal,
   revealPlaceholder,
   summaryNote,
+  renderAnswer,
+  controls,
 }: LessonSummaryProps<Q, A>) {
   const percent = Math.round(scoreOf(flow.answered) * 100);
   const passed = passedLesson(flow);
@@ -42,6 +46,7 @@ export function LessonSummary<Q, A>({
           </span>
         )}
       </p>
+      {controls}
       <div className="flex flex-wrap justify-center gap-3">
         <Button variant="outline" onClick={onBack}>
           Back to lessons
@@ -73,6 +78,7 @@ export function LessonSummary<Q, A>({
               </Button>
             </div>
             <LazyReveal question={a.question} renderReveal={renderReveal} placeholder={revealPlaceholder} />
+            {renderAnswer?.(a)}
           </div>
         ))}
       </div>
