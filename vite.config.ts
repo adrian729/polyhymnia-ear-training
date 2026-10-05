@@ -6,6 +6,7 @@ import { existsSync, readdirSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { imagetools } from 'vite-imagetools';
+import { VitePWA } from 'vite-plugin-pwa';
 import { favicon } from './scripts/favicon.ts';
 import { fontFaces } from './scripts/font-faces.ts';
 
@@ -28,6 +29,16 @@ export default defineConfig({
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     react(),
     tailwindcss(),
+    // Caching for returning visitors (sw/service-worker.ts). Production builds only; not an installable app.
+    VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'sw',
+      filename: 'service-worker.ts',
+      injectRegister: 'script-defer',
+      manifest: false,
+      injectManifest: { globPatterns: ['index.html'] },
+      devOptions: { enabled: false },
+    }),
   ],
   resolve: {
     dedupe: ['react', 'react-dom'],
