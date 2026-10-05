@@ -3,9 +3,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { passedLesson, scoreOf, type AnsweredQuestion, type LessonFlowState } from '@/exercises/shared';
 import { LazyReveal } from './LazyReveal';
-import { ExerciseMasthead } from './ExerciseMasthead';
-import { Ornament } from '@/components/Ornament';
-import { PaperSheet } from '@/components/PaperSheet';
+import { LessonSummaryFrame } from './LessonFrame';
 
 export interface LessonSummaryProps<Q, A> {
   exerciseTitle: string;
@@ -35,15 +33,7 @@ export function LessonSummary<Q, A>({
   const percent = Math.round(scoreOf(flow.answered) * 100);
   const passed = passedLesson(flow);
   return (
-    <PaperSheet size="exercise" className="flex flex-col items-center gap-loose px-base py-section text-center">
-      <nav aria-label="Breadcrumb" className="self-start">
-        <ExerciseMasthead />
-      </nav>
-      <div className="flex flex-col items-center gap-tight">
-        <Ornament name="headpiece" className="h-16 w-52 text-primary-strong" />
-        <p className="rubricated font-specimen text-meta text-rubric-strong">{exerciseTitle}</p>
-        <h2 className="font-display text-2xl font-semibold">{title} — done</h2>
-      </div>
+    <LessonSummaryFrame exerciseTitle={exerciseTitle} title={title}>
       <p className="text-lg">
         Score: <span className="font-semibold">{percent}%</span>
         {flow.graded && (
@@ -86,6 +76,6 @@ export function LessonSummary<Q, A>({
           </div>
         ))}
       </div>
-    </PaperSheet>
+    </LessonSummaryFrame>
   );
 }

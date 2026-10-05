@@ -133,9 +133,15 @@ importers:
       '@polyhymnia/notation-react':
         specifier: ^0.4.0
         version: 0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@polyhymnia/rhythm':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@polyhymnia/rhythm-react':
+        specifier: ^0.2.0
+        version: 0.2.0(react@19.3.0)
       '@polyhymnia/web-audio':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@ranx729/elder-scrolls':
         specifier: ^0.1.1
         version: 0.1.1(react@19.3.0)
@@ -594,8 +600,18 @@ packages:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@polyhymnia/web-audio@0.1.0':
-    resolution: {integrity: sha512-vL1n4sqwipRxr+BRQN4ZtKA8haNs6d5VxW2GNXwXXpb8eTwiKFO1BS4r2n1a5byU66jixvhFHllAGa4uiBVl4A==}
+  '@polyhymnia/rhythm-react@0.2.0':
+    resolution: {integrity: sha512-xYxUJnU2E2j4+BLARDy/FJxQl3sdmObsQVbNftzLDEG9btdvgsVMlpQfsWdf7Qha0zc0YG542wxbfzMG2KrsUg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: '>=18 <20'
+
+  '@polyhymnia/rhythm@0.2.0':
+    resolution: {integrity: sha512-45v3Vt0MiZ1TlaWjrtKhO+dHjuiL5ZLjQp2s+ezPmTcSCcLDLU7ocOuwKGwcq2G+zTmKzhEji5FQ9GC3WUrJUg==}
+    engines: {node: '>=20'}
+
+  '@polyhymnia/web-audio@0.2.0':
+    resolution: {integrity: sha512-24Zb6V4mCeIPzH7pfXC0HfZCtIw+Er9tKW2byeoZyIDK0VEVITLcgaCVv7wxdLfHycRDZu/iaO4Zn5XkUjUxiQ==}
     engines: {node: '>=20'}
 
   '@radix-ui/number@1.1.3':
@@ -3855,7 +3871,14 @@ snapshots:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  '@polyhymnia/web-audio@0.1.0': {}
+  '@polyhymnia/rhythm-react@0.2.0(react@19.3.0)':
+    dependencies:
+      '@polyhymnia/rhythm': 0.2.0
+      react: 19.3.0
+
+  '@polyhymnia/rhythm@0.2.0': {}
+
+  '@polyhymnia/web-audio@0.2.0': {}
 
   '@radix-ui/number@1.1.3': {}
 
