@@ -118,6 +118,15 @@ importers:
       '@fontsource-variable/texturina':
         specifier: 5.3.0
         version: 5.3.0
+      '@polyhymnia/audio-analysis':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@polyhymnia/audio-analysis-pitchy':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@polyhymnia/audio-input':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@polyhymnia/mnx':
         specifier: ^0.3.0
         version: 0.3.0
@@ -572,6 +581,18 @@ packages:
 
   '@oxc-project/types@0.152.0':
     resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
+
+  '@polyhymnia/audio-analysis-pitchy@0.2.0':
+    resolution: {integrity: sha512-3ly8PqubcrEpDjC8JaGOm8dQ9H1cBXlceWeefYFcc6B5H6F9w6f8vXu20OIpgWVxabZprZXp4UDjhEZ68KsdJQ==}
+    engines: {node: '>=20'}
+
+  '@polyhymnia/audio-analysis@0.2.0':
+    resolution: {integrity: sha512-QlHFtRnD+q4OcK7jk2S0pBRaSBJsB7ztSKoCTjWn7RODESrMOF9BMJWslqg1yjp4MKCD4++PQ5A7WBSDFw3Scg==}
+    engines: {node: '>=20'}
+
+  '@polyhymnia/audio-input@0.2.0':
+    resolution: {integrity: sha512-nfMCNp6O7kun6D7wdVWhYlnMM/PJ78ANJ8/J7ib+vZ4YwnyiO1129SyclYUZxRSewXLbzkBV3x845szzyfbaFA==}
+    engines: {node: '>=20'}
 
   '@polyhymnia/mnx-score@0.3.1':
     resolution: {integrity: sha512-jRODbau2+1DJ5JkWLRzadpRIu0x3mHazXNhiXHcEzyTBVfB3eDBMGlWgun/2Jf2XiCD6EWLbghPuJlpLXP/puQ==}
@@ -2284,6 +2305,9 @@ packages:
       picomatch:
         optional: true
 
+  fft.js@4.0.4:
+    resolution: {integrity: sha512-f9c00hphOgeQTlDyavwTtu6RiK8AIFjD6+jvXkNkpeQ7rirK3uFWVpalkoS4LAwbdX7mfZ8aoBfFVQX1Re/8aw==}
+
   figures@6.1.0:
     resolution: {integrity: sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg==}
     engines: {node: '>=18'}
@@ -2905,6 +2929,9 @@ packages:
   picomatch@4.0.7:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
+
+  pitchy@4.1.0:
+    resolution: {integrity: sha512-E8nQ8svBroGSMcc3qu2KvLHIuRYAIfrSkqDKWhjgj3WizseqWQXjQ+Q5t4g1CU73R5Euk+DAinyNFDK+KZw7zA==}
 
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
@@ -3843,6 +3870,15 @@ snapshots:
       fastq: 1.20.3
 
   '@oxc-project/types@0.152.0': {}
+
+  '@polyhymnia/audio-analysis-pitchy@0.2.0':
+    dependencies:
+      '@polyhymnia/audio-analysis': 0.2.0
+      pitchy: 4.1.0
+
+  '@polyhymnia/audio-analysis@0.2.0': {}
+
+  '@polyhymnia/audio-input@0.2.0': {}
 
   '@polyhymnia/mnx-score@0.3.1':
     dependencies:
@@ -5436,6 +5472,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.7
 
+  fft.js@4.0.4: {}
+
   figures@6.1.0:
     dependencies:
       is-unicode-supported: 2.1.0
@@ -5913,6 +5951,10 @@ snapshots:
   picomatch@2.3.2: {}
 
   picomatch@4.0.7: {}
+
+  pitchy@4.1.0:
+    dependencies:
+      fft.js: 4.0.4
 
   pkce-challenge@5.0.1: {}
 

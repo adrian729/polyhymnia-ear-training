@@ -1,6 +1,9 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import { createRootRoute, Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { PaperSheet, Worktable } from '@/components/PaperSheet';
+import { MicrophoneProvider } from '@/components/audio/MicrophoneProvider';
+
+const RHYTHM_PATHS = ['rhythm', 'pulse-tapping', 'rhythm-tap-back', 'rhythm-reading', 'silent-bar-timing'];
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -9,10 +12,14 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
+  // Location can change while the previous Outlet is still mounted. Scope input
+  // to committed matches so its provider follows the screen actually rendering.
+  const exercise = useRouterState({ select: state => state.matches.at(-1)?.routeId.split('/')[2] ?? '' });
+  const scope = RHYTHM_PATHS.includes(exercise) ? 'rhythm' : ['pitch', 'pitch-matching'].includes(exercise) ? 'pitch' : undefined;
   return (
     <Worktable>
       <main>
-        <Outlet />
+        {scope ? <MicrophoneProvider key={scope}><Outlet /></MicrophoneProvider> : <Outlet />}
       </main>
     </Worktable>
   );

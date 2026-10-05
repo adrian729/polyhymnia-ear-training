@@ -53,12 +53,13 @@ Weights: 400 and 600 for text; 400/600/700 for display. No 500, no 800, no 900.
 
 **Lineage:** Catppuccin Latte, warmed. Catppuccin Latte neutrals sit at hue 264 (cool, faintly blue). Shift the neutral family to hue ~70 (warm paper) and keep chroma low. The result should read as cream laid paper, never as tinted grey.
 
-**Two accents, with strictly separate semantic roles. There is no third.**
+**Accents have separate semantic roles. Blue also identifies an enabled microphone, as requested in the microphone UI review.**
 
 | Role | Token | Value | Exclusive use |
 | --- | --- | --- | --- |
 | **Action pink** | `--primary` / `--primary-strong` | Catppuccin Latte pink, kept | Primary action fills, links, focus rings, active nav. Nothing else. |
 | **Notation oxblood** | `--pn-selected` / `--pn-playing` / `--pn-cursor` | Dark warm red | The sounding, selected or playing pitch on a staff. UI chrome only. |
+| **Microphone enabled** | `--rubric` / `--rubric-foreground` / `--rubric-strong` | Existing blue | The microphone toggle itself is filled blue while enabled. Clicking it disables input; no separate bordered status tag. |
 | Semantic | `--success` / `--destructive` | green / red, warmed to match | Answer correctness. Never decoration. |
 
 The split is deliberate and domain-justified: a playing note must not look like a button, and a button must not look like a note. They never appear in the same role, and each is used in exactly one.
@@ -131,7 +132,7 @@ Mechanical. A change touching any of these is not done.
 - `transition-all`.
 - A 3-equal-card grid, a centered logo hero with a floating screenshot, a gradient mesh or blob behind text, emoji used as icons, or a "Trusted by" logo row.
 - Any type size not in the scale table. Any spacing value not in the spacing table.
-- A fourth accent hue, for any reason.
+- Additional accent hues beyond the defined roles. The enabled microphone reuses the existing blue rubric palette.
 
 ## Definition of done
 

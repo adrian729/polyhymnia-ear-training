@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { EXERCISE_GROUPS, type ExerciseGroupId } from '@/exercises/groups';
 import { ExerciseIndexList } from './ExerciseIndexList';
 import { TitleText } from './Initial';
@@ -6,7 +6,7 @@ import { FlourishRule, Ornament } from './Ornament';
 import { PaperSheet } from './PaperSheet';
 import { WorkshopAside } from './lesson/WorkshopAside';
 
-export function ExerciseGroupPage({ groupId }: { groupId: ExerciseGroupId }) {
+export function ExerciseGroupPage({ groupId, settings }: { groupId: ExerciseGroupId; settings?: ReactNode }) {
   const group = EXERCISE_GROUPS.find(group => group.id === groupId)!;
   const exercises = useMemo(() => group.exercises.map(exercise => ({
     ...exercise,
@@ -23,6 +23,7 @@ export function ExerciseGroupPage({ groupId }: { groupId: ExerciseGroupId }) {
             </h1>
             <p className="max-w-[64ch] text-body text-muted-foreground">{group.description}</p>
           </header>
+          {settings}
           <section aria-labelledby="exercises" className="flex flex-col gap-base">
             <h2 id="exercises" className="rubricated font-specimen text-subhead text-muted-foreground">Exercises</h2>
             <FlourishRule />

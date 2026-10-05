@@ -90,9 +90,12 @@ describe('pulse product contracts', () => {
     vi.stubGlobal('localStorage', { getItem: (key: string) => values.get(key), setItem: (key: string, value: string) => values.set(key, value) });
     values.set('polyhymnia:rhythm:timing:v1', JSON.stringify({ method: 'unknown', tolerance: ['strict'], customMs: -5, offsets: { keyboard: '100', pointer: 120 } }));
     expect(readTimingPreferences()).toMatchObject({ method: 'keyboard', tolerance: 'standard', customMs: 80, offsets: { keyboard: 0, pointer: 120 } });
-    values.set('polyhymnia:rhythm:timing:v1', JSON.stringify({ offsets: { keyboard: -25, pointer: 250 } }));
+    values.set('polyhymnia:rhythm:timing:v1', JSON.stringify({ offsets: { keyboard: -25, pointer: 250 },
+      microphone: { offsetMs: -5, minimumRms: 0, riseRatio: '3', minimumSpacingMs: 10000, enabled: true } }));
     expect(readTimingPreferences().offsets).toEqual({ keyboard: 0, pointer: 250 });
-    const configured = { ...DEFAULT_TIMING, feedbackSound: 'snare' as const, feedbackVolume: 0.4, volume: 0, offsets: { keyboard: 25, pointer: 100 } };
+    expect(readTimingPreferences().microphone).toEqual(DEFAULT_TIMING.microphone);
+    const configured = { ...DEFAULT_TIMING, feedbackSound: 'snare' as const, feedbackVolume: 0.4, volume: 0, offsets: { keyboard: 25, pointer: 100 },
+      microphone: { offsetMs: 45, minimumRms: 0.04, riseRatio: 4, minimumSpacingMs: 100 } };
     saveTimingPreferences(configured);
     expect(readTimingPreferences()).toEqual(configured);
     const key = policyKey('guided-four', DEFAULT_OPTIONS, DEFAULT_TIMING);
