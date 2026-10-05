@@ -5,6 +5,8 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import { existsSync, readdirSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import { imagetools } from 'vite-imagetools';
+import { favicon } from './scripts/favicon.ts';
 import { fontFaces } from './scripts/font-faces.ts';
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url));
@@ -18,7 +20,15 @@ const packageRoots = existsSync(packageScope) ? readdirSync(packageScope).flatMa
 export default defineConfig({
   base: process.env.PAGES_BASE ?? '/',
   server: { fs: { allow: [appRoot, ...packageRoots] } },
-  plugins: [fontFaces(), tanstackRouter({ target: 'react', autoCodeSplitting: true }), react(), tailwindcss()],
+  plugins: [
+    fontFaces(),
+    favicon(),
+    // Raster sizes are generated from source art at build time; imports without a query pass through untouched.
+    imagetools({ include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|tiff|webp|svg)(\?.*)?$/ }),
+    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+  ],
   resolve: {
     dedupe: ['react', 'react-dom'],
     alias: {

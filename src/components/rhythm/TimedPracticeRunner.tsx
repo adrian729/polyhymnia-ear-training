@@ -5,6 +5,7 @@ import { useTimedAttempt } from '@polyhymnia/rhythm-react';
 import { LessonFrame, LessonActions, LessonActionButton as Button, LessonSummaryFrame } from '@/components/lesson/LessonFrame';
 import { Button as SummaryButton } from '@/components/ui/button';
 import { answerTileClass } from '@/components/lesson/answerTiles';
+import { OrnamentCorners } from '@/components/Ornament';
 import type { LessonRunnerProps } from '@/components/lesson/LessonRoutePage';
 import { createRhythmSound } from '@/lib/rhythmSound';
 import { completeTimingAttempt, newTimingSession, RHYTHM_PASS_PERCENT, sessionAccuracy, sessionComplete, type TimingSession } from '@/exercises/shared/rhythm/session';
@@ -170,6 +171,7 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
           answerTileClass('idle'), inputFlash ? 'border-primary-strong bg-primary text-primary-foreground hover:bg-primary' : 'text-primary-strong')}>
         <span className="font-display text-title leading-none">{microphone.resource ? 'Tap / clap' : 'Tap'}</span>
         <span className={cn('rubricated font-specimen text-meta', inputFlash ? 'text-primary-foreground' : 'text-muted-foreground')}>key Space</span>
+        <OrnamentCorners />
       </button>}
       {inputError && <p role="alert" className="text-meta text-destructive">{inputError}</p>}
       {startError && <p role="alert" className="text-destructive">{startError}</p>}

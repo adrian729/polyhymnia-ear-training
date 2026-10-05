@@ -5,6 +5,7 @@ import type { TimingAnalysis, PulseMetadata } from '@polyhymnia/rhythm';
 import type { LessonRunnerProps } from '@/components/lesson/LessonRoutePage';
 import { LessonRunner, type AnswerRenderProps } from '@/components/lesson/LessonRunner';
 import { answerTileClass, answerTileState } from '@/components/lesson/answerTiles';
+import { OrnamentCorners } from '@/components/Ornament';
 import { CATALOG, resultKey, resultStore, type PracticeOptions } from '@/exercises/rhythm-practice/catalog';
 import { comparisonTiming, generateAttempt, generateQuestion, choiceEvents, metreEvents, questionEvents, type PracticeQuestion, type PracticeAttempt } from '@/exercises/rhythm-practice/generator';
 import { beatsPerBar } from '@/exercises/pulse-tapping/options';
@@ -77,6 +78,7 @@ function Answers({ question, selected, answered, disabled, answer, hear, kind, p
         className={cn('ornament-corners flex min-h-40 min-w-0 flex-col items-center justify-center gap-tight rounded-lg border px-tight py-base', answerTileClass(answerTileState(choice, question.correct, selected, answered)))}>
         {question.choices.length ? <PatternScore pattern={question.choices[i]!} label={answerLabel(question, choice)} /> : <span className="font-display text-title">{answerLabel(question, choice)}</span>}
         <span className="rubricated font-specimen text-meta text-muted-foreground">key {question.variant.comparison === 'heard' ? choice[0]!.toUpperCase() : i + 1}</span>
+        <OrnamentCorners />
       </button>)}
     </div>
   </div>;

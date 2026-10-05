@@ -3,3 +3,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@polyhymnia/*'
   - '@ranx729/elder-scrolls@0.1.0 || 0.1.1'
+  - '@ranx729/medieval-ornaments-assets-illustrations-001@0.1.1'
