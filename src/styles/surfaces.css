@@ -4,7 +4,26 @@
   --worktable-block-gap: var(--spacing-loose);
   padding: var(--worktable-block-gap) var(--spacing-base);
   overflow-x: clip;
-  background-attachment: fixed;
+  isolation: isolate;
+  background-image: none;
+}
+
+/* The wood stays fixed to the viewport on its own layer, which the compositor
+   scrolls past without repainting (background-attachment: fixed repaints the
+   whole viewport on every scroll frame). The package's table variables still
+   choose the surface, and until they are set the table's own colour shows
+   through; 100lvh covers the page under collapsing mobile toolbars. */
+.worktable::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto;
+  height: 100lvh;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--es-table-color);
+  background-image: var(--es-table-image);
+  background-size: var(--es-table-size);
+  background-repeat: repeat;
 }
 
 .paper-sheet {
