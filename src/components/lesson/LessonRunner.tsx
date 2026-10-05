@@ -1,9 +1,9 @@
 import { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react';
 import type { NoteEvent } from '@polyhymnia/web-audio';
 import { TimerOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { LessonFrame, LessonActions, LessonActionButton as Button } from './LessonFrame';
 import { cn } from '@/lib/utils';
-import { createSound, unlockSound } from '@/lib/sound';
+import { createSound, unlockSound, type Sound } from '@/lib/sound';
 import {
   AUTO_NEXT_DELAY_MS,
   createLessonFlow,
@@ -17,7 +17,6 @@ import {
 } from '@/exercises/shared';
 import { LessonSummary } from './LessonSummary';
 import { ExerciseMasthead } from './ExerciseMasthead';
-import { OrnamentRule } from '@/components/Ornament';
 import { PaperSheet } from '@/components/PaperSheet';
 
 interface RunnerOptions {
@@ -46,13 +45,14 @@ export interface LessonRunnerProps<Q, A, O extends RunnerOptions> {
   buildChoiceEvents?: (question: Q, choice: A) => NoteEvent[];
   isCorrect: (question: Q, answer: A) => boolean;
   saveResult: (lessonId: string, percent: number, passed: boolean) => void;
-  prompt: string;
+  prompt: string | ((question: Q) => string);
+  soundFactory?: () => Sound;
   verdict: (item: AnsweredQuestion<Q, A>) => string;
   renderAnswers: (props: AnswerRenderProps<Q, A>) => ReactNode;
-  renderReveal: (question: Q) => ReactNode;
+  renderReveal: (question: Q, context?: 'answer' | 'summary') => ReactNode;
   revealPlaceholder: ReactNode;
   summaryNote?: (item: AnsweredQuestion<Q, A>) => string;
-  answerKeys?: Record<string, A>;
+  answerKeys?: Record<string, A> | ((question: Q) => Record<string, A>);
 }
 
 type Phase = 'playing' | 'answered' | 'summary' | 'error';
@@ -141,8 +141,9 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
   revealPlaceholder,
   summaryNote,
   answerKeys,
+  soundFactory = createSound,
 }: LessonRunnerProps<Q, A, O>) {
-  const [sound] = useState(createSound);
+  const [sound] = useState(soundFactory);
   const [blocked, setBlocked] = useState(false);
   const [started, setStarted] = useState(false);
   const [autoPaused, setAutoPaused] = useState(false);
@@ -277,7 +278,8 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
       if (!answerKeys) return;
       if (isTextInput(e.target)) return;
       const normalized = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      const choice = answerKeys[normalized];
+      const keys = typeof answerKeys === 'function' ? state.question && answerKeys(state.question) : answerKeys;
+      const choice = keys?.[normalized];
       if (choice === undefined) return;
       e.preventDefault();
       if (state.phase === 'answered' && buildChoiceEvents && state.question) {
@@ -328,7 +330,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
         }}
         onNextLesson={onNextLesson}
         onReplayQuestion={replayQuestion}
-        renderReveal={renderReveal}
+        renderReveal={q => renderReveal(q, 'summary')}
         revealPlaceholder={revealPlaceholder}
         summaryNote={summaryNote}
       />
@@ -336,58 +338,10 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
   }
 
   return (
-    <PaperSheet size="exercise" className="flex flex-col gap-loose px-base py-loose">
-      <nav aria-label="Breadcrumb">
-        <ExerciseMasthead />
-      </nav>
-
-      <header className="flex flex-col gap-base">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-base">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onBack}
-            className="rubricated font-specimen justify-self-start text-subhead"
-          >
-            Back
-          </Button>
-          <div className="flex flex-col items-center gap-tight text-center">
-            <p className="rubricated font-specimen text-meta text-rubric-strong">{exerciseTitle}</p>
-            <h2 className="rubricated font-specimen text-subhead text-foreground">{title}</h2>
-          </div>
-          {state.flow.endless ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => dispatch({ type: 'finish' })}
-              className="rubricated font-specimen justify-self-end text-subhead"
-            >
-              Finish
-            </Button>
-          ) : (
-            <div />
-          )}
-        </div>
-        <OrnamentRule name="cross-fleury" />
-      </header>
-
-      {!state.flow.endless && (
-        <div className="flex gap-[3px]" aria-hidden>
-          {segments.map((seg, i) => (
-            <div
-              key={i}
-              className={cn(
-                'h-[3px] flex-1 transition-colors duration-fast',
-                seg === 'upcoming' && 'bg-border',
-                seg === 'right' && 'bg-success',
-                seg === 'wrong' && 'bg-destructive',
-                state.phase === 'playing' && i === state.flow.answered.length && 'bg-rubric',
-              )}
-            />
-          ))}
-        </div>
-      )}
-
+    <LessonFrame exerciseTitle={exerciseTitle} title={title} onBack={onBack}
+      onFinish={state.flow.endless ? () => dispatch({ type: 'finish' }) : undefined}
+      progress={state.flow.endless ? undefined : segments}
+      currentIndex={state.phase === 'playing' ? state.flow.answered.length : undefined}>
       <p
         className={cn(
           'mx-auto max-w-[46ch] text-center font-display text-subhead',
@@ -395,7 +349,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
         )}
         role="status"
       >
-        {answeredYet && lastAnswered ? verdict(lastAnswered) : prompt}
+        {answeredYet && lastAnswered ? verdict(lastAnswered) : typeof prompt === 'function' ? prompt(question) : prompt}
       </p>
 
       {blocked && (
@@ -415,7 +369,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
         })}
       </Fragment>
 
-      <div className="flex flex-wrap items-center justify-center gap-base">
+      <LessonActions>
         <Button
           ref={playButtonRef}
           variant="outline"
@@ -447,9 +401,9 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
             )}
           </Button>
         )}
-      </div>
+      </LessonActions>
 
-      {answeredYet && <div className="flex justify-center">{renderReveal(question)}</div>}
-    </PaperSheet>
+      {answeredYet && <div className="flex justify-center">{renderReveal(question, 'answer')}</div>}
+    </LessonFrame>
   );
 }

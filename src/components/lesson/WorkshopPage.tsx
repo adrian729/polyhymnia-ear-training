@@ -18,6 +18,7 @@ export function WorkshopPage({
   getLessonResult,
   renderLessonLink,
   headerAction,
+  soundControls = <InstrumentSelect />,
 }: {
   title: string;
   blurb: string;
@@ -27,6 +28,7 @@ export function WorkshopPage({
   getLessonResult: (lessonId: string) => LessonResult | undefined;
   renderLessonLink: (lessonId: string, className: string, children: ReactNode) => ReactNode;
   headerAction?: ReactNode;
+  soundControls?: ReactNode;
 }) {
   return (
     <div className="workshop-layout">
@@ -42,7 +44,7 @@ export function WorkshopPage({
                 </h1>
                 <OverviewHelpPopover ariaLabel={`About ${title}`} sections={overview} />
               </div>
-              <InstrumentSelect />
+              {soundControls}
             </div>
             <p className="max-w-[64ch] text-body text-muted-foreground">{blurb}</p>
           </div>

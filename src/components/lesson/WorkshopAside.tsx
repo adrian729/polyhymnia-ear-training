@@ -89,7 +89,7 @@ function TocList({ modules, active }: { modules: readonly TocModule[]; active: s
 export function WorkshopAside({ modules }: { modules: readonly TocModule[] }) {
   const active = useActiveModule(modules);
   const list: ReactNode | null =
-    modules.length < 2 ? null : <TocList modules={modules} active={active} />;
+    modules.length === 0 ? null : <TocList modules={modules} active={active} />;
   return (
     <aside className="workshop-pane workshop-sidebar" aria-label="Exercise contents" tabIndex={0}>
       <PaperSheet paper="rag" size="sidebar" className="flex flex-col gap-base py-base">

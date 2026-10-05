@@ -124,7 +124,7 @@ export function LessonLinkTile({
         {result?.passed && <CircleCheck className="size-4 text-success-strong" aria-hidden />}
       </span>
       <span className={cn('text-meta', result?.passed ? 'font-medium text-success-strong' : 'text-muted-foreground')}>
-        {result ? `Best: ${result.bestPercent}%${result.passed ? ' — passed' : ''}` : 'Not attempted'}
+        {result ? `Best: ${result.bestPercent.toFixed(1)}%${result.passed ? ' — passed' : ''}` : 'Not attempted'}
       </span>
     </>
   );

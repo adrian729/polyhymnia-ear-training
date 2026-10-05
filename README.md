@@ -18,14 +18,21 @@ Polyhymnia trains the part of musicianship that reading notation alone does not:
 
 ## Exercises
 
-Four exercises ship today, in recommended order:
+Exercises are grouped into Intervals, Chords and Rhythm:
 
-| Folio | Exercise | What it trains |
-|:--:|---|---|
-| 01 | **Interval Comparison** | Hear two intervals and say which is wider, or whether they match. No note names, nothing to read. |
-| 02 | **Interval Identification** | Hear one interval and name it, from perfect 4ths and 5ths up to compound intervals. |
-| 03 | **Multi-Note Interval Identification** | Hear a stack of three to five notes and name every note's interval above the lowest. |
-| 04 | **Chord Identification** | Hear one chord and name its quality, from major and minor up to seventh chords. |
+| Group | Exercise | What it trains |
+|---|---|---|
+| Intervals | **Interval Comparison** | Hear two intervals and say which is wider, or whether they match. No note names, nothing to read. |
+| Intervals | **Interval Identification** | Hear one interval and name it, from perfect 4ths and 5ths up to compound intervals. |
+| Intervals | **Multi-Note Interval Identification** | Hear a stack of three to five notes and name every note's interval above the lowest. |
+| Chords | **Chord Identification** | Hear one chord and name its quality, from major and minor up to seventh chords. |
+| Rhythm | **Pulse Tapping** | Tap guided, unguided, compound or selected beats, then keep the pulse against displaced clicks. |
+| Rhythm | **Rhythm Tap-back** | Hear a short rhythm and tap it back at the same tempo. |
+| Rhythm | **Rhythm Recognition** | Match a heard rhythm to its written pattern. |
+| Rhythm | **Metre Identification** | Identify the metre from accented beat groups. |
+| Rhythm | **Rhythm Reading** | Read a short score and tap its rhythm. |
+| Rhythm | **Rhythm Error Detection** | Compare related rhythms by ear or against a score. |
+| Rhythm | **Silent-bar Timing** | Keep the pulse when the metronome falls silent. |
 
 Each has lesson and custom modes, and the app is entirely client-side. Specs live in [`docs/exercises/`](docs/exercises/); product research in [`docs/`](docs/).
 
@@ -41,7 +48,9 @@ pnpm test
 pnpm build
 ```
 
-To develop against local checkouts of the packages, clone `notation`, `music-theory` and `web-audio` next to this repo (or set `POLYHYMNIA_SRC` to their parent directory) and run `pnpm dev:link`; `pnpm dev:unlink` returns to the npm versions.
+To develop against local checkouts of the packages, clone `notation`, `music-theory`, `web-audio` and `rhythm` next to this repo (or set `POLYHYMNIA_SRC` to their parent directory), build them and run `pnpm dev:link`. Linking changes only `node_modules`; `pnpm dev:unlink` restores the installed packages. Unlink before installing or committing.
+
+Rhythm exercises use the published `@polyhymnia/rhythm`, `@polyhymnia/rhythm-react` and `@polyhymnia/web-audio` packages. See [pulse implementation notes](docs/exercises/r1-pulse-tapping-implementation.md) for package boundaries and checks.
 
 ## License
 

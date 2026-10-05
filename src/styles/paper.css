@@ -194,6 +194,12 @@
   letter-spacing: 0.14em;
 }
 
+@utility exercise-group-title {
+  color: var(--group-title-ink);
+  --initial-frame: var(--group-title-ornament);
+  --initial-letter: var(--group-title-ink);
+}
+
 /*
  * Illuminated initial. Two layers of the EB Garamond Initials font are stacked
  * in a single grid cell: Fill1 is the ornament frame behind, Fill2 the letter in

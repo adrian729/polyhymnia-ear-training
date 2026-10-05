@@ -55,6 +55,8 @@
      pale paper. Dark mode lifts the frame instead, see below. */
   --initial-frame: var(--rubric);
   --initial-letter: var(--primary-strong);
+  --group-title-ink: var(--rubric-strong);
+  --group-title-ornament: var(--color-gold-600);
 }
 
 .dark {
@@ -109,6 +111,8 @@
      lighter rubric rather than the flat one, which sinks into the brown. */
   --initial-frame: var(--rubric-strong);
   --initial-letter: var(--primary-strong);
+  --group-title-ink: var(--rubric-strong);
+  --group-title-ornament: var(--color-gold-300);
 }
 
 @theme inline {
