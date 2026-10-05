@@ -122,26 +122,26 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@polyhymnia/mnx-score':
+        specifier: ^0.3.1
+        version: 0.3.1
+      '@polyhymnia/music-theory':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@polyhymnia/notation-engine':
+        specifier: ^0.4.1
+        version: 0.4.1
+      '@polyhymnia/notation-react':
+        specifier: ^0.4.1
+        version: 0.4.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@polyhymnia/rhythm':
         specifier: ^0.3.0
         version: 0.3.0
-      '@polyhymnia/music-theory':
-        specifier: ^0.1.0
-        version: 0.1.0
-      '@polyhymnia/notation-engine':
-        specifier: ^0.4.0
-        version: 0.4.0
-      '@polyhymnia/notation-react':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@polyhymnia/rhythm':
-        specifier: ^0.2.0
-        version: 0.2.0
       '@polyhymnia/rhythm-react':
-        specifier: ^0.2.0
-        version: 0.2.0(react@19.3.0)
+        specifier: ^0.2.1
+        version: 0.2.1(react@19.3.0)
       '@polyhymnia/web-audio':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@ranx729/elder-scrolls':
         specifier: ^0.1.1
         version: 0.1.1(react@19.3.0)
@@ -573,45 +573,45 @@ packages:
   '@oxc-project/types@0.152.0':
     resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
 
-  '@polyhymnia/mnx-score@0.3.0':
-    resolution: {integrity: sha512-NHtOOEGCxZsLUoJ9AJMQ6AfbRv+OOJAVmqjsjKo9MmLH1J8yWDWZCmOceUWvkxTCTAo9LgkFMnTKOX2i6bOHlg==}
+  '@polyhymnia/mnx-score@0.3.1':
+    resolution: {integrity: sha512-jRODbau2+1DJ5JkWLRzadpRIu0x3mHazXNhiXHcEzyTBVfB3eDBMGlWgun/2Jf2XiCD6EWLbghPuJlpLXP/puQ==}
     engines: {node: '>=20'}
 
   '@polyhymnia/mnx@0.3.0':
     resolution: {integrity: sha512-QqRuGFBjGybnQ9MElU2n85lnOdBkYRzC2iaYbXSMpBMdX+zYGVpnfnad4CSiW7SIamFbjyCP/m6KX2NQh2Eruw==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/music-theory@0.1.0':
-    resolution: {integrity: sha512-YD3aWqquYCw7r1WD4slqrjlSiaM8bnMW4Uojl6uiq0t/XDp51WQzzbxDA4EruN/c+GNxmN8/jnZh9I5KKLv/Ig==}
+  '@polyhymnia/music-theory@0.2.0':
+    resolution: {integrity: sha512-5kXTeE4tes6HuwZqpgvOMEHFiGwcJFCvGBlAVO2OFd+ijPVYfFR7dk1Q8HGuGFdtutsptv58JfGbPdVpP8uYPA==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-engine@0.4.0':
-    resolution: {integrity: sha512-Juw8vZgDm4fJtvZMinE/ASsy/Wacm9I5lEghmi9ZMp46hIR33ur4EmDq42NgH+yAvDwJ5IMo41nGMK1Eok2+rQ==}
+  '@polyhymnia/notation-engine@0.4.1':
+    resolution: {integrity: sha512-Lpq9id1wk+D89LvpqfeeDWA9A6UUYryxD1PIWU7TijrVe/dluqfssoV47m8C4eZ7vys4avmPwewrrGhZiQhsCA==}
     engines: {node: '>=20'}
 
   '@polyhymnia/notation-fonts@0.3.0':
     resolution: {integrity: sha512-V0pj0dAmdcvleQToEzd0Qtpjd3MTc+FNSpjRinHzho31fBBRdKcqzeYozwBXwj75PD3G43N0nY1qv4iVhi9JMw==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/notation-react@0.4.0':
-    resolution: {integrity: sha512-HIqBVKdFFYlEMmoptaF1ygYcRquQfsAWFOgKCjSWofwhOpCOOBgeZgG3tFBpjO+65GEq2Rzp965cBK+704iBGw==}
+  '@polyhymnia/notation-react@0.4.1':
+    resolution: {integrity: sha512-L1rGWcbmuqGSNiJ/IhQEt4zoGgJvAISUuWPx3z3N+eBXE0IP/v4b7lRwQBEjC7HPg/JedVL0HHrXub5Hwc6R2A==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@polyhymnia/rhythm-react@0.2.0':
-    resolution: {integrity: sha512-xYxUJnU2E2j4+BLARDy/FJxQl3sdmObsQVbNftzLDEG9btdvgsVMlpQfsWdf7Qha0zc0YG542wxbfzMG2KrsUg==}
+  '@polyhymnia/rhythm-react@0.2.1':
+    resolution: {integrity: sha512-/BZyOdIgshmW1rp9zBBBbk1BegDtHLAmlvGhvn9LhOjpInAElp8jZ3LUna3TcZ310G8b/WWUTETn6x0QvrGX4w==}
     engines: {node: '>=20'}
     peerDependencies:
       react: '>=18 <20'
 
-  '@polyhymnia/rhythm@0.2.0':
-    resolution: {integrity: sha512-45v3Vt0MiZ1TlaWjrtKhO+dHjuiL5ZLjQp2s+ezPmTcSCcLDLU7ocOuwKGwcq2G+zTmKzhEji5FQ9GC3WUrJUg==}
+  '@polyhymnia/rhythm@0.3.0':
+    resolution: {integrity: sha512-9c/k85I5rz6uIx534RTPUNLrF68Ehr7nwWhGG2e2ThBnshZhOe1Vn9+Xd7L+C71zJ0Ea1rHazF1VYD1tbODRrw==}
     engines: {node: '>=20'}
 
-  '@polyhymnia/web-audio@0.2.0':
-    resolution: {integrity: sha512-24Zb6V4mCeIPzH7pfXC0HfZCtIw+Er9tKW2byeoZyIDK0VEVITLcgaCVv7wxdLfHycRDZu/iaO4Zn5XkUjUxiQ==}
+  '@polyhymnia/web-audio@0.3.0':
+    resolution: {integrity: sha512-seVotzOqD9sCSeP3pdNwYB3Khu1eY5/xXGBit3xXbqMt1wjPfYZxm6MK12kDrn/7KFiPeCUb3hPZvMMD4Jj+bA==}
     engines: {node: '>=20'}
 
   '@radix-ui/number@1.1.3':
@@ -3844,41 +3844,41 @@ snapshots:
 
   '@oxc-project/types@0.152.0': {}
 
-  '@polyhymnia/mnx-score@0.3.0':
+  '@polyhymnia/mnx-score@0.3.1':
     dependencies:
       '@polyhymnia/mnx': 0.3.0
-      '@polyhymnia/music-theory': 0.1.0
+      '@polyhymnia/music-theory': 0.2.0
 
   '@polyhymnia/mnx@0.3.0': {}
 
-  '@polyhymnia/music-theory@0.1.0': {}
+  '@polyhymnia/music-theory@0.2.0': {}
 
-  '@polyhymnia/notation-engine@0.4.0':
+  '@polyhymnia/notation-engine@0.4.1':
     dependencies:
       '@polyhymnia/mnx': 0.3.0
-      '@polyhymnia/mnx-score': 0.3.0
-      '@polyhymnia/music-theory': 0.1.0
+      '@polyhymnia/mnx-score': 0.3.1
+      '@polyhymnia/music-theory': 0.2.0
       '@polyhymnia/notation-fonts': 0.3.0
 
   '@polyhymnia/notation-fonts@0.3.0': {}
 
-  '@polyhymnia/notation-react@0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@polyhymnia/notation-react@0.4.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@polyhymnia/mnx': 0.3.0
-      '@polyhymnia/mnx-score': 0.3.0
-      '@polyhymnia/notation-engine': 0.4.0
+      '@polyhymnia/mnx-score': 0.3.1
+      '@polyhymnia/notation-engine': 0.4.1
       '@polyhymnia/notation-fonts': 0.3.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  '@polyhymnia/rhythm-react@0.2.0(react@19.3.0)':
+  '@polyhymnia/rhythm-react@0.2.1(react@19.3.0)':
     dependencies:
-      '@polyhymnia/rhythm': 0.2.0
+      '@polyhymnia/rhythm': 0.3.0
       react: 19.3.0
 
-  '@polyhymnia/rhythm@0.2.0': {}
+  '@polyhymnia/rhythm@0.3.0': {}
 
-  '@polyhymnia/web-audio@0.2.0': {}
+  '@polyhymnia/web-audio@0.3.0': {}
 
   '@radix-ui/number@1.1.3': {}
 
