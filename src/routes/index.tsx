@@ -5,7 +5,8 @@ import { PolyhymniaName } from '@/components/PolyhymniaName';
 import { ExerciseIndexList } from '@/components/ExerciseIndexList';
 import { EXERCISE_GROUPS } from '@/exercises/groups';
 import { Sheet } from '@/components/SheetLayout';
-import { BarBorder, FlourishRule, FrameBorder, Ornament, OrnamentRule, type FrameSpec } from '@/components/Ornament';
+import { BarBorder, FlourishRule, Ornament, OrnamentRule } from '@/components/Ornament';
+import { PaintedFrame } from '@/components/PaintedFrame';
 import { NearView } from '@/components/NearView';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
 // Cantigas de Santa María miniature from the medieval-ornaments illustration resource. Display
@@ -20,15 +21,6 @@ export const Route = createFileRoute('/')({
 // The score sits at the foot of the page: its code, layout and sound load only as it comes near.
 const SaltarelloScore = lazy(() => import('@/components/SaltarelloScore'));
 
-const HERO_FRAME: FrameSpec = {
-  top: 'acanthus-t',
-  bottom: 'acanthus-b',
-  left: 'acanthus-l',
-  right: 'acanthus-r',
-  corners: { tl: 'acanthus-tl', tr: 'acanthus-tr', bl: 'acanthus-bl', br: 'acanthus-br' },
-  inner: { tl: 'leaf-tl', tr: 'leaf-tr', bl: 'leaf-bl', br: 'leaf-br' },
-};
-
 function HomePage() {
   return (
     <Sheet className="flex flex-col gap-section px-base pt-base pb-section">
@@ -37,7 +29,7 @@ function HomePage() {
         <span>Ear training</span>
       </div>
 
-      <FrameBorder frame={HERO_FRAME} className="-my-loose">
+      <PaintedFrame>
         <header className="flex flex-col items-center gap-base text-center">
           <ResponsiveImage {...FRAMED_LOGO} placement="above-fold" sizes="(min-width: 40rem) 12rem, 10rem" alt="" width={1254} height={1254} className="h-auto w-40 sm:w-48" />
           <div className="flex flex-col items-center gap-tight">
@@ -50,7 +42,7 @@ function HomePage() {
           </div>
           <OrnamentRule name="fleur-de-lis" className="w-full max-w-md" />
         </header>
-      </FrameBorder>
+      </PaintedFrame>
 
       <section aria-labelledby="exercises" className="flex flex-col gap-base">
         <h2 id="exercises" className="rubricated font-specimen text-subhead text-muted-foreground">
