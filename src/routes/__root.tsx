@@ -1,6 +1,7 @@
 import { createRootRoute, Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { PaperSheet, Worktable } from '@/components/PaperSheet';
+import { Worktable } from '@/components/PaperSheet';
+import { Sheet, SheetLayout } from '@/components/SheetLayout';
 import { MicrophoneProvider } from '@/components/audio/MicrophoneProvider';
 
 const RHYTHM_PATHS = ['rhythm', 'pulse-tapping', 'rhythm-tap-back', 'rhythm-reading', 'silent-bar-timing'];
@@ -18,32 +19,30 @@ function RootLayout() {
   const scope = RHYTHM_PATHS.includes(exercise) ? 'rhythm' : ['pitch', 'pitch-matching'].includes(exercise) ? 'pitch' : undefined;
   return (
     <Worktable>
-      <main>
+      <SheetLayout>
         {scope ? <MicrophoneProvider key={scope}><Outlet /></MicrophoneProvider> : <Outlet />}
-      </main>
+      </SheetLayout>
     </Worktable>
   );
 }
 
 function RootNotFoundFallback() {
   return (
-    <PaperSheet size="message" className="flex flex-col items-center px-base py-section text-center">
+    <Sheet size="message" className="flex flex-col items-center px-base py-section text-center">
       <p>Not Found</p>
-    </PaperSheet>
+    </Sheet>
   );
 }
 
 function RootErrorFallback() {
   return (
     <Worktable>
-      <PaperSheet size="message">
-        <main className="flex flex-col items-center gap-base px-base py-section text-center">
-          <p>Something went wrong.</p>
-          <Button asChild>
-            <Link to="/">Back to home</Link>
-          </Button>
-        </main>
-      </PaperSheet>
+      <Sheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
+        <p>Something went wrong.</p>
+        <Button asChild>
+          <Link to="/">Back to home</Link>
+        </Button>
+      </Sheet>
     </Worktable>
   );
 }

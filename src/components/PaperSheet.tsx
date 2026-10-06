@@ -1,39 +1,57 @@
 import type { ReactNode } from 'react';
+import { preloadArtwork } from '@ranx729/elder-scrolls';
 import { Parchment, TableSurface } from '@ranx729/elder-scrolls/react';
-import type { PaperId } from '@ranx729/elder-scrolls';
 import { cn } from '@/lib/utils';
 
-type LightPaper = Extract<PaperId, 'ivory' | 'original' | 'sage' | 'rag'>;
+export type SheetSize = 'index' | 'exercise' | 'custom' | 'message' | 'sidebar';
+
+// Two materials only: warm linen rag for every main sheet, ivory vellum for the contents sidebar.
+const VARIANTS = {
+  main: { paper: 'rag', top: 'roll', bottom: 'paper' },
+  aside: { paper: 'ivory', top: 'roll', bottom: 'roll' },
+} as const;
+
+const TABLE = 'walnut';
+
+/** Decodes the main paper and the table, which every first screen shows, before React mounts. */
+export function preloadSheetArtwork(): Promise<void> {
+  return preloadArtwork({ papers: [VARIANTS.main.paper], surfaces: [TABLE] }).catch(() => {});
+}
+
+/** Decodes the sidebar paper, so entering a catalog shows the sidebar sheet in its first frame. */
+export function preloadSidebarArtwork(): void {
+  void preloadArtwork({ papers: [VARIANTS.aside.paper] }).catch(() => {});
+}
 
 export function Worktable({ children }: { children: ReactNode }) {
   return (
-    <TableSurface surface="walnut" className="worktable min-h-svh text-foreground">
+    <TableSurface surface={TABLE} className="worktable min-h-svh text-foreground">
       {children}
     </TableSurface>
   );
 }
 
+/** One elder-scrolls sheet. Pages use <Sheet> instead, so the layout can keep sheets mounted. */
 export function PaperSheet({
   children,
-  paper = 'ivory',
+  variant = 'main',
   size = 'index',
-  className,
 }: {
   children: ReactNode;
-  paper?: LightPaper;
-  size?: 'index' | 'exercise' | 'custom' | 'message' | 'sidebar';
-  className?: string;
+  variant?: keyof typeof VARIANTS;
+  size?: SheetSize;
 }) {
+  const { paper, top, bottom } = VARIANTS[variant];
   return (
     <Parchment
       paper={paper}
-      top={size === 'sidebar' ? 'paper' : 'roll'}
-      bottom="paper"
+      top={top}
+      bottom={bottom}
       maxWidth="fluid"
       shadow={false}
       className={cn('paper-sheet', `paper-sheet-${size}`)}
     >
-      <div className={cn('paper-content', className)}>{children}</div>
+      {children}
     </Parchment>
   );
 }

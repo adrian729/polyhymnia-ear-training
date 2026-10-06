@@ -16,38 +16,10 @@
  *
  * Both are OFL 1.1 with no Reserved Font Name, so subsetting is permitted and the
  * family names are kept. Licence texts sit beside the binaries in src/assets/fonts/.
+ *
+ * The binaries are not served as they are. scripts/font-faces.ts splits them on every
+ * dev start and build (Junicode by Unicode range, the initials one file per letter)
+ * and declares the faces in the generated stylesheet imported below.
  */
 
-@font-face {
-  font-family: 'Junicode VF';
-  src: url('../assets/fonts/junicode-roman.woff2') format('woff2-variations');
-  font-weight: 300 700;
-  font-stretch: 75% 125%;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Junicode VF';
-  src: url('../assets/fonts/junicode-italic.woff2') format('woff2-variations');
-  font-weight: 300 700;
-  font-stretch: 75% 125%;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond Initials Frame';
-  src: url('../assets/fonts/eb-garamond-initials-f1.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond Initials Letter';
-  src: url('../assets/fonts/eb-garamond-initials-f2.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+@import '../generated/fonts/fonts.css';

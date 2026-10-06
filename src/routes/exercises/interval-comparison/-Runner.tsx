@@ -4,6 +4,7 @@ import { RevealStaff } from '@/components/lesson/RevealStaff';
 import { LessonRunner, type AnswerRenderProps } from '@/components/lesson/LessonRunner';
 import { answerTileClass, answerTileState } from '@/components/lesson/answerTiles';
 import { Initial } from '@/components/Initial';
+import { OrnamentCorners } from '@/components/Ornament';
 import type { AnsweredQuestion, Tempo } from '@/exercises/shared';
 import {
   buildQuestionEvents,
@@ -125,6 +126,7 @@ function AnswerGrid({
           <span className="rubricated font-specimen text-meta text-muted-foreground">
             key {choice === 'same' ? 'S' : choice}
           </span>
+          <OrnamentCorners />
         </button>
       ))}
     </div>

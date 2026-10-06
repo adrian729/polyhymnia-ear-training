@@ -17,7 +17,7 @@ import {
 } from '@/exercises/shared';
 import { LessonSummary } from './LessonSummary';
 import { ExerciseMasthead } from './ExerciseMasthead';
-import { PaperSheet } from '@/components/PaperSheet';
+import { Sheet } from '@/components/SheetLayout';
 
 interface RunnerOptions {
   questionCount: number | 'endless';
@@ -297,7 +297,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
 
   if (state.phase === 'error') {
     return (
-      <PaperSheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
+      <Sheet size="message" className="flex flex-col items-center gap-base px-base py-section text-center">
         <nav aria-label="Breadcrumb" className="self-start">
           <ExerciseMasthead />
         </nav>
@@ -311,7 +311,7 @@ export function LessonRunner<Q, A, O extends RunnerOptions>({
           </Button>
           <Button onClick={() => dispatch({ type: 'retryGeneration', options })}>Try again</Button>
         </div>
-      </PaperSheet>
+      </Sheet>
     );
   }
 

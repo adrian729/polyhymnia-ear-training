@@ -7,20 +7,37 @@
   mask-size: contain;
 }
 
+/* Leaf corners of an answer tile, drawn by <OrnamentCorners /> inside it so each corner sizes its
+   own image like any other ornament. */
 @utility ornament-corners {
   position: relative;
 
-  &::after {
-    content: '';
+  & > .ornament-corner {
     position: absolute;
-    inset: 0.3rem;
+    width: var(--corner-size, 1.75rem);
+    height: var(--corner-size, 1.75rem);
     pointer-events: none;
-    background-color: var(--primary-strong);
-    mask:
-      url('../assets/ornaments/vectorian-063-tl.webp') top left / var(--corner-size, 1.75rem) no-repeat,
-      url('../assets/ornaments/vectorian-063-tr.webp') top right / var(--corner-size, 1.75rem) no-repeat,
-      url('../assets/ornaments/vectorian-063-bl.webp') bottom left / var(--corner-size, 1.75rem) no-repeat,
-      url('../assets/ornaments/vectorian-063-br.webp') bottom right / var(--corner-size, 1.75rem) no-repeat;
+    color: var(--primary-strong);
+  }
+
+  & > .ornament-corner-tl {
+    top: 0.3rem;
+    left: 0.3rem;
+  }
+
+  & > .ornament-corner-tr {
+    top: 0.3rem;
+    right: 0.3rem;
+  }
+
+  & > .ornament-corner-bl {
+    bottom: 0.3rem;
+    left: 0.3rem;
+  }
+
+  & > .ornament-corner-br {
+    bottom: 0.3rem;
+    right: 0.3rem;
   }
 }
 

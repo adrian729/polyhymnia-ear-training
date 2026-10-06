@@ -3,7 +3,7 @@ import type { JSX } from 'react';
 import type { NoteValue } from '@polyhymnia/mnx';
 import { layoutScore } from '@polyhymnia/notation-engine';
 import type { ClefSpec, LayoutResult, NotationOptions } from '@polyhymnia/notation-engine';
-import { Notation } from '@polyhymnia/notation-react';
+import { Notation, cachedLayout } from '@polyhymnia/notation-react';
 import { durationKey, fittingMeter } from '@/components/presets/shared';
 import type { RevealBaseProps } from '@/components/presets/shared';
 import { buildMeasureScore, chordEvent, noteEvent } from '@/components/presets/mnxBuild';
@@ -45,7 +45,8 @@ export function NotesReveal({
       maxLastSystemFill: 1,
       style: glyphStyle,
     };
-    return { options: fitted, layout: layoutScore(doc, fitted) };
+    // The same layout <Notation> draws below, so the score is laid out once at its fitted width.
+    return { options: fitted, layout: cachedLayout(doc, fitted) };
   }, [doc, eventCount, glyphStyle]);
   const centred = { width: `${(layout.viewBox.w / FULL_WIDTH_SP) * 100}%`, marginInline: 'auto', ...style };
 

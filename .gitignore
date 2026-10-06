@@ -3,3 +3,6 @@ dist/
 *.tsbuildinfo
 .DS_Store
 .vite/
+src/generated/
+public/polyhymnia-favicon.png
+.tanstack/

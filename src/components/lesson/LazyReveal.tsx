@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { NearView } from '@/components/NearView';
 
 export interface LazyRevealProps<Q> {
   question: Q;
@@ -7,27 +8,9 @@ export interface LazyRevealProps<Q> {
 }
 
 export function LazyReveal<Q>({ question, renderReveal, placeholder }: LazyRevealProps<Q>) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (visible) return;
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) setVisible(true);
-      },
-      { rootMargin: '300px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [visible]);
-
-  if (visible) return <>{renderReveal(question)}</>;
   return (
-    <div ref={ref} className="flex w-full flex-col items-center gap-4">
-      {placeholder}
-    </div>
+    <NearView placeholder={placeholder} className="flex w-full flex-col items-center gap-4">
+      {renderReveal(question)}
+    </NearView>
   );
 }

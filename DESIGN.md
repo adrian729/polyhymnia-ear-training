@@ -19,7 +19,7 @@ The failure mode this document exists to prevent: a centered logo, a row of iden
 
 ## Typography
 
-Four families, four roles, no overlap. Display and data come from `@fontsource-variable`; Junicode and the initials are vendored WOFF2 in `apps/app/src/assets/fonts/` because neither is published on fontsource. No Google Fonts CDN.
+Four families, four roles, no overlap. Display and data come from `@fontsource-variable`; Junicode and the initials are vendored WOFF2 in `src/assets/fonts/` because neither is published on fontsource; the build splits them the way fontsource ships its families (`scripts/font-faces.ts`), so pages download only the characters they show. No Google Fonts CDN.
 
 | Role | Family | Token | Used for |
 | --- | --- | --- | --- |
@@ -77,9 +77,11 @@ The split is deliberate and domain-justified: a playing note must not look like 
 
 ## Texture
 
-Use the published `@ranx729/elder-scrolls` React components and geometry stylesheet for a dark walnut worktable and independent paper sheets. Use only the four light materials: aged parchment (`original`) for the home page, ivory vellum (`ivory`) for lesson catalogs, players, results, presets and error screens, cool vellum (`sage`) for custom forms, and warm linen rag (`rag`) for the separate contents sidebar. Main sheets have a rolled top and a plain-paper bottom; compact sidebars have paper edges at both ends. Contact shadows are disabled.
+Use the published `@ranx729/elder-scrolls` React components and geometry stylesheet for a dark walnut worktable and independent paper sheets. Use only two light materials: warm linen rag (`rag`) for every main sheet, with a rolled top and a plain-paper bottom, and ivory vellum (`ivory`) for the separate contents sidebar, rolled at both ends. Contact shadows are disabled. Sheets persist across navigation: moving between pages changes a sheet's contents and width, never its paper, so the paper does not blink out or redraw.
 
 The package owns paper/table artwork; the app retains its fonts, ornaments, colors and controls. Keep the texture's physical scale. The wooden background stays fixed to the viewport. Lesson catalogs have separate scroll areas around the complete main and sidebar papers, so each sheet's edges, texture and contents move together while the other sheet stays in place. Keep the initial top and bottom gaps inside these scroll areas so the papers can reach their visible boundaries while scrolling. The paper content itself has no internal scroller. On narrow screens retain the collapsible contents list in a compact upper scroll area and the main paper below. Other pages use native document scrolling over the same fixed wood. Allow decorative edges into small-screen margins to preserve usable text width; never scale the whole sheet. Do not add a global grain or vignette over the packaged textures. Decoration must not intercept pointer events.
+
+Things appear when they are ready, never half-drawn: the first screen appears whole, once the table, its papers with their rolls and its fonts are ready; a sheet that arrives later (the sidebar) appears once its paper is drawn; a page's text appears once its faces have loaded, never in a fallback font that then swaps. Each wait is capped (`--ready-wait`); past it the readable fallback paper and fonts show rather than an empty screen.
 
 ## Motion
 
@@ -141,7 +143,7 @@ Mechanical. A change touching any of these is not done.
 3. Every changed file uses semantic tokens only — grep the diff for `text-(teal|pink|blue|neutral|red|green|peach|yellow|lavender|mauve|white|black)-`, `bg-` equivalents, `#`, and `rgb(`.
 4. Every interactive element has hover, focus-visible, active and disabled states.
 5. Focus rings are visible and meet WCAG 2.2 AA.
-6. The four light paper surfaces reviewed at 390px, 768px and 1440px; dark papers are outside the current visual scope.
+6. The two light paper surfaces reviewed at 390px, 768px and 1440px; dark papers are outside the current visual scope.
 7. All `--pn-*` tokens verified ≥ 4.5:1 against the light paper surfaces they appear on.
 
 ## Scope boundary

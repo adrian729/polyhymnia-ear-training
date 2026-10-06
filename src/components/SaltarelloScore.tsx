@@ -3,13 +3,16 @@ import { Notation } from '@polyhymnia/notation-react';
 import type { NotationHandle, PlaybackView } from '@polyhymnia/notation-react';
 import type { MnxDocument } from '@polyhymnia/mnx';
 import { performance } from '@polyhymnia/mnx-score';
+import saltarello from '@/assets/scores/saltarello.mnx.json';
 import type { Playback } from '@polyhymnia/web-audio/webaudio';
-import { createSound } from '@/lib/sound';
+import { createSound, prepareNotes } from '@/lib/sound';
 
 const CURSOR_VIEW: PlaybackView = { mode: 'cursor', highlightActive: true };
 const OFF_VIEW: PlaybackView = { mode: 'off' };
+const SCORE = saltarello as MnxDocument;
 
-export function SaltarelloScore({ score }: { score: MnxDocument }) {
+/** The home page's playable Saltarello. Loaded on demand: it brings the notation code with it. */
+export default function SaltarelloScore() {
   const handleRef = useRef<NotationHandle>(null);
   const frameRef = useRef(0);
   const playbackRef = useRef<Playback | null>(null);
@@ -56,6 +59,12 @@ export function SaltarelloScore({ score }: { score: MnxDocument }) {
 
   useEffect(() => stop, [stop]);
 
+  // It mounts only as it nears the viewport: load its notes now, before anyone presses play.
+  useEffect(() => {
+    const timeline = handleRef.current?.getTimeline();
+    if (timeline) prepareNotes(performance(timeline).events.map((event) => event.midi));
+  }, []);
+
   return (
     <button
       type="button"
@@ -63,7 +72,7 @@ export function SaltarelloScore({ score }: { score: MnxDocument }) {
       aria-label={playing ? 'Stop the Saltarello' : 'Play the Saltarello'}
       className="w-full cursor-pointer appearance-none rounded-sm border-0 bg-transparent p-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
     >
-      <Notation score={score} ref={handleRef}>
+      <Notation score={SCORE} ref={handleRef}>
         <Notation.Playback view={playing ? CURSOR_VIEW : OFF_VIEW} />
       </Notation>
     </button>
