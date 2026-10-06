@@ -11,6 +11,9 @@ const sources = {
   '@polyhymnia/web-audio': 'web-audio',
   '@polyhymnia/rhythm': 'rhythm/packages/rhythm',
   '@polyhymnia/rhythm-react': 'rhythm/packages/rhythm-react',
+  '@polyhymnia/audio-input': 'audio-analysis/packages/audio-input',
+  '@polyhymnia/audio-analysis': 'audio-analysis/packages/audio-analysis',
+  '@polyhymnia/audio-analysis-pitchy': 'audio-analysis/packages/audio-analysis-pitchy',
 };
 
 const root = resolve(process.env.POLYHYMNIA_SRC ?? '..');

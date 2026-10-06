@@ -4,6 +4,7 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { preloadSheetArtwork, preloadSidebarArtwork } from '@/components/PaperSheet';
 import { preloadInitials } from '@/lib/fonts';
+import { warmInstrument } from '@/lib/sound';
 import { holdFirstPaint, whenIdle } from '@/lib/first-paint';
 import '@polyhymnia/notation-react/styles.css';
 import './index.css';
@@ -47,6 +48,7 @@ const rootElement = document.getElementById('root')!;
 void Promise.all([firstScreenArtwork, holdFirstPaint(rootElement)]).then(() => whenIdle(() => {
   preloadSidebarArtwork();
   preloadInitials();
+  warmInstrument();
 }));
 createRoot(rootElement).render(
   <StrictMode>

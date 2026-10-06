@@ -1,13 +1,12 @@
+import { lazy, Suspense } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import type { MnxDocument } from '@polyhymnia/mnx';
 import { FRAMED_LOGO } from '@/lib/logo';
 import { PolyhymniaName } from '@/components/PolyhymniaName';
 import { ExerciseIndexList } from '@/components/ExerciseIndexList';
 import { EXERCISE_GROUPS } from '@/exercises/groups';
 import { Sheet } from '@/components/SheetLayout';
-import { SaltarelloScore } from '@/components/SaltarelloScore';
 import { BarBorder, FlourishRule, FrameBorder, Ornament, OrnamentRule, type FrameSpec } from '@/components/Ornament';
-import saltarello from '@/assets/scores/saltarello.mnx.json';
+import { NearView } from '@/components/NearView';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
 // Cantigas de Santa María miniature from the medieval-ornaments illustration resource. Display
 // sizes are generated at build time from its lossless master.
@@ -18,7 +17,8 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-const SALTARELLO = saltarello as MnxDocument;
+// The score sits at the foot of the page: its code, layout and sound load only as it comes near.
+const SaltarelloScore = lazy(() => import('@/components/SaltarelloScore'));
 
 const HERO_FRAME: FrameSpec = {
   top: 'acanthus-t',
@@ -74,7 +74,11 @@ function HomePage() {
         />
         <Ornament name="running-vine" className="mx-auto h-8 w-64 text-primary-strong" />
         <BarBorder>
-          <SaltarelloScore score={SALTARELLO} />
+          <NearView>
+            <Suspense>
+              <SaltarelloScore />
+            </Suspense>
+          </NearView>
         </BarBorder>
       </footer>
     </Sheet>

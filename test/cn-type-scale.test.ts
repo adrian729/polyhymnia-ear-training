@@ -1,20 +1,8 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { cn, typeScale } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
-const THEME = fileURLToPath(new URL('../src/styles/theme.css', import.meta.url));
-
-function themeTypeTokens(): string[] {
-  const css = readFileSync(THEME, 'utf8');
-  return [...css.matchAll(/^\s*--text-([a-z0-9]+(?:-[a-z0-9]+)*)\s*:/gm)].map((m) => m[1]);
-}
-
+// The compiled tables read the theme's --text-* scale, so a size never deletes a text colour.
 describe('cn type scale', () => {
-  it('knows every --text-* size token declared in theme.css', () => {
-    expect([...themeTypeTokens()].sort()).toEqual([...typeScale].sort());
-  });
-
   it('keeps a text color when a type scale size is merged after it', () => {
     expect(cn('bg-primary text-primary-foreground text-meta')).toContain('text-primary-foreground');
     expect(cn('bg-card text-card-foreground text-body')).toContain('text-card-foreground');

@@ -1,12 +1,6 @@
 import type { CnFunction } from 'cn';
-import { createCn } from 'cn/config';
+import { createCn } from 'cn/engine';
+import tables from '@/generated/cn-tables.mjs';
 
-export const typeScale = ['display', 'title', 'heading', 'subhead', 'body', 'meta'] as const;
-
-export const cn: CnFunction = createCn({
-  extend: {
-    theme: {
-      text: [...typeScale],
-    },
-  },
-});
+/** The one `cn`: tables compiled at build time from the app's classes and theme (scripts/cn-tables.ts). */
+export const cn: CnFunction = createCn(tables);

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { imagetools } from 'vite-imagetools';
 import { VitePWA } from 'vite-plugin-pwa';
+import { cnTables } from './scripts/cn-tables.ts';
 import { favicon } from './scripts/favicon.ts';
 import { fontFaces } from './scripts/font-faces.ts';
 
@@ -23,10 +24,15 @@ export default defineConfig({
   server: { fs: { allow: [appRoot, ...packageRoots] } },
   plugins: [
     fontFaces(),
+    cnTables(),
     favicon(),
     // Raster sizes are generated from source art at build time; imports without a query pass through untouched.
     imagetools({ include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|tiff|webp|svg)(\?.*)?$/ }),
-    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    // Lesson loaders read their exercise catalogs; split with the component, so catalogs load with
+    // the lesson's own chunk instead of at startup.
+    tanstackRouter({ target: 'react', autoCodeSplitting: true, codeSplittingOptions: {
+      defaultBehavior: [['loader', 'component'], ['errorComponent'], ['notFoundComponent']],
+    } }),
     react(),
     tailwindcss(),
     // Caching for returning visitors (sw/service-worker.ts). Production builds only; not an installable app.

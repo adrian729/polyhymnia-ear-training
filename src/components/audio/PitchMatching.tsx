@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type ComponentProps } from 'react';
 import type { PitchObservation } from '@polyhymnia/audio-analysis';
 import { createPitchWorker } from '@polyhymnia/audio-analysis-pitchy/browser';
-import { createPlayer, defaultInstrument, type Playback } from '@polyhymnia/web-audio/webaudio';
+import { createPlayer, defaultInstrument, type Playback, type Player } from '@polyhymnia/web-audio/webaudio';
 import { LessonActions, LessonActionButton, LessonFrame } from '@/components/lesson/LessonFrame';
 import { LessonSummary } from '@/components/lesson/LessonSummary';
 import type { LessonRunnerProps } from '@/components/lesson/LessonRoutePage';
@@ -25,6 +25,31 @@ import { cn } from '@/lib/utils';
 
 type Phase = 'ready' | 'reference' | 'answer' | 'answered' | 'summary';
 
+interface Live { reading?: PitchObservation; held: number }
+
+/** The microphone's reading and hold change ~23 times a second; only the meter subscribes to them. */
+function createLiveReading() {
+  let state: Live = { held: 0 };
+  const listeners = new Set<() => void>();
+  return {
+    get: () => state,
+    subscribe(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; },
+    set(patch: Partial<Live>) {
+      if ((Object.keys(patch) as (keyof Live)[]).every(key => state[key] === patch[key])) return;
+      state = { ...state, ...patch };
+      listeners.forEach(listener => listener());
+    },
+  };
+}
+type LiveReading = ReturnType<typeof createLiveReading>;
+
+function LivePitchFeedback({ live, target, showPitch, ...props }: { live: LiveReading; showPitch: boolean }
+  & Omit<ComponentProps<typeof PitchFeedback>, 'pitch' | 'status' | 'held'>) {
+  const { reading, held } = useSyncExternalStore(live.subscribe, live.get, live.get);
+  return <PitchFeedback {...props} target={target} pitch={showPitch && reading ? describePitch(reading, target) : undefined}
+    status={reading?.status} held={held} />;
+}
+
 export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }: LessonRunnerProps<PitchExerciseOptions>) {
   const [settings, setSettings] = useState(readPitchSettings);
   const [summarySound] = useState(createSound);
@@ -35,8 +60,10 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
   const [autoPaused, setAutoPaused] = useState(false);
   const [phase, setPhase] = useState<Phase>('ready');
   const phaseRef = useRef<Phase>('ready');
-  const [reading, setReading] = useState<PitchObservation>();
-  const [held, setHeld] = useState(0);
+  const [live] = useState(createLiveReading);
+  const setReading = (reading: PitchObservation | undefined) => live.set({ reading });
+  const setHeld = (held: number) => live.set({ held });
+  const referencePlayer = useRef<{ context: AudioContext; player: Player } | undefined>(undefined);
   const answer = useRef<{ generation: string; match: ReturnType<typeof createPitchMatch> } | undefined>(undefined);
   const playback = useRef<Playback | undefined>(undefined);
   const settle = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -52,7 +79,6 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
   const microphone = useExerciseMicrophone(() => { resetAnswer(); run.current?.dispose(); setReading(undefined); setPracticeReady(false); });
   const [practiceReady, setPracticeReady] = useState(!!microphone.resource);
   const targetRef = useRef(target); targetRef.current = target;
-  const pitch = reading && describePitch(reading, target);
   const complete = (correct: boolean, statistics?: PitchHoldStatistics) => {
     if (phaseRef.current !== 'answer' && phaseRef.current !== 'ready') return;
     answer.current = undefined;
@@ -82,10 +108,12 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
     let started = false;
     let freshness: ReturnType<typeof setTimeout> | undefined;
     const epochId = crypto.randomUUID();
+    // Capture sends audio straight to the pitch worker, so a busy main thread never stalls it.
+    const channel = new MessageChannel();
     let worker: ReturnType<typeof createPitchWorker>;
     try {
       worker = createPitchWorker({ epochId, generation: epochId, sampleRate: resource.context.sampleRate,
-        workerUrl: pitchWorkerUrl,
+        workerUrl: pitchWorkerUrl, chunkPort: channel.port2,
         analysisOptions: { minimumRms: settings.minimumRms, minimumClarity: settings.minimumClarity },
         onFault: reason => { if (!closed) microphone.fail(reason); },
         onObservations(batch) {
@@ -108,26 +136,27 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
         },
       });
     } catch (reason) {
+      channel.port1.close();
       microphone.fail(reason instanceof Error ? reason.message : 'Unable to start pitch analysis.');
       return;
     }
     const dispose = () => {
       if (closed) return;
-      closed = true; clearTimeout(freshness); worker.dispose();
+      closed = true; clearTimeout(freshness);
+      if (!started) { worker.dispose(); channel.port1.close(); return; }
       // cancel() releases the owned stream. A normal handoff instead drains
       // capture, leaving the prepared microphone available for the next consumer.
-      if (started) {
-        const end = Math.ceil(resource.context.currentTime * resource.context.sampleRate);
-        resource.captureIdle = resource.session.finish(end, end);
-        // A disposal/disable may reject the drain; the session owns fault reporting.
-        void resource.captureIdle.catch(() => {});
-      }
+      // The worker acknowledges the chunks still in flight, so it goes only after the drain.
+      const end = Math.ceil(resource.context.currentTime * resource.context.sampleRate);
+      resource.captureIdle = resource.session.finish(end, end).finally(() => worker.dispose());
+      // A disposal/disable may reject the drain; the session owns fault reporting.
+      void resource.captureIdle.catch(() => {});
     };
     const consumer = { dispose }; run.current = consumer;
     void worker.ready.then(async () => {
       await resource.captureIdle;
       if (!closed) {
-        resource.session.start({ epochId, onChunk: chunk => { if (!closed) worker.push(chunk.samples, chunk.startFrame); } });
+        resource.session.start({ epochId, chunkPort: channel.port1 });
         started = true;
       }
     }).catch(reason => { if (!closed) microphone.fail(reason instanceof Error ? reason.message : 'Pitch analysis failed.'); });
@@ -145,8 +174,11 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
     try {
       await resource.context.resume();
       if (token !== attemptRevision.current) return;
-      const player = createPlayer(resource.context, defaultInstrument(resource.context));
-      const sound = player.play([{ midi: targetRef.current, start: 0, duration: 1, velocity: .55 }], { lead: .05, durationSeconds: 1.1 });
+      // One reference player per audio context, not a new synth for every note.
+      if (referencePlayer.current?.context !== resource.context) {
+        referencePlayer.current = { context: resource.context, player: createPlayer(resource.context, defaultInstrument(resource.context)) };
+      }
+      const sound = referencePlayer.current.player.play([{ midi: targetRef.current, start: 0, duration: 1, velocity: .55 }], { lead: .05, durationSeconds: 1.1 });
       playback.current = sound;
       const result = await sound.finished;
       if (token !== attemptRevision.current) return;
@@ -240,9 +272,9 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
       {phase === 'reference' ? 'Listen to the note.' : phase === 'answer' ? 'Sing or hum the same note.'
         : phase === 'answered' ? last?.correct ? 'Correct. You matched the note.' : 'Skipped. This answer counts as wrong.' : 'Ready for the next note.'}
     </p>
-    <PitchFeedback target={target} pitch={phase === 'reference' || phase === 'ready' ? undefined : pitch}
-      status={reading?.status} active={phase === 'answer'} matched={phase === 'answered' && !!last?.correct}
-      held={held} seconds={options.seconds} cents={options.cents} statistics={phase === 'answered' && last?.correct ? last.answer : undefined} />
+    <LivePitchFeedback live={live} target={target} showPitch={phase !== 'reference' && phase !== 'ready'}
+      active={phase === 'answer'} matched={phase === 'answered' && !!last?.correct}
+      seconds={options.seconds} cents={options.cents} statistics={phase === 'answered' && last?.correct ? last.answer : undefined} />
     <LessonActions>
       <LessonActionButton variant="outline" disabled={phase === 'reference'} onClick={() => void reference()}>Play question</LessonActionButton>
       {phase === 'answered' ? <LessonActionButton ref={nextButton} onClick={nextQuestion}>Next question</LessonActionButton>

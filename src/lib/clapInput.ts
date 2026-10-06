@@ -14,12 +14,14 @@ export function createClapInput(resource: MicrophoneResource, options: {
   let startOptions: ExternalInputStart | undefined;
   let closed = false;
   const epochId = `claps-${crypto.randomUUID()}`;
+  // Capture sends audio straight to the onset worker, so a busy main thread never stalls it.
+  const channel = new MessageChannel();
   return {
     id: 'microphone', offsetMs: options.settings.offsetMs, maximumDeliveryAgeMs: 1000, drainTimeoutMs: 1500,
     async prepare(signal) {
       if (signal.aborted || !resource.session.ready) throw new Error('Activate the microphone before starting.');
       worker = createOnsetWorker({ epochId, generation: epochId, sampleRate: resource.context.sampleRate,
-        workerUrl: onsetWorkerUrl,
+        workerUrl: onsetWorkerUrl, chunkPort: channel.port2,
         analysisOptions: { minimumRms: options.settings.minimumRms, riseRatio: options.settings.riseRatio,
           minimumSpacingMs: options.settings.minimumSpacingMs },
         onFault: reason => { if (!closed) { closed = true; startOptions?.interrupt(reason); } },
@@ -35,13 +37,13 @@ export function createClapInput(resource: MicrophoneResource, options: {
           }
         } });
       // Download/init the worker before timed playback, and clean up cancelled readiness.
-      signal.addEventListener('abort', () => { closed = true; worker.dispose(); }, { once: true });
+      signal.addEventListener('abort', () => { closed = true; worker.dispose(); channel.port1.close(); }, { once: true });
       try {
         await worker.ready;
         if (signal.aborted) throw new Error('Microphone preparation cancelled.');
         clock = await resource.session.clock();
         if (signal.aborted) throw new Error('Microphone preparation cancelled.');
-      } catch (reason) { closed = true; worker.dispose(); throw reason; }
+      } catch (reason) { closed = true; worker.dispose(); channel.port1.close(); throw reason; }
     },
     start(start) {
       if (closed || !clock || !worker) throw new Error('Prepare microphone analysis before starting.');
@@ -51,8 +53,8 @@ export function createClapInput(resource: MicrophoneResource, options: {
       let drained = false;
       try {
         resource.session.start({ epochId, clock, maximumClockDeviationMs: Math.max(25, clock.uncertaintyMs + 10),
-          onChunk: chunk => worker.push(chunk.samples, chunk.startFrame) });
-      } catch (reason) { worker.dispose(); throw reason; }
+          chunkPort: channel.port1 });
+      } catch (reason) { worker.dispose(); channel.port1.close(); throw reason; }
       return {
         async drain() {
           await worker.setCutoff(end);

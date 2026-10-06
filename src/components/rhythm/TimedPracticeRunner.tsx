@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { timingAccuracy, type PulseCue, type PulseMetadata, type PulsePlan, type TimingAnalysis } from '@polyhymnia/rhythm';
-import { bindTapInput, type AttemptSnapshot } from '@polyhymnia/rhythm/browser';
-import { useTimedAttempt } from '@polyhymnia/rhythm-react';
+import { bindTapInput, type AttemptSnapshot, type TimedAttemptController } from '@polyhymnia/rhythm/browser';
+import { useAttemptState, useTimedAttemptController } from '@polyhymnia/rhythm-react';
 import { LessonFrame, LessonActions, LessonActionButton as Button, LessonSummaryFrame } from '@/components/lesson/LessonFrame';
 import { Button as SummaryButton } from '@/components/ui/button';
 import { answerTileClass } from '@/components/lesson/answerTiles';
@@ -18,6 +18,13 @@ import { createClapInput } from '@/lib/clapInput';
 import { MicrophoneButton } from '@/components/audio/MicrophoneControl';
 
 const makeId = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
+type Attempt = TimedAttemptController<readonly PulseCue[], PulseMetadata>;
+const whole = (snapshot: AttemptSnapshot<PulseMetadata>) => snapshot;
+
+/** The only part that follows the playback clock, so only it re-renders on each clock heartbeat. */
+function LiveGuide({ controller, render }: { controller: Attempt; render: (snapshot: AttemptSnapshot<PulseMetadata>) => ReactNode }) {
+  return <>{render(useAttemptState(controller, whole))}</>;
+}
 export interface TimedPracticeProps<O, A extends { plan: PulsePlan }> extends LessonRunnerProps<O> {
   exerciseTitle: string;
   count: number | 'endless';
@@ -36,7 +43,13 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
   const [attempt, setAttempt] = useState(() => generate(options));
   const { plan } = attempt;
   const port = useMemo(() => createRhythmSound(preferences.volume, preferences.feedbackSound, preferences.feedbackVolume), [preferences]);
-  const { controller, snapshot } = useTimedAttempt<readonly PulseCue[], PulseMetadata>(port);
+  const controller = useTimedAttemptController<readonly PulseCue[], PulseMetadata>(port);
+  // The screen follows the attempt's phase and result; the clock-driven guide subscribes on its own.
+  const phase = useAttemptState(controller, snapshot => snapshot.phase);
+  const result = useAttemptState(controller, snapshot => snapshot.result);
+  const reason = useAttemptState(controller, snapshot => snapshot.reason);
+  const clockSource = useAttemptState(controller, snapshot => snapshot.clockSource);
+  const prompt = useAttemptState(controller, snapshot => phasePrompt(attempt, snapshot));
   const microphone = useExerciseMicrophone(() => controller.cancel('Microphone disabled. Restart this attempt.'));
   const sessionUsesMicrophone = useRef(false);
   const [clapPractice, setClapPractice] = useState(false);
@@ -53,11 +66,11 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
   const nextButton = useRef<HTMLButtonElement>(null);
   const [inputFlash, setInputFlash] = useState(false);
   const [inputError, setInputError] = useState<string>();
-  const busy = ['preparing', 'countIn', 'listen', 'respond', 'finalizing'].includes(snapshot.phase);
+  const busy = ['preparing', 'countIn', 'listen', 'respond', 'finalizing'].includes(phase);
   const done = sessionComplete(session);
   const passed = !clapPractice && !!lessonId && done && sessionAccuracy(session)! >= RHYTHM_PASS_PERCENT;
-  const attemptComplete = !setup && snapshot.phase === 'completed';
-  const attemptPassed = !!snapshot.result && timingAccuracy(snapshot.result) >= RHYTHM_PASS_PERCENT;
+  const attemptComplete = !setup && phase === 'completed';
+  const attemptPassed = !!result && timingAccuracy(result) >= RHYTHM_PASS_PERCENT;
 
   useLayoutEffect(() => { if (summary) microphone.disable(); }, [summary, microphone.disable]);
 
@@ -84,10 +97,9 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
   useLayoutEffect(() => { if (attemptComplete && !summary) nextButton.current?.focus({ preventScroll: true }); }, [attemptComplete, summary]);
 
   useLayoutEffect(() => {
-    const result = snapshot.result;
-    if (snapshot.phase !== 'completed' || !result || processed.current.has(result)) return;
+    if (phase !== 'completed' || !result || processed.current.has(result)) return;
     processed.current.add(result);
-    const next = completeTimingAttempt(sessionRef.current, { id: attemptId.current, bpm: plan.pulseBpm, result, clockSource: snapshot.clockSource,
+    const next = completeTimingAttempt(sessionRef.current, { id: attemptId.current, bpm: plan.pulseBpm, result, clockSource,
       task: task?.(attempt) });
     if (next === sessionRef.current) return;
     sessionRef.current = next;
@@ -97,7 +109,7 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
     if (lessonId && !sessionUsesMicrophone.current && sessionComplete(next)) saveSession(lessonId, options, preferences, next);
     setSession(next);
     if (sessionComplete(next)) setSummary(true);
-  }, [snapshot, plan, attempt, task, lessonId, options, preferences, saveSession]);
+  }, [phase, result, clockSource, plan, attempt, task, lessonId, options, preferences, saveSession]);
 
   const start = () => {
     if (sessionComplete(sessionRef.current) || controller.isCapturing() || controller.getSnapshot().phase === 'preparing') return;
@@ -161,10 +173,10 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
       <p role="status" aria-live="polite" className={cn('mx-auto max-w-[46ch] text-center font-display text-subhead',
         attemptComplete ? attemptPassed ? 'text-success-strong' : 'text-destructive' : 'text-muted-foreground')}>
         {setup ? readyPrompt(attempt) :
-          snapshot.phase === 'preparing' ? 'Preparing audio…' : snapshot.phase === 'finalizing' ? 'Finishing…' :
-            snapshot.phase === 'interrupted' ? snapshot.reason : snapshot.phase === 'completed' ? attemptPassed ? 'Passed.' : 'Not passed.' : phasePrompt(attempt, snapshot)}
+          phase === 'preparing' ? 'Preparing audio…' : phase === 'finalizing' ? 'Finishing…' :
+            phase === 'interrupted' ? reason : phase === 'completed' ? attemptPassed ? 'Passed.' : 'Not passed.' : prompt}
       </p>
-      {!attemptComplete && renderGuide(attempt, snapshot, setup)}
+      {!attemptComplete && <LiveGuide controller={controller} render={snapshot => renderGuide(attempt, snapshot, setup)} />}
       {!attemptComplete && <button ref={pad} type="button" aria-label={microphone.resource ? 'Clap, tap here or press Space on each requested beat' : 'Tap here or press Space on each requested beat'}
         data-input-active={inputFlash}
         className={cn('ornament-corners mx-auto flex min-h-40 w-full max-w-xl touch-none select-none flex-col items-center justify-center gap-tight rounded-lg border bg-card px-tight py-base outline-none transition-colors duration-fast ease-out-quart',
@@ -177,8 +189,8 @@ export function TimedPracticeRunner<O, A extends { plan: PulsePlan }>({ options,
       {startError && <p role="alert" className="text-destructive">{startError}</p>}
     </>
     <LessonActions>
-      {!busy && <Button ref={nextButton} disabled={microphone.preparing} onClick={attemptComplete ? prepareNext : start}>{setup ? microphone.resource ? 'Start clapping / tapping' : 'Start tapping' : snapshot.phase === 'interrupted' ? 'Try again' : 'Next attempt'}</Button>}
+      {!busy && <Button ref={nextButton} disabled={microphone.preparing} onClick={attemptComplete ? prepareNext : start}>{setup ? microphone.resource ? 'Start clapping / tapping' : 'Start tapping' : phase === 'interrupted' ? 'Try again' : 'Next attempt'}</Button>}
     </LessonActions>
-    {attemptComplete && snapshot.result && <><TimingFeedback result={snapshot.result} />{renderReview?.(attempt, snapshot.result)}</>}
+    {attemptComplete && result && <><TimingFeedback result={result} />{renderReview?.(attempt, result)}</>}
   </LessonFrame>;
 }
