@@ -182,6 +182,9 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
     devDependencies:
+      '@ranx729/medieval-ornaments-assets-borders-001':
+        specifier: 0.1.1
+        version: 0.1.1
       '@ranx729/medieval-ornaments-assets-illustrations-001':
         specifier: 0.1.1
         version: 0.1.1
@@ -1945,6 +1948,9 @@ packages:
     peerDependenciesMeta:
       react:
         optional: true
+
+  '@ranx729/medieval-ornaments-assets-borders-001@0.1.1':
+    resolution: {integrity: sha512-LDSPGR65S4i7+lb1G+4ZG/uYh7275vyphAmWRVFNKr810oCHJFRbZAF96FJ7UJ1trd/kIjy1fXhIzlyf8955Ug==}
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.1.1':
     resolution: {integrity: sha512-PzjcEtSj9QMZl8U7hjNR3reY15JkYsOCGqbs1M3sYmd05rd7VvaN8d+1D7D/HqxaM+KB5CY5NOXIZfgT0+onYQ==}
@@ -6623,6 +6629,8 @@ snapshots:
   '@ranx729/elder-scrolls@0.1.4(react@19.3.0)':
     optionalDependencies:
       react: 19.3.0
+
+  '@ranx729/medieval-ornaments-assets-borders-001@0.1.1': {}
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.1.1': {}
 

@@ -57,6 +57,9 @@
   --initial-letter: var(--primary-strong);
   --group-title-ink: var(--rubric-strong);
   --group-title-ornament: var(--color-gold-600);
+
+  /* The name's ink outside its red letters: the logo's teal (#154140). */
+  --wordmark: oklch(0.345 0.048 193);
 }
 
 .dark {
@@ -113,6 +116,9 @@
   --initial-letter: var(--primary-strong);
   --group-title-ink: var(--rubric-strong);
   --group-title-ornament: var(--color-gold-300);
+
+  /* The logo's teal would sink into the brown; same hue, lifted. */
+  --wordmark: oklch(0.78 0.075 193);
 }
 
 @theme inline {
@@ -172,6 +178,7 @@
   --color-rubric: var(--rubric);
   --color-rubric-foreground: var(--rubric-foreground);
   --color-rubric-strong: var(--rubric-strong);
+  --color-wordmark: var(--wordmark);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
