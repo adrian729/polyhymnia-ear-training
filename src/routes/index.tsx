@@ -4,7 +4,7 @@ import { FRAMED_LOGO } from '@/lib/logo';
 import { PolyhymniaName } from '@/components/PolyhymniaName';
 import { ExerciseIndexList } from '@/components/ExerciseIndexList';
 import { EXERCISE_GROUPS } from '@/exercises/groups';
-import { PaperSheet } from '@/components/PaperSheet';
+import { Sheet } from '@/components/SheetLayout';
 import { SaltarelloScore } from '@/components/SaltarelloScore';
 import { BarBorder, FlourishRule, FrameBorder, Ornament, OrnamentRule, type FrameSpec } from '@/components/Ornament';
 import saltarello from '@/assets/scores/saltarello.mnx.json';
@@ -31,7 +31,7 @@ const HERO_FRAME: FrameSpec = {
 
 function HomePage() {
   return (
-    <PaperSheet paper="original" className="flex flex-col gap-section px-base pt-base pb-section">
+    <Sheet className="flex flex-col gap-section px-base pt-base pb-section">
       <div className="rubricated font-specimen flex items-baseline justify-between border-b border-border pb-tight text-meta text-muted-foreground">
         <PolyhymniaName />
         <span>Ear training</span>
@@ -77,6 +77,6 @@ function HomePage() {
           <SaltarelloScore score={SALTARELLO} />
         </BarBorder>
       </footer>
-    </PaperSheet>
+    </Sheet>
   );
 }

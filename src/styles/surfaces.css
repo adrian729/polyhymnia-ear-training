@@ -66,13 +66,46 @@
   outline-offset: 2px;
 }
 
-/* A readable sheet also serves as the fallback while artwork loads or if an
-   image fails. Once ready, the real paper supplies the entire background. */
+/* Things appear when they are ready, never half-drawn: the first screen once
+   its table, sheets and fonts are (lib/first-paint.ts), a sheet mounted later
+   once its artwork and rolls are drawn (normally its first frame: the artwork
+   is preloaded), and a page's text once its faces have loaded (SheetLayout).
+   Each wait ends after --ready-wait regardless, so a slow or failed asset
+   delays things but never hides them. The app's wait starts once its page has
+   rendered (code still downloading is not a wait), before any sheet's, so a
+   sheet never shows on its own. */
+:root {
+  --ready-wait: 2.5s;
+}
+
+@keyframes shown-after-wait {
+  to {
+    visibility: visible;
+  }
+}
+
+#root[data-first-paint],
+.paper-sheet:not([data-theme]),
+.sheet-layout[data-fonts-pending] :is(.paper-content, .sheet-aside-content) {
+  visibility: hidden;
+}
+
+#root[data-first-paint]:has(.paper-content),
+.paper-sheet:not([data-theme]),
+.sheet-layout[data-fonts-pending] :is(.paper-content, .sheet-aside-content) {
+  animation: shown-after-wait 0s var(--ready-wait) forwards;
+}
+
+/* A readable sheet also serves as the fallback if its artwork is that slow or
+   fails. Once ready, the real paper supplies the entire background. */
 .paper-sheet:not([data-theme]) > .mr-scroll > .mr-body {
   background-color: var(--background);
 }
 
-.workshop-layout {
+/* The root layout's persistent sheets (SheetLayout). Catalog pages ("workshop") scroll the main
+   and sidebar sheets in separate panes; every other page leaves both panes in normal flow so the
+   document scrolls. The same elements serve both, so navigating never remounts a sheet. */
+.sheet-layout[data-layout='workshop'] {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
@@ -83,7 +116,7 @@
   margin-inline: auto;
 }
 
-.workshop-pane {
+.sheet-layout[data-layout='workshop'] > .sheet-pane {
   min-width: 0;
   min-height: 0;
   /* Keep the initial gap inside the scrollport so the sheet can travel all
@@ -94,28 +127,28 @@
   overscroll-behavior-y: contain;
 }
 
-.workshop-pane:focus-visible {
+.sheet-layout[data-layout='workshop'] > .sheet-pane:focus-visible {
   outline: 2px solid var(--card);
   outline-offset: -2px;
 }
 
-.workshop-sidebar {
+.sheet-layout[data-layout='workshop'] > .sheet-pane-aside {
   max-height: min(18rem, 35svh);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .workshop-pane[data-workshop-main] {
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-main {
     scroll-behavior: smooth;
   }
 }
 
 @media (width >= 64rem) {
-  .workshop-layout {
+  .sheet-layout[data-layout='workshop'] {
     grid-template-columns: calc(15rem + 2 * (42px + var(--spacing-base))) minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
   }
 
-  .workshop-sidebar {
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-aside {
     max-height: none;
   }
 }

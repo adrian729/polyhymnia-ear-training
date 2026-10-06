@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { ExerciseMasthead } from './ExerciseMasthead';
-import { PaperSheet } from '@/components/PaperSheet';
 
 export interface TocModule {
   id: string;
@@ -90,27 +89,26 @@ export function WorkshopAside({ modules }: { modules: readonly TocModule[] }) {
   const active = useActiveModule(modules);
   const list: ReactNode | null =
     modules.length === 0 ? null : <TocList modules={modules} active={active} />;
+  // Contents only: the layout draws the sidebar pane and its sheet (see SheetLayout).
   return (
-    <aside className="workshop-pane workshop-sidebar" aria-label="Exercise contents" tabIndex={0}>
-      <PaperSheet paper="rag" size="sidebar" className="flex flex-col gap-base py-base">
-        <nav aria-label="Breadcrumb">
-          <ExerciseMasthead />
-        </nav>
+    <>
+      <nav aria-label="Breadcrumb">
+        <ExerciseMasthead />
+      </nav>
 
-        {list && (
-          <details className="lg:hidden">
-            <summary className="rubricated font-specimen cursor-pointer text-subhead text-muted-foreground">Contents</summary>
-            <div className="pt-tight">{list}</div>
-          </details>
-        )}
+      {list && (
+        <details className="lg:hidden">
+          <summary className="rubricated font-specimen cursor-pointer text-subhead text-muted-foreground">Contents</summary>
+          <div className="pt-tight">{list}</div>
+        </details>
+      )}
 
-        {list && (
-          <div className="hidden pb-base lg:block">
-            <p className="rubricated font-specimen border-b border-border pb-tight text-subhead text-muted-foreground">Contents</p>
-            {list}
-          </div>
-        )}
-      </PaperSheet>
-    </aside>
+      {list && (
+        <div className="hidden pb-base lg:block">
+          <p className="rubricated font-specimen border-b border-border pb-tight text-subhead text-muted-foreground">Contents</p>
+          {list}
+        </div>
+      )}
+    </>
   );
 }

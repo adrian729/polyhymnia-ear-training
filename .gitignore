@@ -5,3 +5,4 @@ dist/
 .vite/
 src/generated/
 public/polyhymnia-favicon.png
+.tanstack/

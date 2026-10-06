@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { createRequire } from 'node:module';
 import { basename, dirname, extname, join, relative, resolve, sep } from 'node:path';
 import subsetFont from 'subset-font';
-import type { Plugin } from 'vite';
+import type { Plugin, Rolldown } from 'vite';
 
 /*
  * Vendored faces are never served whole. At build start (dev and build) each source is split:
@@ -27,6 +27,9 @@ const FACES: readonly FaceSpec[] = [
 ];
 
 const OUT_DIR = 'src/generated/fonts';
+// Body text and titles are on every page, so the HTML requests their Basic Latin files alongside the
+// scripts instead of the app requesting them once it has rendered text. Files are found by family.
+const PRELOAD_TOKENS = ['--font-sans', '--font-display'];
 // Part of the cache key: changing this script regenerates the fonts. Vite bundles the config, so
 // the script is read by path rather than through import.meta.
 const GENERATOR = 'scripts/font-faces.ts';
@@ -150,7 +153,8 @@ function scannedTexts(root: string): string[] {
 function parseRanges(ranges: string): [number, number][] {
   return ranges.split(',').map(range => {
     const [start, end = start] = range.trim().replace(/^U\+/i, '').split('-');
-    return [parseInt(start!, 16), parseInt(end!, 16)];
+    // Minifiers write whole blocks as wildcards: U+?? is U+0000-00FF.
+    return [parseInt(start!.replaceAll('?', '0'), 16), parseInt(end!.replaceAll('?', 'F'), 16)];
   });
 }
 
@@ -237,6 +241,34 @@ function rangeGroups(codepoints: readonly number[]): [string, number[]][] {
 
 const sha = (data: string | Buffer) => createHash('sha256').update(data).digest('hex');
 
+const compiledCss = (bundle: Rolldown.OutputBundle) =>
+  Object.values(bundle).flatMap(output => output.type === 'asset' && output.fileName.endsWith('.css') ? [String(output.source)] : []);
+
+const familyName = (value: string) => value.split(',')[0]!.trim().replace(/^["']|["']$/g, '');
+
+/**
+ * The file serving lowercase Basic Latin for the family each preload token names first. Tokens are
+ * read from the sources (the theme inlines them, so compiled CSS may not declare them) and faces
+ * from the compiled CSS, so this follows the theme and every face, vendored or from fontsource.
+ * Declarations naming a family nothing serves (Tailwind's defaults) are ignored.
+ */
+function preloadedFonts(sources: readonly string[], css: string): string[] {
+  const faces = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)].map(([, body]) => body!);
+  const basicLatin = (family: string) => faces.find(body =>
+    familyName(body.match(/font-family\s*:\s*([^;]+)/)?.[1] ?? '') === family
+    && !/font-style\s*:\s*italic/.test(body)
+    && parseRanges(body.match(/unicode-range\s*:\s*([^;]+)/)?.[1] ?? 'U+0-10FFFF').some(([start, end]) => start <= 0x61 && 0x61 <= end),
+  )?.match(/src\s*:\s*url\(\s*["']?([^"')]+)/)?.[1];
+  return PRELOAD_TOKENS.map(token => {
+    const declared = sources.flatMap(text => [...text.matchAll(new RegExp(`(?<![\\w-])${token}\\s*:\\s*([^;{}]+)`, 'g'))].map(([, value]) => familyName(value!)));
+    const files = [...new Set(declared.flatMap(family => basicLatin(family) ?? []))];
+    if (files.length !== 1) {
+      throw new Error(`Expected one served family for ${token} to preload, found ${files.length} (declared: ${[...new Set(declared)].join(', ') || 'none'}).`);
+    }
+    return files[0]!;
+  });
+}
+
 async function generate(root: string, requests: Requests, key: string, log: (message: string) => void): Promise<void> {
   const started = performance.now();
   const out = resolve(root, OUT_DIR);
@@ -285,6 +317,7 @@ export function fontFaces(): Plugin {
   let root = process.cwd();
   let log: (message: string) => void = () => {};
   let requested: Requests = { features: new Set(), axes: new Set() };
+  let sources: string[] = [];
   let running: Promise<void> | undefined;
   let rerun = false;
 
@@ -301,7 +334,8 @@ export function fontFaces(): Plugin {
   };
 
   const ensure = async () => {
-    requested = requestsIn(scannedTexts(root));
+    sources = scannedTexts(root);
+    requested = requestsIn(sources);
     const key = inputsKey(requested);
     const out = resolve(root, OUT_DIR);
     if (existsSync(join(out, 'fonts.css')) && existsSync(join(out, '.key')) && readFileSync(join(out, '.key'), 'utf8') === key) return;
@@ -345,9 +379,20 @@ export function fontFaces(): Plugin {
       };
       server.watcher.on('change', changed).on('add', changed).on('unlink', changed);
     },
+    transformIndexHtml: {
+      order: 'post',
+      handler(_, { bundle }) {
+        // Builds only: the dev server serves fonts locally, where a preload wins nothing.
+        if (!bundle) return;
+        return preloadedFonts(sources, compiledCss(bundle).join('\n')).map(href => ({
+          tag: 'link',
+          attrs: { rel: 'preload', href, as: 'font', type: 'font/woff2', crossorigin: true },
+          injectTo: 'head' as const,
+        }));
+      },
+    },
     generateBundle(_, bundle) {
-      const css = Object.values(bundle).flatMap(output => output.type === 'asset' && output.fileName.endsWith('.css') ? [String(output.source)] : []);
-      const compiled = requestsIn(css);
+      const compiled = requestsIn(compiledCss(bundle));
       const kept = new Set([...DEFAULT_FEATURES, ...requested.features]);
       const features = [...compiled.features].filter(tag => !kept.has(tag));
       const axes = [...compiled.axes].filter(tag => !BROWSER_AXES.has(tag) && !requested.axes.has(tag));

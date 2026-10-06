@@ -15,7 +15,7 @@ import { MicrophoneButton } from './MicrophoneControl';
 import { PitchSetup } from './PitchSetup';
 import { PitchFeedback } from './PitchFeedback';
 import { PitchHoldSummary } from './PitchHoldSummary';
-import { PaperSheet } from '@/components/PaperSheet';
+import { Sheet } from '@/components/SheetLayout';
 import { ExerciseMasthead } from '@/components/lesson/ExerciseMasthead';
 import { TitleText } from '@/components/Initial';
 import { createSound } from '@/lib/sound';
@@ -212,7 +212,7 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
       renderAnswer={item => item.answer && <PitchHoldSummary target={item.question} statistics={item.answer} />}
       revealPlaceholder={<span>Reference note</span>} summaryNote={() => ' · skipped'} />;
 
-  if (!microphone.resource || !practiceReady) return <PaperSheet paper="sage" size="custom" className="flex flex-col gap-loose px-base py-loose">
+  if (!microphone.resource || !practiceReady) return <Sheet size="custom" className="flex flex-col gap-loose px-base py-loose">
     <nav aria-label="Breadcrumb"><ExerciseMasthead /></nav>
     <Button variant="ghost" className="self-start" onClick={onBack}>Back to lessons</Button>
     <header className="flex flex-col gap-tight">
@@ -227,7 +227,7 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
     <Button className="self-start" disabled={!microphone.resource} onClick={() => setPracticeReady(true)}>
       {flow.answered.length ? 'Resume practice' : 'Start practice'}
     </Button>
-  </PaperSheet>;
+  </Sheet>;
 
   return <LessonFrame exerciseTitle="Match a note" title={title} onBack={onBack}
     progress={flow.endless ? undefined : progressSegments(flow)} currentIndex={phase === 'answered' ? undefined : flow.answered.length}

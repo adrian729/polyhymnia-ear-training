@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
-import { PaperSheet } from '@/components/PaperSheet';
+import { Sheet } from '@/components/SheetLayout';
 import { Ornament, OrnamentRule } from '@/components/Ornament';
 import { cn } from '@/lib/utils';
 import { ExerciseMasthead } from './ExerciseMasthead';
@@ -14,7 +14,7 @@ export function LessonFrame({ exerciseTitle, title, onBack, onFinish, progress, 
   currentIndex?: number;
   children: ReactNode;
 }) {
-  return <PaperSheet size="exercise" className="flex flex-col gap-loose px-base py-loose">
+  return <Sheet size="exercise" className="flex flex-col gap-loose px-base py-loose">
     <nav aria-label="Breadcrumb"><ExerciseMasthead /></nav>
     <header className="flex flex-col gap-base">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-base">
@@ -33,7 +33,7 @@ export function LessonFrame({ exerciseTitle, title, onBack, onFinish, progress, 
         segment === 'wrong' && 'bg-destructive', index === currentIndex && 'bg-rubric')} />)}
     </div>}
     {children}
-  </PaperSheet>;
+  </Sheet>;
 }
 
 export function LessonActions({ children }: { children: ReactNode }) {
@@ -45,7 +45,7 @@ export function LessonActionButton({ className, ...props }: ComponentProps<typeo
 }
 
 export function LessonSummaryFrame({ exerciseTitle, title, completed = true, children }: { exerciseTitle: string; title: string; completed?: boolean; children: ReactNode }) {
-  return <PaperSheet size="exercise" className="flex flex-col items-center gap-loose px-base py-section text-center">
+  return <Sheet size="exercise" className="flex flex-col items-center gap-loose px-base py-section text-center">
     <nav aria-label="Breadcrumb" className="self-start"><ExerciseMasthead /></nav>
     <div className="flex flex-col items-center gap-tight">
       <Ornament name="headpiece" className="h-16 w-52 text-primary-strong" />
@@ -53,5 +53,5 @@ export function LessonSummaryFrame({ exerciseTitle, title, completed = true, chi
       <h2 className="font-display text-2xl font-semibold">{title} — {completed ? 'done' : 'progress'}</h2>
     </div>
     {children}
-  </PaperSheet>;
+  </Sheet>;
 }
