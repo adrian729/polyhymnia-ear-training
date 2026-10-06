@@ -152,8 +152,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       '@ranx729/elder-scrolls':
-        specifier: ^0.1.4
-        version: 0.1.4(react@19.3.0)
+        specifier: ^0.1.6
+        version: 0.1.6(react@19.3.0)
       '@tanstack/react-router':
         specifier: ^1.170.0
         version: 1.170.41(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -1941,8 +1941,8 @@ packages:
   '@radix-ui/rect@1.1.3':
     resolution: {integrity: sha512-JtyZR+mqgBibTo8xea3B6ZRmzZiM/YeVBtUkas6zMuXjAlfIFIW2FgqeM9eLyvEaYX66vr6DJMK+4U6LV0KhNw==}
 
-  '@ranx729/elder-scrolls@0.1.4':
-    resolution: {integrity: sha512-z2yvtroFA5RcPynKqIWLsGUZQou7oAO4abx/PGqptKksIlk018sD4bAKjmjNs33YXKYKBN+gXaN/Xn4BkdyE5Q==}
+  '@ranx729/elder-scrolls@0.1.6':
+    resolution: {integrity: sha512-YwvoE4Yw5RHo9AVOSxy/cwAqrTTJBq2trOd6jFEJS6BFCAO0AMHwjIBqDty1UaBDmRqtbXTyhoNiFRsQ5rGGgw==}
     peerDependencies:
       react: '>=18 <20'
     peerDependenciesMeta:
@@ -6626,7 +6626,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.3': {}
 
-  '@ranx729/elder-scrolls@0.1.4(react@19.3.0)':
+  '@ranx729/elder-scrolls@0.1.6(react@19.3.0)':
     optionalDependencies:
       react: 19.3.0
 

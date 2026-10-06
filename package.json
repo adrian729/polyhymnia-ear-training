@@ -1,6 +1,6 @@
 {
   "name": "polyhymnia-ear-training",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -27,7 +27,7 @@
     "@polyhymnia/rhythm": "^0.3.0",
     "@polyhymnia/rhythm-react": "^0.3.0",
     "@polyhymnia/web-audio": "^0.4.0",
-    "@ranx729/elder-scrolls": "^0.1.4",
+    "@ranx729/elder-scrolls": "^0.1.6",
     "@tanstack/react-router": "^1.170.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",

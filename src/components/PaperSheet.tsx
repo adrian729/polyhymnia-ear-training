@@ -1,19 +1,19 @@
 import type { ReactNode } from 'react';
 import { preloadArtwork } from '@ranx729/elder-scrolls';
 import { Parchment, TableSurface } from '@ranx729/elder-scrolls/react';
+import { MAIN_PAPER, SIDEBAR_PAPER, TABLE } from '@/lib/materials';
 import { cn } from '@/lib/utils';
 
 export type SheetSize = 'index' | 'exercise' | 'custom' | 'message' | 'sidebar';
 
 // Two materials only: warm linen rag for every main sheet, ivory vellum for the contents sidebar.
 const VARIANTS = {
-  main: { paper: 'rag', top: 'roll', bottom: 'paper' },
-  aside: { paper: 'ivory', top: 'roll', bottom: 'roll' },
+  main: { paper: MAIN_PAPER, top: 'roll', bottom: 'paper' },
+  aside: { paper: SIDEBAR_PAPER, top: 'roll', bottom: 'roll' },
 } as const;
 
-const TABLE = 'walnut';
-
-/** Decodes the main paper and the table, which every first screen shows, before React mounts. */
+/** Decodes the main paper and the table, which every first screen shows, before React mounts. The
+ *  HTML has already started their download (scripts/artwork-preload.ts). */
 export function preloadSheetArtwork(): Promise<void> {
   return preloadArtwork({ papers: [VARIANTS.main.paper], surfaces: [TABLE] }).catch(() => {});
 }

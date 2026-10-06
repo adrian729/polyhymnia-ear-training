@@ -7,9 +7,11 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { imagetools } from 'vite-imagetools';
 import { VitePWA } from 'vite-plugin-pwa';
+import { artworkPreload } from './scripts/artwork-preload.ts';
 import { cnTables } from './scripts/cn-tables.ts';
 import { favicon } from './scripts/favicon.ts';
 import { fontFaces } from './scripts/font-faces.ts';
+import { MAIN_PAPER, TABLE } from './src/lib/materials.ts';
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url));
 const packageScope = resolve(appRoot, 'node_modules/@polyhymnia');
@@ -24,6 +26,8 @@ export default defineConfig({
   server: { fs: { allow: [appRoot, ...packageRoots] } },
   plugins: [
     fontFaces(),
+    // Every first screen shows the main paper on the table: the HTML starts both at once.
+    artworkPreload([MAIN_PAPER, TABLE]),
     cnTables(),
     favicon(),
     // Raster sizes are generated from source art at build time; imports without a query pass through untouched.
