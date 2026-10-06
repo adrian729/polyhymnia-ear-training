@@ -31,6 +31,15 @@ describe('images', () => {
     expect(unsized).toEqual([]);
   });
 
+  it('rasterize vector art losslessly', () => {
+    const lossy = sources(['.ts', '.tsx']).flatMap(file =>
+      [...readFileSync(file, 'utf8').matchAll(/from\s+['"]([^'"]+\.svg\?[^'"]*)['"]/g)]
+        .map(match => match[1]!)
+        .filter(specifier => /[?&]format=/.test(specifier) && !/[?&]lossless(?:=true)?(?:&|$)/.test(specifier))
+        .map(specifier => `${name(file)}: ${specifier}`));
+    expect(lossy).toEqual([]);
+  });
+
   it('are never referenced from CSS, which cannot size them', () => {
     const referenced = sources(['.css']).flatMap(file =>
       [...readFileSync(file, 'utf8').matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)]
