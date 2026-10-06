@@ -2,7 +2,8 @@
    accommodate that artwork around the app's existing content widths. */
 .worktable {
   --worktable-block-gap: var(--spacing-loose);
-  padding: var(--worktable-block-gap) var(--spacing-base);
+  --worktable-inline-gap: var(--spacing-base);
+  padding: var(--worktable-block-gap) var(--worktable-inline-gap);
   overflow-x: clip;
   isolation: isolate;
   background-image: none;
@@ -142,6 +143,169 @@
   }
 }
 
+/* Narrow screens, where the sidebar stacks above the main sheet: the contents scroll rolls up
+   (ContentsScroll). One length drives it, --contents-fold: from zero up it is the paper unrolled
+   between the caps; below zero it pulls the bottom cap up instead, masking each cap down to its roll,
+   until at --contents-rolled the two rolls just touch with no paper between them. Animating it
+   unrolls the scroll in one motion, and the main pane rides below its bottom roll, pushed off the
+   screen as it unrolls and drawn back as it rolls up. Rolled, the scroll lies flush with the top of
+   the screen over the main pane, whose sheet scrolls under it. Open, it covers the screen alone and
+   scrolls as one sheet, like the main page. */
+@property --contents-fold {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+@media (width < 64rem) {
+  /* Measured on the ivory roll caps: each roll's height; the fold that pulls the rolls 2px into each
+     other (each cap's paper beyond its overlap, 30 + 28px, plus those 2px); the transparent art above
+     the top roll and below the bottom one; and so the rolled scroll's visible height, from its two
+     100px caps less their 30px overlaps. */
+  .sheet-layout[data-layout='workshop'] {
+    --contents-top-roll: 40px;
+    --contents-bottom-roll: 42px;
+    --contents-rolled: -60px;
+    --contents-art-top: 7px;
+    --contents-art-bottom: 6px;
+    --contents-rolled-height: calc(2 * (100px - 30px) + var(--contents-rolled) - var(--contents-art-top) - var(--contents-art-bottom));
+    --contents-fold: var(--contents-rolled);
+    grid-template-rows: minmax(0, 1fr);
+    /* The main pane, pushed down, never makes the page itself scroll. */
+    overflow: visible clip;
+  }
+
+  /* Only the panes, the fold and the caps read the fold's length: the sheets' contents stop
+     inheriting it, so they never restyle while the scroll moves (it halves each frame's work). */
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-main > *,
+  .sheet-aside-unrolled {
+    --contents-fold: 0px;
+  }
+
+  /* Both panes fill the screen; the rolled scroll lies over the top of the main pane. */
+  .sheet-layout[data-layout='workshop'] > .sheet-pane {
+    grid-area: 1 / 1;
+  }
+
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-main {
+    z-index: 0;
+    padding-top: calc(var(--contents-rolled-height) + var(--worktable-block-gap));
+    scroll-padding-top: var(--contents-rolled-height);
+  }
+
+  .sheet-layout[data-layout='workshop']:has(> .sheet-pane-aside:not([data-contents='closed'])) > .sheet-pane-main {
+    translate: 0 calc(var(--contents-fold) - var(--contents-rolled));
+  }
+
+  .sheet-layout[data-layout='workshop']:has(> .sheet-pane-aside[data-contents='open']) > .sheet-pane-main {
+    visibility: hidden;
+  }
+
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-aside[data-contents] {
+    z-index: 1;
+    align-self: start;
+    max-height: none;
+    padding-block: 0;
+    overflow: visible;
+  }
+
+  .sheet-pane-aside[data-contents] .sheet-aside-frame {
+    position: relative;
+  }
+
+  /* The rolls themselves touch the screen's edges, rolled or open: the sheet cuts off the
+     transparent art beyond them, which then neither holds them off the edge nor scrolls. */
+  .sheet-pane-aside[data-contents] .paper-sheet {
+    display: flow-root;
+    overflow: visible clip;
+  }
+
+  .sheet-pane-aside[data-contents] .mr-scroll {
+    margin-block: calc(-1 * var(--contents-art-top)) calc(-1 * var(--contents-art-bottom));
+  }
+
+  .sheet-pane-aside[data-contents]:not([data-contents='open']) .sheet-aside-fold {
+    height: max(0px, var(--contents-fold));
+    overflow: clip;
+  }
+
+  /* Each cap shows its roll plus the paper unrolled so far, within the package's own fade. */
+  .sheet-pane-aside[data-contents]:not([data-contents='open']) .mr-top {
+    mask-image: linear-gradient(to bottom,
+      #000 min(var(--contents-top-roll) + var(--contents-fold) - var(--contents-rolled) - 3px, 100% - var(--mr-overlap)),
+      transparent min(var(--contents-top-roll) + var(--contents-fold) - var(--contents-rolled) + 3px, 100%));
+  }
+
+  .sheet-pane-aside[data-contents]:not([data-contents='open']) .mr-bottom {
+    margin-top: calc(-1 * var(--mr-bottom-overlap, var(--mr-overlap)) - max(0px, -1 * var(--contents-fold)));
+    mask-image: linear-gradient(to top,
+      #000 min(var(--contents-bottom-roll) + var(--contents-fold) - var(--contents-rolled) - 3px, 100% - var(--mr-overlap)),
+      transparent min(var(--contents-bottom-roll) + var(--contents-fold) - var(--contents-rolled) + 3px, 100%));
+  }
+
+  .sheet-pane-aside[data-contents='open'] .sheet-aside-fold {
+    min-height: var(--contents-fill);
+  }
+
+  .sheet-pane-aside[data-contents]:not([data-contents='closed']) .sheet-aside-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 var(--worktable-inline-gap);
+  }
+
+  .sheet-aside-open {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    cursor: pointer;
+    border: 0;
+    background: none;
+  }
+
+  .sheet-aside-open:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+
+  .sheet-pane-aside:not([data-contents='closed']) .sheet-aside-open {
+    display: none;
+  }
+
+  .sheet-aside-unrolled {
+    position: relative;
+  }
+
+  .sheet-aside-close {
+    position: absolute;
+    top: var(--spacing-base);
+    right: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: calc((1.75rem - 2.5rem) / 2);
+    border: 0;
+    border-radius: var(--radius-sm, 0.25rem);
+    background: none;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition: color var(--transition-duration-fast) var(--ease-out-quart);
+  }
+
+  .sheet-aside-close:hover {
+    color: var(--primary-strong);
+  }
+
+  .sheet-aside-close:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
 @media (width >= 64rem) {
   .sheet-layout[data-layout='workshop'] {
     grid-template-columns: calc(15rem + 2 * (42px + var(--spacing-base))) minmax(0, 1fr);
@@ -156,7 +320,7 @@
 @media (width < 48rem) {
   .worktable {
     --worktable-block-gap: var(--spacing-base);
-    padding-inline: var(--spacing-tight);
+    --worktable-inline-gap: var(--spacing-tight);
   }
 
   .paper-sheet {

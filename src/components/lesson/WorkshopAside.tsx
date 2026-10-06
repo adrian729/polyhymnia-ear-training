@@ -13,8 +13,9 @@ const ROMAN = [
 ] as const;
 
 /* A module counts as current once its heading has risen this far into the
-   viewport, so an anchor jump and a slow scroll both settle on the section the
-   reader is actually looking at. */
+   viewport (below anything lying over the pane's top, its scroll padding), so an
+   anchor jump and a slow scroll both settle on the section the reader is
+   actually looking at. */
 const HEADING_BAND = 100;
 
 function useActiveModule(modules: readonly TocModule[]): string | undefined {
@@ -32,7 +33,8 @@ function useActiveModule(modules: readonly TocModule[]): string | undefined {
         return;
       }
       let current = modules[0].id;
-      const headingBand = scroller.getBoundingClientRect().top + HEADING_BAND;
+      const covered = parseFloat(getComputedStyle(scroller).scrollPaddingTop) || 0;
+      const headingBand = scroller.getBoundingClientRect().top + covered + HEADING_BAND;
       for (const module of modules) {
         const heading = document.getElementById(module.id);
         if (heading && heading.getBoundingClientRect().top <= headingBand) current = module.id;
@@ -89,7 +91,8 @@ export function WorkshopAside({ modules }: { modules: readonly TocModule[] }) {
   const active = useActiveModule(modules);
   const list: ReactNode | null =
     modules.length === 0 ? null : <TocList modules={modules} active={active} />;
-  // Contents only: the layout draws the sidebar pane and its sheet (see SheetLayout).
+  // Contents only: the layout draws the sidebar pane and its sheet, and on narrow screens rolls it
+  // up until it is opened (see SheetLayout).
   return (
     <>
       <nav aria-label="Breadcrumb">
@@ -97,14 +100,7 @@ export function WorkshopAside({ modules }: { modules: readonly TocModule[] }) {
       </nav>
 
       {list && (
-        <details className="lg:hidden">
-          <summary className="rubricated font-specimen cursor-pointer text-subhead text-muted-foreground">Contents</summary>
-          <div className="pt-tight">{list}</div>
-        </details>
-      )}
-
-      {list && (
-        <div className="hidden pb-base lg:block">
+        <div className="pb-base">
           <p className="rubricated font-specimen border-b border-border pb-tight text-subhead text-muted-foreground">Contents</p>
           {list}
         </div>

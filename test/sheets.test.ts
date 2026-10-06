@@ -15,7 +15,8 @@ function sources(dir = SRC): string[] {
 
 // A page that drew its own paper would mount a new sheet on every navigation, and the paper would
 // blink out and redraw. Pages describe their sheet with <Sheet>; only the layout draws paper.
-const DRAWS_PAPER = new Set(['components/SheetLayout.tsx', 'components/PaperSheet.tsx']);
+// The layout's panes: the main sheet (SheetLayout) and the contents sidebar's sheet (ContentsScroll).
+const DRAWS_PAPER = new Set(['components/SheetLayout.tsx', 'components/ContentsScroll.tsx', 'components/PaperSheet.tsx']);
 
 it('only the sheet layout draws paper', () => {
   const offenders = sources().map(file => relative(SRC, file)).filter(file =>
