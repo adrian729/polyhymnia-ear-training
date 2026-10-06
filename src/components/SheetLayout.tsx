@@ -1,5 +1,6 @@
 import { createContext, useContext, useLayoutEffect, useMemo, useRef, useState, type ReactNode, type Ref } from 'react';
 import { createPortal } from 'react-dom';
+import { ContentsScroll } from '@/components/ContentsScroll';
 import { PaperSheet, type SheetSize } from '@/components/PaperSheet';
 import { cn } from '@/lib/utils';
 
@@ -26,15 +27,14 @@ const SheetContext = createContext<SheetContextValue | undefined>(undefined);
 
 function Panes({ declaration, aside, children, ref }: { declaration: Declaration; aside: ReactNode; children: ReactNode; ref?: Ref<HTMLElement> }) {
   const workshop = declaration.aside;
+  // While the contents scroll covers a narrow screen, the page behind it is inert.
+  const [covered, setCovered] = useState(false);
   // The main pane keeps its position whether or not the sidebar renders, so its sheet stays mounted.
   return (
     <main ref={ref} className="sheet-layout" data-layout={workshop ? 'workshop' : 'page'}>
-      {workshop && (
-        <aside className="sheet-pane sheet-pane-aside" aria-label="Exercise contents" tabIndex={0} data-scroll-restoration-id="sheet-aside">
-          <PaperSheet variant="aside" size="sidebar">{aside}</PaperSheet>
-        </aside>
-      )}
+      {workshop && <ContentsScroll page={declaration} onOpenChange={setCovered}>{aside}</ContentsScroll>}
       <div
+        inert={workshop && covered}
         className="sheet-pane sheet-pane-main"
         data-workshop-main={workshop ? '' : undefined}
         role={workshop ? 'region' : undefined}

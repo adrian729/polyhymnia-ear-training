@@ -6,6 +6,7 @@ import type { HelpSection, LessonResult, OverviewSection } from '@/exercises/sha
 import { TitleText } from '@/components/Initial';
 import { Ornament } from '@/components/Ornament';
 import { Sheet } from '@/components/SheetLayout';
+import { ExerciseMasthead } from './ExerciseMasthead';
 import { WorkshopAside } from './WorkshopAside';
 import { LessonLinkTile, ModuleCard, OverviewHelpPopover } from './LessonListParts';
 
@@ -32,6 +33,8 @@ export function WorkshopPage({
 }) {
   return (
     <Sheet className="flex flex-col gap-loose py-loose" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
+      {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}
+      <nav aria-label="Breadcrumb" className="lg:hidden"><ExerciseMasthead /></nav>
       <div className="flex flex-col gap-tight">
         <div className="flex flex-wrap items-center justify-between gap-base">
           <div className="flex min-w-0 items-center gap-1">
