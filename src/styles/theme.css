@@ -235,3 +235,17 @@
   --pn-lapis-mensural: var(--color-blue-400);
   --pn-gold-mensural: var(--color-gold-200);
 }
+
+/* The auto-next countdown bar. */
+@theme {
+  --animate-countdown: countdown 1.5s linear forwards;
+
+  @keyframes countdown {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
+    }
+  }
+}
