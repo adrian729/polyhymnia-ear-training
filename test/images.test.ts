@@ -40,6 +40,13 @@ describe('images', () => {
     expect(lossy).toEqual([]);
   });
 
+  // Inline styles get no fallbacks from the CSS build, and unprefixed image-set() needs Chrome 113 or
+  // Safari 17: without the -webkit-image-set() alias, which every browser accepts, the art is not drawn.
+  it('pick their density in inline styles through the -webkit-image-set() alias', () => {
+    const unprefixed = sources(['.ts', '.tsx']).filter(file => /(?<![\w-])image-set\((?!\))/.test(readFileSync(file, 'utf8')));
+    expect(unprefixed.map(name)).toEqual([]);
+  });
+
   it('are never referenced from CSS, which cannot size them', () => {
     const referenced = sources(['.css']).flatMap(file =>
       [...readFileSync(file, 'utf8').matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)]
