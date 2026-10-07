@@ -11,6 +11,7 @@ import { artworkPreload } from './scripts/artwork-preload.ts';
 import { cnTables } from './scripts/cn-tables.ts';
 import { favicon } from './scripts/favicon.ts';
 import { fontFaces } from './scripts/font-faces.ts';
+import { imagetoolsDevCache } from './scripts/imagetools-dev-cache.ts';
 import { MAIN_PAPER, TABLE } from './src/lib/materials.ts';
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url));
@@ -31,6 +32,7 @@ export default defineConfig({
     cnTables(),
     favicon(),
     // Raster sizes are generated from source art at build time; imports without a query pass through untouched.
+    imagetoolsDevCache(),
     imagetools({ include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|tiff|webp|svg)(\?.*)?$/ }),
     // Lesson loaders read their exercise catalogs; split with the component, so catalogs load with
     // the lesson's own chunk instead of at startup.
