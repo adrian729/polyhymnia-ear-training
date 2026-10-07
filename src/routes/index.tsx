@@ -18,8 +18,11 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-// The score sits at the foot of the page: its code, layout and sound load only as it comes near.
-const SaltarelloScore = lazy(() => import('@/components/SaltarelloScore'));
+// The score sits at the foot of the page. Its code and font download once the first screen is shown
+// and the browser is idle; from then on it lays out and renders a viewport before the reader reaches it.
+const loadScore = () => import('@/components/SaltarelloScore');
+const SaltarelloScore = lazy(loadScore);
+const prepareScore = () => loadScore().then(score => score.prepare());
 
 function HomePage() {
   return (
@@ -66,7 +69,7 @@ function HomePage() {
         />
         <Ornament name="running-vine" className="mx-auto h-8 w-64 text-primary-strong" />
         <BarBorder>
-          <NearView>
+          <NearView prepare={prepareScore}>
             <Suspense>
               <SaltarelloScore />
             </Suspense>

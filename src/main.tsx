@@ -5,7 +5,7 @@ import { routeTree } from './routeTree.gen';
 import { preloadSheetArtwork, preloadSidebarArtwork } from '@/components/PaperSheet';
 import { preloadInitials } from '@/lib/fonts';
 import { warmInstrument } from '@/lib/sound';
-import { holdFirstPaint, whenIdle } from '@/lib/first-paint';
+import { afterFirstScreen, firstScreenShown, holdFirstPaint } from '@/lib/first-paint';
 import '@polyhymnia/notation-react/styles.css';
 import './index.css';
 
@@ -45,11 +45,12 @@ const firstScreenArtwork = preloadSheetArtwork();
 
 const rootElement = document.getElementById('root')!;
 
-void Promise.all([firstScreenArtwork, holdFirstPaint(rootElement)]).then(() => whenIdle(() => {
+void Promise.all([firstScreenArtwork, holdFirstPaint(rootElement)]).then(firstScreenShown);
+afterFirstScreen(() => {
   preloadSidebarArtwork();
   preloadInitials();
   warmInstrument();
-}));
+});
 createRoot(rootElement).render(
   <StrictMode>
     <RouterProvider router={router} />
