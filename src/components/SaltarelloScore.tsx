@@ -1,15 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Notation } from '@polyhymnia/notation-react';
+import { DEFAULT_FONTS, DEFAULT_STYLE } from '@polyhymnia/notation-engine';
 import type { NotationHandle, PlaybackView } from '@polyhymnia/notation-react';
 import type { MnxDocument } from '@polyhymnia/mnx';
 import { performance } from '@polyhymnia/mnx-score';
 import saltarello from '@/assets/scores/saltarello.mnx.json';
 import type { Playback } from '@polyhymnia/web-audio/webaudio';
 import { createSound, prepareNotes } from '@/lib/sound';
+import { prefetchFontFiles } from '@/lib/fonts';
 
 const CURSOR_VIEW: PlaybackView = { mode: 'cursor', highlightActive: true };
 const OFF_VIEW: PlaybackView = { mode: 'off' };
 const SCORE = saltarello as MnxDocument;
+
+/** Fetches the font the score draws with (it passes no options: the engine's default style), so its
+ *  notes show the moment it renders instead of blank until the font arrives. */
+export function prepare(): Promise<unknown> {
+  return prefetchFontFiles(DEFAULT_FONTS[DEFAULT_STYLE].name);
+}
 
 /** The home page's playable Saltarello. Loaded on demand: it brings the notation code with it. */
 export default function SaltarelloScore() {
@@ -59,7 +67,7 @@ export default function SaltarelloScore() {
 
   useEffect(() => stop, [stop]);
 
-  // It mounts only as it nears the viewport: load its notes now, before anyone presses play.
+  // It mounts as the reader approaches, before anyone can press play: load its notes now.
   useEffect(() => {
     const timeline = handleRef.current?.getTimeline();
     if (timeline) prepareNotes(performance(timeline).events.map((event) => event.midi));

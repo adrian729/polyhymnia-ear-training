@@ -34,3 +34,20 @@ export function whenIdle(task: () => void): void {
   if (typeof requestIdleCallback === 'function') requestIdleCallback(task, { timeout: 3000 });
   else setTimeout(task, 1500);
 }
+
+let showFirstScreen = () => {};
+const firstScreen = new Promise<void>(resolve => { showFirstScreen = resolve; });
+
+/** Called by src/main.tsx once the first screen is shown and its artwork has arrived. */
+export function firstScreenShown(): void {
+  showFirstScreen();
+}
+
+/**
+ * Runs `task` once the first screen is shown, its artwork has arrived and the browser is idle, so work
+ * for later (another page's paper, an instrument's samples, content below the fold) never competes
+ * with what the reader is waiting for. After that moment, a task runs at the next idle one.
+ */
+export function afterFirstScreen(task: () => void): void {
+  void firstScreen.then(() => whenIdle(task));
+}
