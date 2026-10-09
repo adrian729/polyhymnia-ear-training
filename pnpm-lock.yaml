@@ -182,12 +182,12 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
     devDependencies:
-      '@ranx729/medieval-ornaments-assets-borders-001':
+      '@ranx729/medieval-ornaments-assets-borders-004':
         specifier: 0.1.1
         version: 0.1.1
       '@ranx729/medieval-ornaments-assets-illustrations-001':
-        specifier: 0.1.1
-        version: 0.1.1
+        specifier: 0.2.0
+        version: 0.2.0
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.2(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))
@@ -1949,11 +1949,11 @@ packages:
       react:
         optional: true
 
-  '@ranx729/medieval-ornaments-assets-borders-001@0.1.1':
-    resolution: {integrity: sha512-LDSPGR65S4i7+lb1G+4ZG/uYh7275vyphAmWRVFNKr810oCHJFRbZAF96FJ7UJ1trd/kIjy1fXhIzlyf8955Ug==}
+  '@ranx729/medieval-ornaments-assets-borders-004@0.1.1':
+    resolution: {integrity: sha512-Ldy4FDTWB20OTaBHkmrxefHPX24AhqCWjiNr+hQZwmDgrqDoeMfBhbjYzm45PVs7b0OzCawJ36tUCk5+ZuUC1Q==}
 
-  '@ranx729/medieval-ornaments-assets-illustrations-001@0.1.1':
-    resolution: {integrity: sha512-PzjcEtSj9QMZl8U7hjNR3reY15JkYsOCGqbs1M3sYmd05rd7VvaN8d+1D7D/HqxaM+KB5CY5NOXIZfgT0+onYQ==}
+  '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0':
+    resolution: {integrity: sha512-Y2oFU5qorg1Nc5BCaHT5QwtubGqq6zAG67HnTd0ftfGXjHTtHwX5q2c5i/sJ5kVizipZNxZ3oSwIgk/38Ts1zg==}
 
   '@rolldown/binding-android-arm-eabi@1.2.12':
     resolution: {integrity: sha512-dB/a1214qKfHMXCpgqR4OZT+jS4kTyEXbQGJPqzobt5EwH5rX080pxE37alt3RzvR1bf1Yz/yGqRfrYAxuPw0A==}
@@ -6630,9 +6630,9 @@ snapshots:
     optionalDependencies:
       react: 19.3.0
 
-  '@ranx729/medieval-ornaments-assets-borders-001@0.1.1': {}
+  '@ranx729/medieval-ornaments-assets-borders-004@0.1.1': {}
 
-  '@ranx729/medieval-ornaments-assets-illustrations-001@0.1.1': {}
+  '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0': {}
 
   '@rolldown/binding-android-arm-eabi@1.2.12':
     optional: true
