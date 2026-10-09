@@ -6,12 +6,12 @@ import { cn } from '@/lib/utils';
 // are sized at build time for each border width drawn (1.75rem, 2.5rem from 40rem up) at 1x, 2x and
 // 3x. AVIF keeps the rosettes' fine colour, which WebP's half-resolution colour turns grey, and is
 // smaller than WebP at the same size.
-import narrow1x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=137&quality=60&format=avif';
-import narrow2x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=274&quality=60&format=avif';
-import narrow3x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=410&quality=60&format=avif';
-import wide1x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=195&quality=60&format=avif';
-import wide2x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=391&quality=60&format=avif';
-import wide3x from '@ranx729/medieval-ornaments-assets-borders-001/webp/painted-rosette-and-fan-vine-border.webp?w=586&quality=60&format=avif';
+import narrow1x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=137&quality=60&format=avif';
+import narrow2x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=274&quality=60&format=avif';
+import narrow3x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=410&quality=60&format=avif';
+import wide1x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=195&quality=60&format=avif';
+import wide2x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=391&quality=60&format=avif';
+import wide3x from '@ranx729/medieval-ornaments-assets-borders-004/webp/painted-rosette-and-fan-vine-border.webp?w=586&quality=60&format=avif';
 
 // -webkit-image-set() is image-set()'s legacy alias, which browsers must accept. Unprefixed
 // image-set() needs Chrome 113 or Safari 17, older than the build supports, and an inline style
