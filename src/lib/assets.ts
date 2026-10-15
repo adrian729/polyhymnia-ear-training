@@ -44,7 +44,7 @@ type Thicknesses<T> = readonly [T] | readonly [T, T];
 export interface FrameAsset {
   kind: 'frame';
   /** The atlas slice as a percentage, from the design's catalog metadata. */
-  slicePercent: number;
+  slicePercent: number | readonly [number, number];
   /** For each drawn border width in CSS pixels. */
   copies: Thicknesses<{ thickness: number; images: DensityCopies }>;
 }

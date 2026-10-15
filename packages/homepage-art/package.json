@@ -1,0 +1,10 @@
+{
+  "name": "@ranx729/medieval-ornaments-assets-polyhymnia",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./catalog.json": "./catalog.json",
+    "./webp/*": "./webp/*"
+  }
+}

@@ -42,61 +42,70 @@
 }
 
 /*
- * Manuscript bar border, ported from the ornaments study: a ruled bar down the
- * left margin — a rubric line either side of it — a vine cap at each end of the
- * bar and a sprig at its middle. The bar is drawn as one band (border, ground,
- * border) instead of the study's box-shadow, so no shadow enters the app.
- * Colour is the existing rubric blue and primary ornament red; no new hue.
+ * Illuminated acanthus divider, drawn by <AcanthusRule />: two terminals and a centrepiece, whole
+ * paintings at their own proportions, joined by red-and-gold rules that run under the terminals'
+ * gold caps (the caps carry no painted stub to match). The offsets are where the paintings put
+ * their caps and the centrepiece's sides, as fractions of each image's width; the rule sits 58.4%
+ * down a terminal and 63% down the centrepiece.
  */
-@utility bar-frame {
+@utility acanthus-rule {
+  --acanthus-end: 2.75rem;
+  --acanthus-centre: calc(var(--acanthus-end) * 1.5);
   position: relative;
-  padding: 1.5rem 0 1.5rem 5rem;
-  display: flex;
-  align-items: center;
+  height: calc(var(--acanthus-end) * 0.95);
 
-  & .bar {
+  @media (width >= 40rem) {
+    --acanthus-end: 3.5rem;
+  }
+
+  & > .acanthus-rule-line {
     position: absolute;
-    left: 1.75rem;
-    top: 3.25rem;
-    bottom: 3.25rem;
-    width: 0.95rem;
-    border-left: 0.25rem solid var(--primary-strong);
-    border-right: 0.25rem solid var(--primary-strong);
-    background: var(--rubric);
+    top: 50%;
+    height: calc(var(--acanthus-end) * 0.08);
+    translate: 0 -50%;
+    background: linear-gradient(to bottom,
+      var(--color-acanthus-outline) 0 12%, var(--color-acanthus-gold) 12% 32%, var(--color-acanthus-red) 32% 68%,
+      var(--color-acanthus-gold) 68% 88%, var(--color-acanthus-outline) 88%);
   }
 
-  & .bar-cap,
-  & .bar-sprig {
-    color: var(--primary-strong);
+  & > .acanthus-rule-line:first-child {
+    left: calc(var(--acanthus-end) * 0.735);
+    right: calc(50% + var(--acanthus-centre) * 0.36);
   }
 
-  & .bar-cap {
+  & > .acanthus-rule-line:nth-child(2) {
+    left: calc(50% + var(--acanthus-centre) * 0.36);
+    right: calc(var(--acanthus-end) * 0.705);
+  }
+
+  & > .acanthus-rule-piece {
     position: absolute;
-    left: 0.6rem;
-    width: 3.2rem;
-    height: 2.8rem;
+    top: 50%;
+    z-index: 1;
+    width: var(--acanthus-end);
+    height: auto;
   }
 
-  & .bar-cap-top {
-    top: 0.5rem;
+  & > .acanthus-rule-start {
+    left: 0;
+    translate: 0 -58.4%;
   }
 
-  & .bar-cap-bottom {
-    bottom: 0.5rem;
-    transform: scaleY(-1);
+  & > .acanthus-rule-end {
+    right: 0;
+    translate: 0 -58.4%;
   }
 
-  & .bar-sprig {
-    position: absolute;
-    left: 2.4rem;
-    top: calc(50% - 1.2rem);
-    width: 2.4rem;
-    height: 2.4rem;
+  /* Ends mirrored top to bottom, the cap now 41.6% down. */
+  &.acanthus-rule-flipped > :is(.acanthus-rule-start, .acanthus-rule-end) {
+    scale: 1 -1;
+    translate: 0 -41.6%;
   }
 
-  & .bar-text {
-    flex: 1;
-    min-width: 0;
+  & > .acanthus-rule-centre {
+    left: 50%;
+    width: var(--acanthus-centre);
+    translate: -50% -63%;
   }
 }
 

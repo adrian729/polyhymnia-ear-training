@@ -40,6 +40,9 @@
   },
   "devDependencies": {
     "@ranx729/medieval-ornaments-assets-borders-004": "0.1.2",
+    "@ranx729/medieval-ornaments-assets-decorations-001": "0.1.5",
+    "@ranx729/medieval-ornaments-assets-decorations-009": "0.1.1",
+    "@ranx729/medieval-ornaments-assets-decorations-010": "0.1.2",
     "@ranx729/medieval-ornaments-assets-illustrations-001": "0.2.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/router-plugin": "^1.168.0",
@@ -61,7 +64,8 @@
     "workbox-precaching": "7.4.1",
     "workbox-routing": "7.4.1",
     "workbox-strategies": "7.4.1",
-    "workbox-window": "7.4.1"
+    "workbox-window": "7.4.1",
+    "@ranx729/medieval-ornaments-assets-polyhymnia": "link:packages/homepage-art"
   },
   "license": "MIT",
   "packageManager": "pnpm@12.3.2"

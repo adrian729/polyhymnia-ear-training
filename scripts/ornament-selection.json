@@ -5,16 +5,254 @@
     "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
     "design": "anafiles",
     "role": "image",
-    "widths": [384, 512, 768, 964],
+    "widths": [
+      384,
+      512,
+      768,
+      964
+    ],
     "quality": 82
   },
   {
     "group": "frames",
     "name": "hero-frame",
-    "package": "@ranx729/medieval-ornaments-assets-borders-004",
-    "design": "painted-rosette-and-fan-vine",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-floral-frame",
     "role": "frame",
-    "thicknessesPx": [28, 40],
+    "thicknessesPx": [
+      28,
+      40
+    ],
     "quality": 60
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-corner-top-left",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-001",
+    "design": "illuminated-acanthus-corner",
+    "role": "image",
+    "widths": [
+      96,
+      160,
+      240
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-corner-top-right",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-001",
+    "design": "illuminated-acanthus-corner-top-right",
+    "role": "image",
+    "widths": [
+      96,
+      160,
+      240
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-corner-bottom-left",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-001",
+    "design": "illuminated-acanthus-corner-bottom-left",
+    "role": "image",
+    "widths": [
+      96,
+      160,
+      240
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-corner-bottom-right",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-001",
+    "design": "illuminated-acanthus-corner-bottom-right",
+    "role": "image",
+    "widths": [
+      96,
+      160,
+      240
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-headpiece",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-001",
+    "design": "illuminated-acanthus-headpiece",
+    "role": "image",
+    "widths": [
+      224,
+      320,
+      480,
+      672
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "gold-rod-upper",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-009",
+    "design": "upper-gold-rod-with-red-blue-and-gold-foliate-branch-walters-w171-19v",
+    "role": "image",
+    "widths": [
+      177,
+      354,
+      531
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "gold-rod-lower",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-009",
+    "design": "lower-left-gold-and-pink-rod-with-ivy-flourish-walters-w171-12r",
+    "role": "image",
+    "widths": [
+      158,
+      316,
+      474
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-divider-start",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-divider-start",
+    "role": "image",
+    "widths": [
+      56,
+      112,
+      168
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-divider-centre",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-divider-center",
+    "role": "image",
+    "widths": [
+      84,
+      168,
+      252
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-divider-end",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-divider-end",
+    "role": "image",
+    "widths": [
+      56,
+      112,
+      168
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-section-fleuron",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-section-fleuron",
+    "role": "image",
+    "widths": [
+      160,
+      320,
+      480,
+      576
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-horizontal-flourish",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-horizontal-flourish",
+    "role": "image",
+    "widths": [
+      128,
+      160,
+      256,
+      320,
+      480
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-inner-frame",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-ornate-inner-frame",
+    "role": "image",
+    "widths": [
+      320,
+      640,
+      960,
+      1402
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "frame-growth-top-left",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-inward-growth-top-left",
+    "role": "image",
+    "widths": [
+      112,
+      288,
+      576,
+      864
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "frame-growth-top-right",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-inward-growth-top-right",
+    "role": "image",
+    "widths": [
+      112,
+      288,
+      576,
+      864
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "frame-growth-bottom-left",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-inward-growth-bottom-left",
+    "role": "image",
+    "widths": [
+      112,
+      288,
+      576,
+      864
+    ],
+    "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "frame-growth-bottom-right",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-inward-growth-bottom-right",
+    "role": "image",
+    "widths": [
+      112,
+      288,
+      576,
+      864
+    ],
+    "format": "avif"
   }
 ]

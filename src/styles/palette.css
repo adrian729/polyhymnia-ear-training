@@ -136,4 +136,10 @@
   --color-gold-800: oklch(0.3504 0.0719 90);
   --color-gold-900: oklch(0.2777 0.0572 90);
   --color-gold-950: oklch(0.205 0.0426 90);
+
+  /* The outline, gold and vermilion the illuminated acanthus ornaments are painted in. Fixed in both
+     themes, like the painting; only for rules drawn to join its pieces. */
+  --color-acanthus-outline: oklch(0.4585 0.0738 74.2);
+  --color-acanthus-gold: oklch(0.778 0.0994 82.66);
+  --color-acanthus-red: oklch(0.5201 0.1358 29.77);
 }

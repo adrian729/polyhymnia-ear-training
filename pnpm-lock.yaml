@@ -185,9 +185,21 @@ importers:
       '@ranx729/medieval-ornaments-assets-borders-004':
         specifier: 0.1.2
         version: 0.1.2
+      '@ranx729/medieval-ornaments-assets-decorations-001':
+        specifier: 0.1.5
+        version: 0.1.5
+      '@ranx729/medieval-ornaments-assets-decorations-009':
+        specifier: 0.1.1
+        version: 0.1.1
+      '@ranx729/medieval-ornaments-assets-decorations-010':
+        specifier: 0.1.2
+        version: 0.1.2
       '@ranx729/medieval-ornaments-assets-illustrations-001':
         specifier: 0.2.0
         version: 0.2.0
+      '@ranx729/medieval-ornaments-assets-polyhymnia':
+        specifier: link:packages/homepage-art
+        version: link:packages/homepage-art
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.2(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))
@@ -1951,6 +1963,15 @@ packages:
 
   '@ranx729/medieval-ornaments-assets-borders-004@0.1.2':
     resolution: {integrity: sha512-HpVaNEuuiKf1HcuXhX8pto/4dyCVSwVkF6HZNqm9gX75oVILwKpPC16voGnmEnKzUozmmXd6EUHFm0X8cxov0A==}
+
+  '@ranx729/medieval-ornaments-assets-decorations-001@0.1.5':
+    resolution: {integrity: sha512-p3GL7L9liArjTnp789NMmUWS+4qPXm3p66/pTBLh4anoMzs1YTUAY3BZhkMAp0iPzCBc+becyG4r1ncETMDvtg==}
+
+  '@ranx729/medieval-ornaments-assets-decorations-009@0.1.1':
+    resolution: {integrity: sha512-TZPN28adsY2aoiniN+ckRJLWR3LmPR4F9g77mRkgDTKje9kdDLuj9UDhk+oNotwkQbnWpopryH7yDK79OKuVMg==}
+
+  '@ranx729/medieval-ornaments-assets-decorations-010@0.1.2':
+    resolution: {integrity: sha512-MA0lBeXNfR1eR24NsMBAn4WNendirY256hyEJfMlK1CUL2pgT65I4hiWJ1NtovDfZL+2PDITBsqg/Rz2l9FFSw==}
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0':
     resolution: {integrity: sha512-Y2oFU5qorg1Nc5BCaHT5QwtubGqq6zAG67HnTd0ftfGXjHTtHwX5q2c5i/sJ5kVizipZNxZ3oSwIgk/38Ts1zg==}
@@ -6631,6 +6652,12 @@ snapshots:
       react: 19.3.0
 
   '@ranx729/medieval-ornaments-assets-borders-004@0.1.2': {}
+
+  '@ranx729/medieval-ornaments-assets-decorations-001@0.1.5': {}
+
+  '@ranx729/medieval-ornaments-assets-decorations-009@0.1.1': {}
+
+  '@ranx729/medieval-ornaments-assets-decorations-010@0.1.2': {}
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0': {}
 

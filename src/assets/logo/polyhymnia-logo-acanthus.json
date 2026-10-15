@@ -1,0 +1,23 @@
+{
+  "method": "Built-in image_gen, new original transparent frame using Illuminated acanthus artwork as style references. Original vector portrait composed beneath the frame without redrawing.",
+  "generatedFrame": {
+    "width": 1254,
+    "height": 1254,
+    "storage": "Native PNG bytes embedded in polyhymnia-logo-acanthus.svg; extract the data:image/png;base64 URI to recover the independent frame.",
+    "transparentBackground": true,
+    "sha256": "7076e2426ee3c2a6d9b56869184f4c4cf881161f53c80b30348a84a15caf6276"
+  },
+  "references": [
+    "@ranx729/medieval-ornaments-assets-decorations-001@0.1.5/webp/illuminated-acanthus-headpiece.webp",
+    "@ranx729/medieval-ornaments-assets-decorations-001@0.1.5/webp/illuminated-acanthus-tailpiece.webp",
+    "polyhymnia-logo-framed.svg (structure only, 420px preview)"
+  ],
+  "portrait": {
+    "source": "polyhymnia-logo.svg",
+    "x": 295,
+    "y": 282,
+    "width": 664,
+    "height": 691
+  },
+  "prompt": "Use case: stylized-concept.\nCreate ONE ORIGINAL, newly drawn rounded illuminated-acanthus frame for the Polyhymnia homepage logo. This is a new standalone raster ornament, not a collage or rearrangement of the reference pieces.\n\nReference image 1 (headpiece) and reference image 2 (tailpiece) are STYLE REFERENCES ONLY. Match their worn hand-painted manuscript appearance: medium cobalt/ultramarine blue, muted brick/crimson red, warm ochre gold with small irregular flecks, sparse sage/olive green ivy, fine dark sepia outlines, scratched ivory leaf veins, broad curling scalloped acanthus lobes, restrained gold tendrils. Matte brushed pigments and rubbed gold, not glossy embossed metal.\nReference image 3 (the old framed Polyhymnia logo) is STRUCTURE/PROPORTIONS ONLY: use its compact rounded frame and open portrait space as a guide, but DO NOT include or redraw the portrait, lyre, teal disk, or old red decoration.\n\nComposition: a complete rounded medallion frame centered on a square canvas. A delicate continuous nearly circular, very slightly upright oval inner rim of red and gold. Keep a completely empty transparent oval opening centered at x=50%, y=50%, approximately 58% canvas width and 61% canvas height, for the existing portrait to be overlaid in code. A graceful thin circular botanical frame outside this rim, richest at the four cardinal points, with gently linking curved gold stems and modest leafy curls between them. Leave clear transparent space around the outermost tips, fitting the entire frame within about 92% of the canvas. Strong clean silhouette and broad leaf shapes that read at only 160–192 px total.\n\nCrucial user preference: balanced but NOT perfectly symmetrical. The upper and lower flourishes must feel related in size and weight but be independently drawn, with different curls, leaf silhouettes and red/blue arrangements. Likewise left and right should balance each other but have visibly different leaves and stems. No mirroring, no repeated rotated motif, no identical opposing ornaments. Natural hand-drawn variation, restrained and harmonious. Draw new acanthus foliage belonging to this family; do not copy/paste any existing reference ornament.\n\nOutput: only ONE complete frame. Actual transparent alpha outside the ornament AND throughout the entire central opening and every gap. No background, paper, checkerboard pixels, filled center, portrait, letters, text, logo, watermark, cast shadow, gemstones or extra objects. Preserve every outer tip."
+}

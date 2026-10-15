@@ -23,6 +23,7 @@ const ROLES = ['mask', 'image', 'frame', 'divider'] as const;
 type Role = typeof ROLES[number];
 
 const DEFAULT_QUALITY: Record<Role, number> = { mask: 82, image: 82, frame: 60, divider: 82 };
+const AVIF_QUALITY = 60;
 
 interface SelectionEntry {
   group: string;
@@ -32,6 +33,8 @@ interface SelectionEntry {
   role: Role;
   /** image: the widths the srcset offers. */
   widths?: number[];
+  /** image: `avif` for fine-coloured painted art, which WebP's half-resolution colour greys. */
+  format?: 'webp' | 'avif';
   /** Lossy encode quality. */
   quality?: number;
   /** frame/divider: the drawn border or strip width in CSS pixels; one, or a narrow one and the wider
@@ -108,8 +111,9 @@ function emitImage(entry: SelectionEntry, design: CatalogDesign, use: Use, q: nu
   if (widths.length < 2) fail(entry, 'an image needs at least two widths.');
   const over = widths.filter(width => width > design.width);
   if (over.length > 0) fail(entry, `widths ${over.join(', ')} exceed the ${design.width}px master; it would be upscaled.`);
-  const src = use(design.webp, `w=${widths.at(-1)}&quality=${q}&format=webp`);
-  const srcSet = use(design.webp, `w=${widths.join(';')}&quality=${q}&format=webp&as=srcset`);
+  const encode = entry.format === 'avif' ? `quality=${entry.quality ?? AVIF_QUALITY}&format=avif` : `quality=${q}&format=webp`;
+  const src = use(design.webp, `w=${widths.at(-1)}&${encode}`);
+  const srcSet = use(design.webp, `w=${widths.join(';')}&${encode}&as=srcset`);
   return `src: ${src}, srcSet: ${srcSet}, width: ${design.width}, height: ${design.height}`;
 }
 
@@ -122,7 +126,10 @@ function emitFrame(entry: SelectionEntry, design: CatalogDesign, use: Use, q: nu
   // the thickness-to-slice ratio.
   const copies = thicknesses(entry).map(thickness =>
     `{ thickness: ${thickness}, images: ${densities(use, border.webp!, 'w', (thickness * border.width) / slicePx, border.width, `quality=${q}&format=avif`)} }`);
-  return `slicePercent: ${slicePercent}, copies: [${copies.join(', ')}]`;
+  // Percentages are relative to each axis. A rectangular painting needs a different vertical
+  // percentage to keep its original square corners and equal border thickness.
+  const slices = border.width === border.height ? `${slicePercent}` : `[${slicePx / border.height * 100}, ${slicePercent}]`;
+  return `slicePercent: ${slices}, copies: [${copies.join(', ')}]`;
 }
 
 function emitDivider(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {
@@ -177,6 +184,7 @@ function checkEntry(entry: SelectionEntry, design: CatalogDesign | undefined, se
   if (seen.has(key)) fail(entry, 'declared twice.');
   seen.add(key);
   if (!ROLES.includes(entry.role)) fail(entry, `role "${entry.role}" is not one of ${ROLES.join(', ')}.`);
+  if (entry.format !== undefined && (entry.role !== 'image' || !['webp', 'avif'].includes(entry.format))) fail(entry, 'format is webp or avif, and only for images.');
   if (!design) fail(entry, `"${entry.design}" is not in ${entry.package}.`);
   // Any transparent design can be a mask; the other roles are the ones the catalog lists it for.
   if (entry.role !== 'mask' && design.uses && !design.uses.includes(entry.role)) {

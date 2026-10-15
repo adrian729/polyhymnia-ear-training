@@ -16,7 +16,7 @@ export function BorderFrame({ asset, children, className }: { asset: FrameAsset;
     '--border-frame-wide': imageSet(wide.images),
     '--border-frame-thickness': `${narrow.thickness}px`,
     '--border-frame-thickness-wide': `${wide.thickness}px`,
-    '--border-frame-slice': `${asset.slicePercent}%`,
+    '--border-frame-slice': (typeof asset.slicePercent === 'number' ? [asset.slicePercent] : asset.slicePercent).map(slice => `${slice}%`).join(' '),
   } as CSSProperties;
   return (
     <div

@@ -1,0 +1,176 @@
+[
+  {
+    "name": "illuminated-acanthus-floral-frame",
+    "description": "Original gold floral and illuminated acanthus frame with four individually drawn corners.",
+    "width": 1367,
+    "height": 1000,
+    "webp": "webp/illuminated-acanthus-floral-frame.webp",
+    "uses": [
+      "frame"
+    ],
+    "border_image_slice_percent": 10.680321872713973,
+    "components": {
+      "border_image": {
+        "webp": "webp/illuminated-acanthus-floral-frame.webp",
+        "width": 1367,
+        "height": 1000,
+        "slice_pixels": 146
+      }
+    },
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-floral-frame.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-floral-frame.json",
+      "crop": {
+        "left": 22,
+        "top": 57,
+        "width": 1367,
+        "height": 1000
+      },
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-ornate-inner-frame",
+    "description": "Four original ornate acanthus corners joined by fine red-and-gold rules.",
+    "width": 1402,
+    "height": 1122,
+    "webp": "webp/illuminated-acanthus-ornate-inner-frame.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-ornate-inner-frame.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-ornate-inner-frame.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-frame-growth-top-left",
+    "description": "Original top-left acanthus growth rooted in the floral frame's inner edge.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-frame-growth-top-left.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-frame-growth-top-left.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-frame-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-frame-growth-top-right",
+    "description": "Original top-right acanthus growth rooted in the floral frame's inner edge.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-frame-growth-top-right.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-frame-growth-top-right.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-frame-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-frame-growth-bottom-left",
+    "description": "Original bottom-left acanthus growth rooted in the floral frame's inner edge.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-frame-growth-bottom-left.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-frame-growth-bottom-left.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-frame-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-frame-growth-bottom-right",
+    "description": "Original bottom-right acanthus growth rooted in the floral frame's inner edge.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-frame-growth-bottom-right.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-frame-growth-bottom-right.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-frame-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-inward-growth-top-left",
+    "description": "Frame-rooted top-left acanthus with open branches reaching into the interior.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-inward-growth-top-left.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-inward-growth-top-left.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-inward-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-inward-growth-top-right",
+    "description": "Frame-rooted top-right acanthus with open branches reaching into the interior.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-inward-growth-top-right.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-inward-growth-top-right.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-inward-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-inward-growth-bottom-left",
+    "description": "Frame-rooted bottom-left acanthus with open branches reaching into the interior.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-inward-growth-bottom-left.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-inward-growth-bottom-left.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-inward-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-inward-growth-bottom-right",
+    "description": "Frame-rooted bottom-right acanthus with open branches reaching into the interior.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-inward-growth-bottom-right.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-inward-growth-bottom-right.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-inward-growth.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  }
+]
