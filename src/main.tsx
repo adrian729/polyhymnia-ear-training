@@ -46,10 +46,15 @@ const firstScreenArtwork = preloadSheetArtwork();
 const rootElement = document.getElementById('root')!;
 
 void Promise.all([firstScreenArtwork, holdFirstPaint(rootElement)]).then(firstScreenShown);
+// The home score sits just below the fold and is the nearest deferred content, so it loads first
+// (SheetLayout's NearView). These speculative prefetches — another page's paper, every initial
+// letter, instrument samples — wait a moment so they do not starve its code and font on a slow link.
 afterFirstScreen(() => {
-  preloadSidebarArtwork();
-  preloadInitials();
-  warmInstrument();
+  setTimeout(() => {
+    preloadSidebarArtwork();
+    preloadInitials();
+    warmInstrument();
+  }, 2500);
 });
 createRoot(rootElement).render(
   <StrictMode>

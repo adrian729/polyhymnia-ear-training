@@ -29,8 +29,10 @@ export function NearView({ children, placeholder, className, prepare }: {
         if (entries.some((entry) => entry.isIntersecting)) setNear(true);
       },
       // The wider margin only once prepared: at first it would take in content just below the fold of
-      // a tall screen and render it alongside the first screen.
-      { rootMargin: prepared ? '100% 0px' : '300px' },
+      // a tall screen and render it alongside the first screen. Two viewports, not one: the home score
+      // sits just past a single viewport below the fold, and with a one-viewport margin it never
+      // rendered until the reader scrolled to it, though its code and font were already cached.
+      { rootMargin: prepared ? '200% 0px' : '300px' },
     );
     observer.observe(el);
     return () => observer.disconnect();
