@@ -3,8 +3,13 @@ import { CircleCheck, CircleHelp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { Ornament, OrnamentRule } from '@/components/Ornament';
+import { imageAsset } from '@/lib/assets';
+import { AcanthusRule } from '@/components/Acanthus';
+import { OrnamentImage } from '@/components/OrnamentImage';
+import decorations from '@/generated/assets/decorations';
 import type { HelpSection, LessonResult, OverviewSection } from '@/exercises/shared';
+
+const HEADPIECE = imageAsset(decorations, 'acanthus-headpiece');
 
 export function OverviewHelpPopover({
   ariaLabel,
@@ -85,12 +90,11 @@ export function ModuleCard({
   return (
     <section id={id} className="flex scroll-mt-base flex-col gap-base">
       {lead ? (
-        <Ornament name="headpiece" className="mx-auto h-14 w-44 text-primary-strong" />
+        <OrnamentImage asset={HEADPIECE} sizes="11rem" placement="above-fold" className="mx-auto h-auto w-44" />
       ) : (
-        <OrnamentRule name="gothic-leaf" />
+        <AcanthusRule placement="below-fold" />
       )}
       <div className="flex items-center gap-1">
-        <Ornament name="fleur-de-lis" className="mr-1.5 size-5 text-primary-strong" />
         <h2 className="rubricated font-display text-subhead text-primary-strong">{title}</h2>
         <ModuleHelpPopover ariaLabel={`About ${title}`} help={help} />
       </div>

@@ -197,6 +197,9 @@ importers:
       '@ranx729/medieval-ornaments-assets-illustrations-001':
         specifier: 0.2.0
         version: 0.2.0
+      '@ranx729/medieval-ornaments-assets-illustrations-002':
+        specifier: 0.1.2
+        version: 0.1.2
       '@ranx729/medieval-ornaments-assets-polyhymnia':
         specifier: link:packages/homepage-art
         version: link:packages/homepage-art
@@ -1975,6 +1978,9 @@ packages:
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0':
     resolution: {integrity: sha512-Y2oFU5qorg1Nc5BCaHT5QwtubGqq6zAG67HnTd0ftfGXjHTtHwX5q2c5i/sJ5kVizipZNxZ3oSwIgk/38Ts1zg==}
+
+  '@ranx729/medieval-ornaments-assets-illustrations-002@0.1.2':
+    resolution: {integrity: sha512-gropFgFQ4xGRgQQXRugzIXXVlNINQ64GKQfSDXDMMeMV3BonP7QeztcnTRV0ifCJ/1HGv6gHEDVJQ0GKwso3EQ==}
 
   '@rolldown/binding-android-arm-eabi@1.2.12':
     resolution: {integrity: sha512-dB/a1214qKfHMXCpgqR4OZT+jS4kTyEXbQGJPqzobt5EwH5rX080pxE37alt3RzvR1bf1Yz/yGqRfrYAxuPw0A==}
@@ -6660,6 +6666,8 @@ snapshots:
   '@ranx729/medieval-ornaments-assets-decorations-010@0.1.2': {}
 
   '@ranx729/medieval-ornaments-assets-illustrations-001@0.2.0': {}
+
+  '@ranx729/medieval-ornaments-assets-illustrations-002@0.1.2': {}
 
   '@rolldown/binding-android-arm-eabi@1.2.12':
     optional: true

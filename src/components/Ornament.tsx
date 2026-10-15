@@ -1,22 +1,12 @@
-import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 // Each ornament is generated at build time as a ladder of heights (32, 64, 128 and 256 px, plus
 // the source), and an Ornament draws the smallest one that covers its drawn size on this screen.
 // Sizes follow the layout, so a new placement needs no size bookkeeping. Generated masks
 // (scripts/ornament-selection.json, role `mask`) draw the same way: <Ornament asset={maskAsset(...)} />.
-import fleurDeLis from '@/assets/ornaments/vectorian-006.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import barSprig from '@/assets/ornaments/vectorian-010.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import flourishEnd from '@/assets/ornaments/vectorian-011.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import flourishStart from '@/assets/ornaments/vectorian-014.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import barCap from '@/assets/ornaments/vectorian-019.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import gothicLeaf from '@/assets/ornaments/vectorian-020.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import crossFleury from '@/assets/ornaments/vectorian-022.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import headpiece from '@/assets/ornaments/vectorian-058.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import leafCornerTl from '@/assets/ornaments/vectorian-063-tl.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import leafCornerTr from '@/assets/ornaments/vectorian-063-tr.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import leafCornerBl from '@/assets/ornaments/vectorian-063-bl.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import leafCornerBr from '@/assets/ornaments/vectorian-063-br.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import tailpiece from '@/assets/ornaments/vectorian-066.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
-import runningVine from '@/assets/ornaments/vectorian-070.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import type { MaskAsset } from '@/lib/assets';
 import { cn } from '@/lib/utils';
 
@@ -25,20 +15,10 @@ type Ladder = readonly { src: string; width: number; height: number }[];
 const ladder = (images: Ladder | Ladder[number]): Ladder => [...(Array.isArray(images) ? images : [images])].sort((a, b) => a.height - b.height);
 
 const ORNAMENTS = {
-  'fleur-de-lis': ladder(fleurDeLis),
-  'gothic-leaf': ladder(gothicLeaf),
-  'cross-fleury': ladder(crossFleury),
-  'flourish-start': ladder(flourishStart),
-  'flourish-end': ladder(flourishEnd),
-  'running-vine': ladder(runningVine),
-  'bar-cap': ladder(barCap),
-  'bar-sprig': ladder(barSprig),
   'leaf-tl': ladder(leafCornerTl),
   'leaf-tr': ladder(leafCornerTr),
   'leaf-bl': ladder(leafCornerBl),
   'leaf-br': ladder(leafCornerBr),
-  headpiece: ladder(headpiece),
-  tailpiece: ladder(tailpiece),
 } as const;
 
 export type OrnamentName = keyof typeof ORNAMENTS;
@@ -102,37 +82,5 @@ export function OrnamentCorners() {
       <Ornament name="leaf-bl" className="ornament-corner ornament-corner-bl" />
       <Ornament name="leaf-br" className="ornament-corner ornament-corner-br" />
     </>
-  );
-}
-
-export function OrnamentRule({ name, className }: { name: OrnamentName; className?: string }) {
-  return (
-    <div aria-hidden="true" className={cn('flex items-center gap-base text-primary-strong', className)}>
-      <span className="h-px flex-1 bg-current opacity-80" />
-      <Ornament name={name} className="size-7" />
-      <span className="h-px flex-1 bg-current opacity-80" />
-    </div>
-  );
-}
-
-export function FlourishRule({ className }: { className?: string }) {
-  return (
-    <div aria-hidden="true" className={cn('flex h-6 items-center text-primary-strong', className)}>
-      <Ornament name="flourish-start" className="h-full w-11" />
-      <span className="h-px flex-1 bg-current" />
-      <Ornament name="flourish-end" className="h-full w-11" />
-    </div>
-  );
-}
-
-export function BarBorder({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={cn('bar-frame', className)}>
-      <span aria-hidden="true" className="bar" />
-      <Ornament name="bar-cap" className="bar-cap bar-cap-top" />
-      <Ornament name="bar-sprig" className="bar-sprig" />
-      <Ornament name="bar-cap" className="bar-cap bar-cap-bottom" />
-      <div className="bar-text">{children}</div>
-    </div>
   );
 }

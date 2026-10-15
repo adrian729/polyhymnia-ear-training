@@ -24,6 +24,17 @@
     @apply bg-background text-foreground;
     font-variant-ligatures: common-ligatures;
     text-rendering: optimizeLegibility;
+    /* Justified, as manuscripts set their text, from the `sm` breakpoint up; a phone's line is too
+       short to justify without wide gaps. Hyphenation keeps the columns even. Single lines and last
+       lines stay at the start, and `text-center` overrides it where wanted. */
+    hyphens: auto;
+
+    @media (width >= 40rem) {
+      text-align: justify;
+    }
+  }
+  h1, h2, h3, h4, h5, h6 {
+    hyphens: manual;
   }
   html {
     @apply font-sans antialiased;

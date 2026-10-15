@@ -12,8 +12,7 @@ import { BorderFrame } from '@/components/BorderFrame';
 import { OrnamentImage } from '@/components/OrnamentImage';
 import { NearView } from '@/components/NearView';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
-// Generated from scripts/ornament-selection.json; see scripts/asset-manifest.ts. The Cantigas
-// de Santa María miniature is sized from its lossless master at build time.
+// Generated from scripts/ornament-selection.json; see scripts/asset-manifest.ts.
 import illustrations from '@/generated/assets/illustrations';
 import frames from '@/generated/assets/frames';
 import decorations from '@/generated/assets/decorations';
@@ -22,7 +21,7 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-const ANAFILES = imageAsset(illustrations, 'anafiles');
+const POLYHYMNIA = imageAsset(illustrations, 'polyhymnia');
 const HERO_FRAME = frameAsset(frames, 'hero-frame');
 const HERO_CORNERS = [
   { asset: imageAsset(decorations, 'frame-growth-top-left'), position: '-top-2 -left-2 sm:-top-4 sm:-left-4' },
@@ -73,19 +72,19 @@ function HomePage() {
           Exercises
         </h2>
         <AcanthusRule placement="below-fold" />
-        <ExerciseIndexList entries={EXERCISE_GROUPS} />
+        <ExerciseIndexList entries={EXERCISE_GROUPS} flourishes />
         <AcanthusRule placement="below-fold" flipEnds />
       </section>
 
       <footer className="-mt-base flex flex-col gap-loose">
         <OrnamentImage
-          asset={ANAFILES}
-          sizes="(min-width: 30rem) 24rem, 100vw"
-          alt="Two heralds blowing long trumpets, from the Cantigas de Santa María"
+          asset={POLYHYMNIA}
+          sizes="(min-width: 40rem) 16rem, 14rem"
+          alt="Polyhymnia playing a portative organ in a flowered border"
           placement="below-fold"
           // At the foot of the page: a reader who scrolls down finds it already cached.
           warm
-          className="mx-auto h-auto w-full max-w-sm"
+          className="mx-auto h-auto w-56 sm:w-64"
         />
         <div className="relative flex min-h-88 flex-col justify-center py-12">
           <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 flex flex-col items-start justify-between">

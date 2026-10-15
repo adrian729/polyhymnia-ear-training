@@ -2,35 +2,45 @@ import { useMemo, type ReactNode } from 'react';
 import { EXERCISE_GROUPS, type ExerciseGroupId } from '@/exercises/groups';
 import { ExerciseIndexList } from './ExerciseIndexList';
 import { TitleText } from './Initial';
-import { FlourishRule, Ornament } from './Ornament';
+import { AcanthusFleuron, AcanthusRule } from './Acanthus';
 import { Sheet } from './SheetLayout';
 import { ExerciseMasthead } from './lesson/ExerciseMasthead';
 import { WorkshopAside } from './lesson/WorkshopAside';
 
-export function ExerciseGroupPage({ groupId, settings }: { groupId: ExerciseGroupId; settings?: ReactNode }) {
+/** `illustration` sits beside the title and description; `closing` after the exercises, above the fleuron. */
+export function ExerciseGroupPage({ groupId, settings, illustration, closing }: {
+  groupId: ExerciseGroupId;
+  settings?: ReactNode;
+  illustration?: ReactNode;
+  closing?: ReactNode;
+}) {
   const group = EXERCISE_GROUPS.find(group => group.id === groupId)!;
   const exercises = useMemo(() => group.exercises.map(exercise => ({
     ...exercise,
     id: exercise.to.slice('/exercises/'.length),
   })), [group]);
   return (
-    <Sheet className="flex flex-col gap-loose py-loose" aside={<WorkshopAside modules={exercises} />} label={`${group.title} exercises`}>
+    <Sheet className="flex flex-col gap-loose pt-loose" aside={<WorkshopAside modules={exercises} />} label={`${group.title} exercises`}>
       {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}
       <nav aria-label="Breadcrumb" className="lg:hidden"><ExerciseMasthead /></nav>
-      <header className="flex flex-col gap-tight">
-        <h1 aria-label={group.title} className="exercise-group-title font-display text-title">
-          <TitleText title={group.title} />
-        </h1>
-        <p className="max-w-[64ch] text-body text-muted-foreground">{group.description}</p>
-      </header>
+      <div className="flex items-start gap-base">
+        <header className="flex min-w-0 flex-1 flex-col gap-tight">
+          <h1 aria-label={group.title} className="exercise-group-title font-display text-title">
+            <TitleText title={group.title} />
+          </h1>
+          <p className="max-w-[64ch] text-body text-muted-foreground">{group.description}</p>
+        </header>
+        {illustration}
+      </div>
       {settings}
       <section aria-labelledby="exercises" className="flex flex-col gap-base">
-        <h2 id="exercises" className="rubricated font-specimen text-subhead text-muted-foreground">Exercises</h2>
-        <FlourishRule />
+        <h2 id="exercises" className="text-center font-display text-subhead text-primary-strong">Exercises</h2>
+        <AcanthusRule placement="above-fold" />
         <ExerciseIndexList entries={exercises} />
-        <FlourishRule />
+        <AcanthusRule placement="below-fold" flipEnds />
       </section>
-      <Ornament name="tailpiece" className="mx-auto size-14 text-primary-strong" />
+      {closing}
+      <AcanthusFleuron className="-mt-4" />
     </Sheet>
   );
 }

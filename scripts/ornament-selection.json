@@ -254,5 +254,79 @@
       864
     ],
     "format": "avif"
+  },
+  {
+    "group": "illustrations",
+    "name": "polyhymnia",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-002",
+    "design": "polyhymnia",
+    "role": "image",
+    "widths": [224, 256, 448, 512, 672, 768],
+    "format": "avif"
+  },
+  {
+    "group": "illustrations",
+    "name": "bunny-trumpet",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "bunny-trumpet",
+    "role": "image",
+    "widths": [112, 144, 224, 288, 336, 432]
+  },
+  {
+    "group": "illustrations",
+    "name": "donkey-organist",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "donkey-organist",
+    "role": "image",
+    "widths": [96, 112, 192, 224, 288, 336]
+  },
+  {
+    "group": "illustrations",
+    "name": "animal-musicians-ensemble",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "animal-musicians-ensemble",
+    "role": "image",
+    "widths": [384, 512, 720]
+  },
+  {
+    "group": "illustrations",
+    "name": "horse-pipe-and-tabor",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-002",
+    "design": "walters-horse-flute-drum",
+    "role": "image",
+    "widths": [64, 80, 128, 160, 192, 236]
+  },
+  {
+    "group": "illustrations",
+    "name": "musicians-and-dancers",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "musicians-and-dancers",
+    "role": "image",
+    "widths": [384, 512, 768, 1024, 1536]
+  },
+  {
+    "group": "illustrations",
+    "name": "cat-reading",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "cat-reading-book",
+    "role": "image",
+    "widths": [96, 112, 192, 224, 288, 336]
+  },
+  {
+    "group": "illustrations",
+    "name": "animal-choir",
+    "package": "@ranx729/medieval-ornaments-assets-illustrations-001",
+    "design": "animal-choir-landscape",
+    "role": "image",
+    "widths": [384, 512, 768, 1024, 1536]
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-rosette",
+    "package": "@ranx729/medieval-ornaments-assets-decorations-010",
+    "design": "illuminated-acanthus-rosette",
+    "role": "image",
+    "widths": [36, 40, 72, 80, 108, 120],
+    "format": "avif"
   }
 ]

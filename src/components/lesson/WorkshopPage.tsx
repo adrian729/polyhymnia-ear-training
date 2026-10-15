@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { InstrumentSelect } from '@/components/custom/InstrumentSelect';
 import type { HelpSection, LessonResult, OverviewSection } from '@/exercises/shared';
 import { TitleText } from '@/components/Initial';
-import { Ornament } from '@/components/Ornament';
+import { AcanthusFleuron } from '@/components/Acanthus';
 import { Sheet } from '@/components/SheetLayout';
 import { ExerciseMasthead } from './ExerciseMasthead';
 import { WorkshopAside } from './WorkshopAside';
@@ -32,7 +32,7 @@ export function WorkshopPage({
   soundControls?: ReactNode;
 }) {
   return (
-    <Sheet className="flex flex-col gap-loose py-loose" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
+    <Sheet className="flex flex-col gap-loose pt-loose" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
       {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}
       <nav aria-label="Breadcrumb" className="lg:hidden"><ExerciseMasthead /></nav>
       <div className="flex flex-col gap-tight">
@@ -63,7 +63,7 @@ export function WorkshopPage({
             ))}
           </ModuleCard>
         ))}
-        <Ornament name="tailpiece" className="mx-auto mt-loose size-14 text-primary-strong" />
+        <AcanthusFleuron />
       </div>
     </Sheet>
   );
