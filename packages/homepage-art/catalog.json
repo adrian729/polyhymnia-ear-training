@@ -172,5 +172,101 @@
       "audit": "../../output/imagegen/illuminated-acanthus-inward-growth.json",
       "encoding": "lossless WebP; no resampling"
     }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-upper",
+    "description": "Original upper gold margin stem with floral acanthus terminal for Saltarello.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-upper.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-upper.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-lower",
+    "description": "Original lower gold margin stem with floral acanthus terminal for Saltarello.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-lower.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-lower.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-upper-finished",
+    "description": "Independent upper Saltarello margin ornament with a small finished finial.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-upper-finished.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-upper-finished.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello-finished.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-lower-finished",
+    "description": "Independent lower Saltarello margin ornament with a small finished finial.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-lower-finished.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-lower-finished.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello-finished.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-upper-simple",
+    "description": "Lightly simplified upper Saltarello ornament, matching the medieval-ornaments acanthus palette.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-upper-simple.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-upper-simple.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello-simple.json",
+      "encoding": "lossless WebP; no resampling"
+    }
+  },
+  {
+    "name": "illuminated-acanthus-saltarello-lower-simple",
+    "description": "Lightly simplified lower Saltarello ornament, matching the medieval-ornaments acanthus palette.",
+    "width": 1254,
+    "height": 1254,
+    "webp": "webp/illuminated-acanthus-saltarello-lower-simple.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "image": "../../output/imagegen/illuminated-acanthus-saltarello-lower-simple.png",
+      "audit": "../../output/imagegen/illuminated-acanthus-saltarello-simple.json",
+      "encoding": "lossless WebP; no resampling"
+    }
   }
 ]

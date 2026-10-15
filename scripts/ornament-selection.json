@@ -94,26 +94,26 @@
   {
     "group": "decorations",
     "name": "gold-rod-upper",
-    "package": "@ranx729/medieval-ornaments-assets-decorations-009",
-    "design": "upper-gold-rod-with-red-blue-and-gold-foliate-branch-walters-w171-19v",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-saltarello-upper-simple",
     "role": "image",
     "widths": [
-      177,
-      354,
-      531
+      176,
+      352,
+      528
     ],
     "format": "avif"
   },
   {
     "group": "decorations",
     "name": "gold-rod-lower",
-    "package": "@ranx729/medieval-ornaments-assets-decorations-009",
-    "design": "lower-left-gold-and-pink-rod-with-ivy-flourish-walters-w171-12r",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-saltarello-lower-simple",
     "role": "image",
     "widths": [
-      158,
-      316,
-      474
+      176,
+      352,
+      528
     ],
     "format": "avif"
   },

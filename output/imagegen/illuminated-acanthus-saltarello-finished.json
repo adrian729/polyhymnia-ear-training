@@ -1,0 +1,18 @@
+{
+  "mode": "built-in image_gen",
+  "intent": "edit",
+  "assets": [
+    {
+      "part": "upper",
+      "image": "illuminated-acanthus-saltarello-upper-finished.png",
+      "source": "illuminated-acanthus-saltarello-upper.png",
+      "prompt": "Use case: precise-object-edit.\nEdit the supplied transparent manuscript ornament. The user likes ALL of the existing artwork and wants only the cut-off free end of the straight gold rod to have a small, finished decorative terminal.\nKeep the entire original painting exactly as it is: all large acanthus foliage, flowers, long horizontal branch, vertical rod position and width, palette, texture, square canvas, transparency, and all existing ornamental details. Do not resize or move the ornament. No background or shadow.\nModify ONLY the specified small end region. Create a SMALL graceful finial, about 9–11% of the canvas width, around the stem's existing x=20% alignment, matching the exact gold/red/blue hand-painted style. A tiny curled gold tendril with a little coloured leaf or flower, like a manuscript rod ending. Keep it compact: this is a small finishing accent, not another large bouquet. The rod must terminate naturally into this flourish; nothing extends to or gets clipped by the canvas edge.\nThis is the UPPER ornament. Its free end is the BOTTOM of the vertical gold rod. Modify only the lowest 12% of the image, within the leftmost 32%. Shorten the plain rod just enough to end in a little gold curled leaf and red bud centred around (20%,94%). Keep at least 2% fully transparent margin below the finial. The upper and side foliage remain untouched. No rod, bar or line continues below this small terminal."
+    },
+    {
+      "part": "lower",
+      "image": "illuminated-acanthus-saltarello-lower-finished.png",
+      "source": "illuminated-acanthus-saltarello-lower.png",
+      "prompt": "Use case: precise-object-edit.\nEdit the supplied transparent manuscript ornament. The user likes ALL of the existing artwork and wants only the cut-off free end of the straight gold rod to have a small, finished decorative terminal.\nKeep the entire original painting exactly as it is: all large acanthus foliage, flowers, long horizontal branch, vertical rod position and width, palette, texture, square canvas, transparency, and all existing ornamental details. Do not resize or move the ornament. No background or shadow.\nModify ONLY the specified small end region. Create a SMALL graceful finial, about 9–11% of the canvas width, around the stem's existing x=20% alignment, matching the exact gold/red/blue hand-painted style. A tiny curled gold tendril with a little coloured leaf or flower, like a manuscript rod ending. Keep it compact: this is a small finishing accent, not another large bouquet. The rod must terminate naturally into this flourish; nothing extends to or gets clipped by the canvas edge.\nThis is the LOWER ornament. Its free end is the TOP of the vertical gold rod. Modify only the uppermost 12% of the image, within the leftmost 32%. Start the rod in a little gold curled tendril and blue bud centred around (20%,6%), then connect to the existing rod below. Keep at least 2% fully transparent margin above the finial. The lower and side foliage remain untouched. No rod, bar or line continues above this small terminal."
+    }
+  ]
+}

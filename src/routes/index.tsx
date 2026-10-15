@@ -31,10 +31,7 @@ const HERO_CORNERS = [
   { asset: imageAsset(decorations, 'frame-growth-bottom-right'), position: '-right-2 -bottom-2 sm:-right-4 sm:-bottom-4' },
 ];
 const HERO_HEADPIECE = imageAsset(decorations, 'acanthus-headpiece');
-// Gilt margin rods from Walters W.171 run down the score's left margin: the upper piece (fol. 19v)
-// branches across its top, the lower (fol. 12r) across its foot. The block is tall enough for the two
-// rods to meet when the score is short. Their masters are drawn at different scales, so
-// each is sized to draw its rod 10 px thick and in the same column (about 33 px in).
+// Two independent acanthus margin ornaments, with small finials facing the gap between them.
 const SCORE_ROD_UPPER = imageAsset(decorations, 'gold-rod-upper');
 const SCORE_ROD_LOWER = imageAsset(decorations, 'gold-rod-lower');
 
@@ -90,17 +87,19 @@ function HomePage() {
           warm
           className="mx-auto h-auto w-full max-w-sm"
         />
-        <div className="relative flex min-h-84 flex-col justify-center py-12 pl-16">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex flex-col items-start justify-between">
-            <OrnamentImage asset={SCORE_ROD_UPPER} sizes="11.0625rem" placement="below-fold" className="h-auto w-[11.0625rem] shrink-0" />
-            <OrnamentImage asset={SCORE_ROD_LOWER} sizes="9.875rem" placement="below-fold" className="ml-[0.9375rem] h-auto w-[9.875rem] shrink-0" />
+        <div className="relative flex min-h-88 flex-col justify-center py-12">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 flex flex-col items-start justify-between">
+            <OrnamentImage asset={SCORE_ROD_UPPER} sizes="11rem" placement="below-fold" className="relative h-auto w-44 shrink-0" />
+            <OrnamentImage asset={SCORE_ROD_LOWER} sizes="11rem" placement="below-fold" className="relative ml-px h-auto w-44 shrink-0" />
           </div>
-          <p className="mb-base text-center text-balance font-display text-subhead text-primary-strong">Saltarello · Italian, 14th century</p>
-          <NearView prepare={prepareScore}>
-            <Suspense>
-              <SaltarelloScore />
-            </Suspense>
-          </NearView>
+          <p className="mx-auto mb-base max-w-48 text-center text-balance font-display text-subhead text-primary-strong sm:max-w-none">Saltarello · Italian, 14th century</p>
+          <div className="pl-16">
+            <NearView prepare={prepareScore}>
+              <Suspense>
+                <SaltarelloScore />
+              </Suspense>
+            </NearView>
+          </div>
         </div>
         <AcanthusFleuron className="-mt-4" />
       </footer>
