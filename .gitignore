@@ -8,3 +8,4 @@ src/generated/
 public/polyhymnia-favicon.png
 .tanstack/
 tmp/
+.playwright-cli/
