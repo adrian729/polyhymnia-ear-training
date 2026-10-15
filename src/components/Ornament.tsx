@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 // Each ornament is generated at build time as a ladder of heights (32, 64, 128 and 256 px, plus
 // the source), and an Ornament draws the smallest one that covers its drawn size on this screen.
-// Sizes follow the layout, so a new placement needs no size bookkeeping.
+// Sizes follow the layout, so a new placement needs no size bookkeeping. Generated masks
+// (scripts/ornament-selection.json, role `mask`) draw the same way: <Ornament asset={maskAsset(...)} />.
 import fleurDeLis from '@/assets/ornaments/vectorian-006.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import barSprig from '@/assets/ornaments/vectorian-010.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import flourishEnd from '@/assets/ornaments/vectorian-011.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
@@ -16,6 +17,7 @@ import leafCornerBl from '@/assets/ornaments/vectorian-063-bl.webp?h=32;64;128;2
 import leafCornerBr from '@/assets/ornaments/vectorian-063-br.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import tailpiece from '@/assets/ornaments/vectorian-066.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
 import runningVine from '@/assets/ornaments/vectorian-070.webp?h=32;64;128;256;4096&format=webp&as=metadata:src;width;height';
+import type { MaskAsset } from '@/lib/assets';
 import { cn } from '@/lib/utils';
 
 type Ladder = readonly { src: string; width: number; height: number }[];
@@ -70,11 +72,11 @@ function fit(entries: ResizeObserverEntry[]) {
   }
 }
 
-export function Ornament({ name, className }: { name: OrnamentName; className?: string }) {
+export function Ornament({ className, ...art }: ({ name: OrnamentName; asset?: never } | { asset: MaskAsset; name?: never }) & { className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
+  const images = art.asset ? art.asset.ladder : ORNAMENTS[art.name];
   useLayoutEffect(() => {
     const element = ref.current!;
-    const images = ORNAMENTS[name];
     if (typeof ResizeObserver === 'undefined') {
       setMask(element, images[images.length - 1]!.src);
       return;
@@ -87,7 +89,7 @@ export function Ornament({ name, className }: { name: OrnamentName; className?: 
       ladders.delete(element);
       drawn.delete(element);
     };
-  }, [name]);
+  }, [images]);
   return <span ref={ref} aria-hidden="true" className={cn('ornament', className)} />;
 }
 

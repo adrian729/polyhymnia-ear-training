@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { afterFirstScreen } from '@/lib/first-paint';
+import { prepareNearContent } from '@/lib/first-paint';
 
 /**
  * Renders `children` once they come within 300 px of the viewport, and keeps them; until then
  * `placeholder`. Work below the fold (a score, its layout and code) waits until it is about to show.
  *
  * With `prepare`, they show without a wait instead: once the first screen is shown and the browser is
- * idle, `prepare` fetches what they need (their code, fonts), and from then on they render a viewport
- * ahead of the reader, room for even a fast flick. Only downloads happen early, and only after the
- * first screen: a reader who never comes near never pays for their layout or rendering.
+ * idle, `prepare` fetches what they need (their code, fonts), ahead of speculative prefetches
+ * (`prepareNearContent`), and from then on they render two viewports ahead of the reader, room for
+ * even a fast flick. Only downloads happen early, and only after the first screen; layout and
+ * rendering wait until the reader is within those two viewports.
  */
 export function NearView({ children, placeholder, className, prepare }: {
   children: ReactNode;
@@ -42,7 +43,7 @@ export function NearView({ children, placeholder, className, prepare }: {
     if (!prepare) return;
     let live = true;
     // A failed fetch leaves the children to load themselves once the reader comes near.
-    afterFirstScreen(() => { void prepare().then(() => { if (live) setPrepared(true); }, () => {}); });
+    prepareNearContent(prepare).then(() => { if (live) setPrepared(true); }, () => {});
     return () => { live = false; };
   }, [prepare]);
 

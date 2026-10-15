@@ -5,7 +5,7 @@ import { routeTree } from './routeTree.gen';
 import { preloadSheetArtwork, preloadSidebarArtwork } from '@/components/PaperSheet';
 import { preloadInitials } from '@/lib/fonts';
 import { warmInstrument } from '@/lib/sound';
-import { afterFirstScreen, firstScreenShown, holdFirstPaint } from '@/lib/first-paint';
+import { afterNearContent, firstScreenShown, holdFirstPaint } from '@/lib/first-paint';
 import '@polyhymnia/notation-react/styles.css';
 import './index.css';
 
@@ -46,15 +46,12 @@ const firstScreenArtwork = preloadSheetArtwork();
 const rootElement = document.getElementById('root')!;
 
 void Promise.all([firstScreenArtwork, holdFirstPaint(rootElement)]).then(firstScreenShown);
-// The home score sits just below the fold and is the nearest deferred content, so it loads first
-// (SheetLayout's NearView). These speculative prefetches — another page's paper, every initial
-// letter, instrument samples — wait a moment so they do not starve its code and font on a slow link.
-afterFirstScreen(() => {
-  setTimeout(() => {
-    preloadSidebarArtwork();
-    preloadInitials();
-    warmInstrument();
-  }, 2500);
+// Speculative prefetches (another page's paper, every initial letter, instrument samples) wait for
+// the content just below the fold, such as the home score's code and font, so they never starve it.
+afterNearContent(() => {
+  preloadSidebarArtwork();
+  preloadInitials();
+  warmInstrument();
 });
 createRoot(rootElement).render(
   <StrictMode>

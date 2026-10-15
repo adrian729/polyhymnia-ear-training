@@ -51,3 +51,33 @@ export function firstScreenShown(): void {
 export function afterFirstScreen(task: () => void): void {
   void firstScreen.then(() => whenIdle(task));
 }
+
+/** The longest speculative work waits for near content, so a stalled download never holds it back. */
+const NEAR_CONTENT_CAP_MS = 5000;
+const nearContent = new Set<Promise<unknown>>();
+
+/**
+ * Runs `prepare` (the downloads of content just below the fold) at the first `afterFirstScreen`
+ * moment, ahead of speculative work: `afterNearContent` tasks wait for it to settle. Register it
+ * when that content mounts, which is before the first screen is shown.
+ */
+export function prepareNearContent(prepare: () => Promise<unknown>): Promise<unknown> {
+  const work = new Promise<unknown>((resolve, reject) => afterFirstScreen(() => { prepare().then(resolve, reject); }));
+  const settled = work.then(() => {}, () => {});
+  nearContent.add(settled);
+  void settled.then(() => nearContent.delete(settled));
+  return work;
+}
+
+/**
+ * Runs speculative `task`s (another page's paper, every initial letter, instrument samples, warmed
+ * images) after the first screen, once the content just below it is prepared (or after a cap) and
+ * the browser is idle, so on a slow link they never starve what the reader reaches next. A page with
+ * no such content runs them at the first idle moment after its first screen.
+ */
+export function afterNearContent(task: () => void): void {
+  afterFirstScreen(() => {
+    const cap = new Promise(resolve => setTimeout(resolve, NEAR_CONTENT_CAP_MS));
+    void Promise.race([Promise.all(nearContent), cap]).then(() => whenIdle(task));
+  });
+}

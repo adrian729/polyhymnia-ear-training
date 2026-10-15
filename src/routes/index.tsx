@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { FRAMED_LOGO } from '@/lib/logo';
 import { frameAsset, imageAsset } from '@/lib/assets';
-import { warmImage } from '@/lib/warmup';
 import { PolyhymniaName } from '@/components/PolyhymniaName';
 import { ExerciseIndexList } from '@/components/ExerciseIndexList';
 import { EXERCISE_GROUPS } from '@/exercises/groups';
@@ -23,13 +22,9 @@ export const Route = createFileRoute('/')({
 
 const ANAFILES = imageAsset(illustrations, 'anafiles');
 const HERO_FRAME = frameAsset(frames, 'hero-frame');
-// The miniature sits at the foot of the page; warm it once the first screen is idle, so a reader who
-// scrolls down finds it already cached instead of watching it load.
-const ANAFILES_SIZES = '(min-width: 30rem) 24rem, 100vw';
-warmImage(ANAFILES.src, ANAFILES.srcSet, ANAFILES_SIZES);
 
 // The score sits at the foot of the page. Its code and font download once the first screen is shown
-// and the browser is idle; from then on it lays out and renders a viewport before the reader reaches it.
+// and the browser is idle; from then on it lays out and renders two viewports before the reader reaches it.
 const loadScore = () => import('@/components/SaltarelloScore');
 const SaltarelloScore = lazy(loadScore);
 const prepareScore = () => loadScore().then(score => score.prepare());
@@ -69,9 +64,11 @@ function HomePage() {
       <footer className="flex flex-col gap-loose">
         <OrnamentImage
           asset={ANAFILES}
-          sizes={ANAFILES_SIZES}
+          sizes="(min-width: 30rem) 24rem, 100vw"
           alt="Two heralds blowing long trumpets, from the Cantigas de Santa María"
           placement="below-fold"
+          // At the foot of the page: a reader who scrolls down finds it already cached.
+          warm
           className="mx-auto h-auto w-full max-w-sm"
         />
         <Ornament name="running-vine" className="mx-auto h-8 w-64 text-primary-strong" />

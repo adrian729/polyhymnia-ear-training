@@ -7,7 +7,7 @@
 //   mask    – alpha silhouette drawn in currentColor, generated as a ladder of raster heights.
 //   image   – a finished picture, drawn through <img> with a srcset.
 //   frame   – a border-image atlas with a slice, drawn at each density.
-//   divider – a repeating tile, in its original and rotated orientation.
+//   divider – a repeating tile, sized for each direction and density.
 
 export interface ImageVariant {
   src: string;
@@ -28,29 +28,31 @@ export interface ImageAsset {
   /** Intrinsic size of the source art, so the layout reserves the right box before it loads. */
   width: number;
   height: number;
-  transparent: boolean;
 }
+
+/** One drawn size at 1x, 2x and 3x. A copy is capped at the master, so the densest screens may get
+ *  the same file as the one below them rather than an upscale. */
+export interface DensityCopies {
+  '1x': string;
+  '2x': string;
+  '3x': string;
+}
+
+/** The narrow thickness, and optionally the wider one drawn from the `sm` breakpoint up. */
+type Thicknesses<T> = readonly [T] | readonly [T, T];
 
 export interface FrameAsset {
   kind: 'frame';
   /** The atlas slice as a percentage, from the design's catalog metadata. */
   slicePercent: number;
-  /** Copies for each drawn border width, in pixels, at 1x / 2x / 3x. */
-  copies: readonly {
-    thickness: number;
-    '1x': string;
-    '2x': string;
-    '3x': string;
-  }[];
+  /** For each drawn border width in CSS pixels. */
+  copies: Thicknesses<{ thickness: number; images: DensityCopies }>;
 }
 
 export interface DividerAsset {
   kind: 'divider';
-  tile: string;
-  rotated: string;
-  /** Length of one repeat unit as a multiple of the tile thickness. */
-  ratio: number;
-  axis: 'x' | 'y';
+  /** For each drawn strip thickness in CSS pixels, the tile repeating along each direction. */
+  copies: Thicknesses<{ thickness: number; horizontal: DensityCopies; vertical: DensityCopies }>;
 }
 
 export type Asset = MaskAsset | ImageAsset | FrameAsset | DividerAsset;
@@ -73,3 +75,11 @@ export const maskAsset = (group: AssetGroup, name: string) => pick<MaskAsset>(gr
 export const imageAsset = (group: AssetGroup, name: string) => pick<ImageAsset>(group, name, 'image');
 export const frameAsset = (group: AssetGroup, name: string) => pick<FrameAsset>(group, name, 'frame');
 export const dividerAsset = (group: AssetGroup, name: string) => pick<DividerAsset>(group, name, 'divider');
+
+/**
+ * A copy set as a CSS image, for art only CSS can draw (a border or background image).
+ * -webkit-image-set() is image-set()'s legacy alias, which browsers must accept. Unprefixed
+ * image-set() needs Chrome 113 or Safari 17, and an inline style gets no fallback from the CSS build.
+ */
+export const imageSet = (copies: DensityCopies) =>
+  `-webkit-image-set(url("${copies['1x']}") 1x, url("${copies['2x']}") 2x, url("${copies['3x']}") 3x)`;
