@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { imagetools } from 'vite-imagetools';
 import { VitePWA } from 'vite-plugin-pwa';
+import { assetManifest } from './scripts/asset-manifest.ts';
 import { artworkPreload } from './scripts/artwork-preload.ts';
 import { cnTables } from './scripts/cn-tables.ts';
 import { favicon } from './scripts/favicon.ts';
@@ -27,6 +28,8 @@ export default defineConfig({
   server: { fs: { allow: [appRoot, ...packageRoots] } },
   plugins: [
     fontFaces(),
+    // Ornament/illustration modules are generated from the selection before any import resolves.
+    assetManifest(),
     // Every first screen shows the main paper on the table: the HTML starts both at once.
     artworkPreload([MAIN_PAPER, TABLE]),
     cnTables(),

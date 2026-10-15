@@ -1,5 +1,6 @@
 node_modules/
 dist/
+benchmarks/
 *.tsbuildinfo
 .DS_Store
 .vite/

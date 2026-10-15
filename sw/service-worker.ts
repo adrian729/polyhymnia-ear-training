@@ -35,12 +35,14 @@ registerRoute(({ request, url }) => request.mode === 'navigate' && !/\.\w+$/.tes
   }
 });
 
-// Build assets carry a content hash in their name, so a cached copy never needs re-checking.
+// Build assets carry a content hash in their name, so a cached copy never needs re-checking. The
+// entry cap is well above the emitted design x density count, so growing ornament content never
+// evicts art a returning visitor has already paid for.
 registerRoute(({ url, request }) => request.method === 'GET' && local(url, 'assets/'), new CacheFirst({
   cacheName: 'assets',
   plugins: [
     new CacheableResponsePlugin({ statuses: [200] }),
-    new ExpirationPlugin({ maxEntries: 600, maxAgeSeconds: YEAR, purgeOnQuotaError: true }),
+    new ExpirationPlugin({ maxEntries: 2000, maxAgeSeconds: YEAR, purgeOnQuotaError: true }),
   ],
 }));
 
