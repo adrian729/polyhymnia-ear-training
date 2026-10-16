@@ -2,7 +2,7 @@
 
 Product spec for Polyhymnia's version of EarMaster's Chord Identification (`docs/earmaster.md` E4). Tags: **[EM]** = matches documented EarMaster behaviour (source in `docs/earmaster.md` or the URL given); **[ours]** = EarMaster is undocumented here, so this is our decision.
 
-Implementation: `apps/app/src/exercises/chord-identification/` (pure logic, including the chord quality table) and `apps/app/src/routes/exercises/chord-identification/` (screens). Logic shared with E1–E3 lives in `apps/app/src/exercises/shared/`. The reveal uses one new preset, `NotesReveal`, in `packages/notation-react`.
+Implementation: `src/exercises/chord-identification/` (pure logic, including the chord quality table) and `src/routes/practice/chord-identification/` (screens). Logic shared with E1–E3 lives in `src/exercises/shared/`. The reveal uses one new preset, `NotesReveal`, in `packages/notation-react`.
 
 ## Plays
 

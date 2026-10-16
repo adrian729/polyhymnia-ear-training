@@ -2,7 +2,7 @@
 
 Product spec for Polyhymnia's version of EarMaster's Interval Identification (`docs/earmaster.md` E2). Tags: **[EM]** = matches documented EarMaster behaviour (source in `docs/earmaster.md` or the URL given); **[ours]** = EarMaster is undocumented here, so this is our decision.
 
-Implementation: `apps/app/src/exercises/interval-identification/` (pure logic) and `apps/app/src/routes/exercises/interval-identification/` (screens). Shared logic with E1 lives in `apps/app/src/exercises/shared/`. Nothing in `packages/*` changes.
+Implementation: `src/exercises/interval-identification/` (pure logic) and `src/routes/practice/interval-identification/` (screens). Shared logic with E1 lives in `src/exercises/shared/`. Nothing in `packages/*` changes.
 
 ## Plays
 

@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { EXERCISE_GROUPS, type ExerciseGroupId } from '@/exercises/groups';
 import { ExerciseIndexList } from './ExerciseIndexList';
 import { TitleText } from './Initial';
@@ -15,10 +15,7 @@ export function ExerciseGroupPage({ groupId, settings, illustration, closing }: 
   closing?: ReactNode;
 }) {
   const group = EXERCISE_GROUPS.find(group => group.id === groupId)!;
-  const exercises = useMemo(() => group.exercises.map(exercise => ({
-    ...exercise,
-    id: exercise.to.slice('/exercises/'.length),
-  })), [group]);
+  const exercises = group.exercises;
   return (
     <Sheet className="flex flex-col gap-loose pt-loose" aside={<WorkshopAside modules={exercises} />} label={`${group.title} exercises`}>
       {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}

@@ -46,7 +46,7 @@ pnpm -C polyhymnia-ear-training dev:link
 pnpm -C polyhymnia-ear-training dev
 ```
 
-The link command also expects the existing notation/music-theory local packages to be built. Open `/exercises/pulse-tapping`. Use `dev:unlink` before installing or committing the app; relink for further local work.
+The link command also expects the existing notation/music-theory local packages to be built. Open `/practice/pulse-tapping`. Use `dev:unlink` before installing or committing the app; relink for further local work.
 
 The rhythm repository is published at [github.com/adrian729/rhythm](https://github.com/adrian729/rhythm). The app uses public npm ranges for `@polyhymnia/web-audio`, `@polyhymnia/rhythm` and `@polyhymnia/rhythm-react`, all at `^0.2.0`. A fresh install builds without local package links. GitHub Pages deploys merged changes on `main` after its production build succeeds.
 

@@ -118,7 +118,7 @@ For later rhythm reading, place the adapter from public `mnx-score` performance 
 - `src/lib/rhythmSound.ts`: backend adapter connecting neutral rhythm ports/cue data to public audio APIs and app volume settings.
 - `src/components/rhythm/TimedLessonRunner.tsx`, `TimingFeedback.tsx`, `TimingSummary.tsx`, `TimingSetup.tsx`: app flow and copy, composed from the package hook/visual primitives and existing layout components. No app-private matching or browser-controller implementation.
 - `src/exercises/pulse-tapping/`: `options.ts`, `generator.ts`, `catalog.ts`, `customSearch.ts`, `store.ts`, and `index.ts`. Its generator configures the reusable pulse builder and supplies lesson-specific metadata, not a second beat-grid implementation.
-- `src/routes/exercises/pulse-tapping/`: `index.tsx`, `custom.tsx`, `lesson.$lessonId.tsx`, and `-Runner.tsx`.
+- `src/routes/practice/pulse-tapping/`: `index.tsx`, `custom.tsx`, `lessons.$lessonId.tsx`, and `-Runner.tsx`.
 
 Reuse acceptance: a scratch vanilla-browser consumer can build, run and finalize a pulse attempt using public rhythm/browser APIs and a small audio adapter, without any ear-training source, React or visual frame subscription. A scratch Node consumer can import the root and score irregular targets without DOM globals, and typecheck its packed public declarations with no DOM library and `skipLibCheck: false`. A minimal React consumer can mount the hook/guide with caller-provided styles and labels without the app theme, router or storage. These are packaging/public-contract smoke checks, not a second maintained product. No general quiz engine, notation editor, accompaniment generator, or app-specific design-system package is needed for this exercise.
 

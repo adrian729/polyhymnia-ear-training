@@ -12,9 +12,9 @@ import { getTimingLessonResult, readTimingPreferences, saveTimingPreferences } f
 import { TimingSetup, CONTROL_CLASS } from './TimingSetup';
 import { PracticeRunner } from './PracticeRunner';
 
-type WorkshopPath = `/exercises/${Kind}`;
-type CustomPath = `/exercises/${Kind}/custom`;
-type LessonPath = `/exercises/${Kind}/lesson/$lessonId`;
+type WorkshopPath = `/practice/${Kind}`;
+type CustomPath = `/practice/${Kind}/custom`;
+type LessonPath = `/practice/${Kind}/lessons/$lessonId`;
 
 export function PracticeWorkshop({ kind }: { kind: Kind }) {
   const [preferences, setPreferences] = useState(readTimingPreferences);
@@ -25,9 +25,9 @@ export function PracticeWorkshop({ kind }: { kind: Kind }) {
     getLessonResult={id => definition.timed ? getTimingLessonResult(resultKey(id, list.find(l => l.id === id)!.options, preferences)) : resultStore.getLessonResult(resultKey(id, list.find(l => l.id === id)!.options))}
     headerAction={<div className="flex flex-col gap-base">
       {definition.timed && <TimingSetup value={preferences} onChange={value => { saveTimingPreferences(value); setPreferences(value); }} />}
-      <Button asChild variant="outline" className="self-start"><Link to={`/exercises/${kind}/custom` as CustomPath} search={SEARCH_PARSERS[kind]({})}>Set up custom exercise</Link></Button>
+      <Button asChild variant="outline" className="self-start"><Link to={`/practice/${kind}/custom` as CustomPath} search={SEARCH_PARSERS[kind]({})}>Set up custom exercise</Link></Button>
     </div>}
-    renderLessonLink={(lessonId, className, children) => <Link to={`/exercises/${kind}/lesson/$lessonId` as LessonPath} params={{ lessonId }} className={className}>{children}</Link>} />;
+    renderLessonLink={(lessonId, className, children) => <Link to={`/practice/${kind}/lessons/$lessonId` as LessonPath} params={{ lessonId }} className={className}>{children}</Link>} />;
 }
 function NumberField({ label, value, onChange, min, max }: { label: string; value: number; onChange: (n: number) => void; min: number; max: number }) {
   const [draft, setDraft] = useState(String(value));
@@ -46,7 +46,7 @@ export function PracticeCustom({ kind, search, navigate }: { kind: Kind; search:
   const definition = CATALOG[kind];
   const variantIds = definition.variants.map(v => v.id);
   const metres = availableMetres(kind);
-  return <CustomFrame lessonsTo={`/exercises/${kind}` as WorkshopPath} help={definition.blurb}
+  return <CustomFrame lessonsTo={`/practice/${kind}` as WorkshopPath} help={definition.blurb}
     summary={[`${options.variants.length} variations`, options.metres.join(', '), `${search.minBpm === search.maxBpm ? search.minBpm : `${search.minBpm}–${search.maxBpm}`} pulse BPM`, `${search.count} attempts`]}
     errors={validateOptions(options)} onReset={reset} runner={run => <PracticeRunner key={JSON.stringify(options)} options={options} {...run} />}>
     <Section title="Variations" description="Select one or more. Each attempt chooses one of your selections.">

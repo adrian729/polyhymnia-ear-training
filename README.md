@@ -47,6 +47,17 @@ The app is entirely client-side. Microphone input is analyzed locally, without r
 
 Vite, React 19, TypeScript, Tailwind CSS v4, shadcn/ui and TanStack Router.
 
+Page names and routes distinguish browsing from practice:
+
+| Page type | Example route |
+|---|---|
+| Category page | `/exercises/intervals` |
+| Exercise overview (lesson catalog) | `/practice/interval-comparison` |
+| Lesson page | `/practice/interval-comparison/lessons/<lessonId>` |
+| Custom practice | `/practice/interval-comparison/custom` |
+
+This convention covers all exercises. Practice routes are independent of categories: any page can link to the same exercise. `src/exercises/navigation.ts` defines their shared navigation metadata; `src/exercises/groups.ts` curates the category listings. Old `/exercises/<exercise>` links redirect to the corresponding practice page, preserving lesson IDs, custom options and anchors. Progress and preference storage keys are unchanged.
+
 ```sh
 pnpm install
 pnpm dev

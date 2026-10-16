@@ -2,7 +2,7 @@
 
 Product spec for Polyhymnia's version of EarMaster's Interval Comparison (`docs/earmaster.md` E1). Tags: **[EM]** = matches documented EarMaster behaviour (source in `docs/earmaster.md` or the URL given); **[ours]** = EarMaster is undocumented here, so this is our decision.
 
-Implementation: `apps/app/src/exercises/interval-comparison/` (pure logic) and `apps/app/src/routes/exercises/interval-comparison/` (screens). Logic shared with E2 lives in `apps/app/src/exercises/shared/`. Nothing in `packages/*` changes.
+Implementation: `src/exercises/interval-comparison/` (pure logic) and `src/routes/practice/interval-comparison/` (screens). Logic shared with E2 lives in `src/exercises/shared/`. Nothing in `packages/*` changes.
 
 ## Plays
 

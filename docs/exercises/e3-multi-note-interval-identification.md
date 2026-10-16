@@ -2,7 +2,7 @@
 
 Product spec for Polyhymnia's multi-note extension of interval identification. EarMaster has no such activity; it builds on EarMaster's Interval Identification (`docs/earmaster.md` E2) and E2 of this app (`docs/exercises/e2-interval-identification.md`), and is not EarMaster's E3 (Interval Singing). Tags: **[EM]** = matches documented EarMaster behaviour (source in `docs/earmaster.md` or the URL given); **[ours]** = EarMaster is undocumented here, so this is our decision.
 
-Implementation: `apps/app/src/exercises/multi-interval-identification/` (pure logic) and `apps/app/src/routes/exercises/multi-interval-identification/` (screens). Logic shared with E1, E2 and E4 lives in `apps/app/src/exercises/shared/`. The reveal uses one new preset, `NotesReveal`, in `packages/notation-react`.
+Implementation: `src/exercises/multi-interval-identification/` (pure logic) and `src/routes/practice/multi-interval-identification/` (screens). Logic shared with E1, E2 and E4 lives in `src/exercises/shared/`. The reveal uses one new preset, `NotesReveal`, in `packages/notation-react`.
 
 ## Plays
 

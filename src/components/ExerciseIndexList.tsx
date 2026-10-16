@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router';
-import type { EXERCISE_GROUPS } from '@/exercises/groups';
+import type { ExerciseGroup } from '@/exercises/groups';
+import type { Exercise } from '@/exercises/navigation';
 import { imageAsset } from '@/lib/assets';
 import { cn } from '@/lib/utils';
 import decorations from '@/generated/assets/decorations';
 import { TitleText } from './Initial';
 import { OrnamentImage } from './OrnamentImage';
 
-type Group = typeof EXERCISE_GROUPS[number];
-type IndexEntry = (Group | Group['exercises'][number]) & { id?: string };
+type IndexEntry = ExerciseGroup | Exercise;
 
 const FLOURISH = imageAsset(decorations, 'acanthus-horizontal-flourish');
 const ROSETTE = imageAsset(decorations, 'acanthus-rosette');

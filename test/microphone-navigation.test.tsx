@@ -8,7 +8,7 @@ import { Route } from '@/routes/__root';
 vi.mock('@tanstack/react-router', async importOriginal => ({
   ...await importOriginal<typeof import('@tanstack/react-router')>(),
   useRouterState: ({ select }: { select: (state: unknown) => unknown }) => select({
-    location: { pathname: '/' }, matches: [{ routeId: '/exercises/pitch-matching/' }],
+    location: { pathname: '/' }, matches: [{ routeId: '/practice/pitch-matching/' }],
   }),
   Outlet: () => createElement(MicrophoneConsumer),
 }));
