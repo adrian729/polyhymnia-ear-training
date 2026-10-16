@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acanthus — four heading directions</title>
+  <link rel="icon" href="/polyhymnia-favicon.png">
+  <link rel="stylesheet" href="../../src/index.css">
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+  <main id="directions">
+    <header class="page-header">
+      <p class="eyebrow">Polyhymnia · heading studies</p>
+      <h1>Four directions for the acanthus divider</h1>
+      <p>Compare the same lettering in four different compositions.</p>
+    </header>
+    <form class="controls" onsubmit="return false">
+      <label class="text-control">Second heading<input id="sample-text" value="Intervals and harmony" list="heading-examples" maxlength="100"></label>
+      <datalist id="heading-examples"><option value="Sing"><option value="Intervals and harmony"><option value="Listen, compare, and sing the phrase"><option value="Rhythm and musical memory"></datalist>
+      <label>Typeface<select id="typeface"><option value="display">Texturina</option><option value="junicode">Junicode</option><option value="garamond">EB Garamond</option><option value="sans">Sans serif</option></select></label>
+      <label>Type size<select id="type-size"><option value="21">21 px</option><option value="26">26 px</option><option value="32">32 px</option></select></label>
+      <label class="check-control"><input type="checkbox" id="narrow"> Narrow sheet</label>
+    </form>
+    <div class="comparison" id="comparison"></div>
+    <footer>Design studies · The second sample is editable; both samples use your selected typeface and size.</footer>
+  </main>
+  <script type="module" src="./preview.js"></script>
+</body>
+</html>

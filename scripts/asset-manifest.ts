@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { Plugin } from 'vite';
+import type { TitleFlourishes } from '../src/lib/assets.ts';
 
 /*
  * Turns a hand-curated selection (scripts/ornament-selection.json) into per-group asset modules
@@ -50,6 +51,7 @@ interface Raster {
 
 interface CatalogDesign extends Raster {
   name: string;
+  title_flourishes?: TitleFlourishes;
   has_transparency?: boolean;
   /** What the package draws the design for: frame, divider, image. */
   uses?: string[];
@@ -114,7 +116,8 @@ function emitImage(entry: SelectionEntry, design: CatalogDesign, use: Use, q: nu
   const encode = entry.format === 'avif' ? `quality=${entry.quality ?? AVIF_QUALITY}&format=avif` : `quality=${q}&format=webp`;
   const src = use(design.webp, `w=${widths.at(-1)}&${encode}`);
   const srcSet = use(design.webp, `w=${widths.join(';')}&${encode}&as=srcset`);
-  return `src: ${src}, srcSet: ${srcSet}, width: ${design.width}, height: ${design.height}`;
+  const flourishes = design.title_flourishes ? `, titleFlourishes: ${JSON.stringify(design.title_flourishes)}` : '';
+  return `src: ${src}, srcSet: ${srcSet}, width: ${design.width}, height: ${design.height}${flourishes}`;
 }
 
 function emitFrame(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {

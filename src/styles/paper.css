@@ -109,6 +109,102 @@
   }
 }
 
+/* The red-and-gold band the acanthus rules are drawn with. */
+@utility acanthus-band {
+  background: linear-gradient(to bottom,
+    var(--color-acanthus-outline) 0 12%, var(--color-acanthus-gold) 12% 32%, var(--color-acanthus-red) 32% 68%,
+    var(--color-acanthus-gold) 68% 88%, var(--color-acanthus-outline) 88%);
+}
+
+/* Ivy tendril title: two complete paintings beside live text. The opening wraps the first
+   letter; a small sprig finishes the last line. Only the exterior rules stretch. */
+@utility acanthus-title {
+  --acanthus-end: 2.75rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  padding-block: 1.5em;
+  isolation: isolate;
+
+  @media (width >= 40rem) {
+    --acanthus-end: 3.5rem;
+  }
+
+  & > .acanthus-title-terminal {
+    position: absolute;
+    z-index: 1;
+    width: var(--acanthus-end);
+    height: auto;
+    translate: 0 -58.4%;
+    pointer-events: none;
+  }
+
+  & > .acanthus-title-terminal-start {
+    left: 0;
+    top: var(--acanthus-start-axis, 50%);
+  }
+
+  & > .acanthus-title-terminal-end {
+    right: 0;
+    top: var(--acanthus-end-axis, 50%);
+  }
+
+  & > .acanthus-title-space {
+    width: max-content;
+    min-width: 0;
+    max-width: calc(100% - var(--acanthus-end) * 1.44 - 12px);
+    padding-left: var(--acanthus-opening-reserve, 48px);
+    padding-right: var(--acanthus-closing-reserve, 51px);
+  }
+
+  & .acanthus-title-text {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-weight: 500;
+    font-feature-settings: normal;
+    line-height: 1.35;
+    text-align: center;
+    overflow-wrap: anywhere;
+    hyphens: none;
+  }
+
+  &[data-multiline='true'] .acanthus-title-text {
+    text-align: left;
+    padding-left: var(--acanthus-initial-overhang);
+    text-indent: calc(-1 * var(--acanthus-initial-overhang));
+  }
+
+  & > .acanthus-title-art {
+    position: absolute;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    & > img {
+      position: absolute;
+      display: block;
+      max-width: none;
+      height: auto;
+    }
+  }
+
+  & > .acanthus-title-line {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+  }
+
+  &[data-empty='true'] > :is(.acanthus-title-art, .acanthus-title-line, .acanthus-title-terminal) {
+    display: none;
+  }
+}
+
 /* Letter-spaced small capitals for running heads and rubrics. Styles the
    letterforms only — the typeface comes from an explicit font-* class. */
 @utility rubricated {

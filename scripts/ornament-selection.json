@@ -328,5 +328,15 @@
     "role": "image",
     "widths": [36, 40, 72, 80, 108, 120],
     "format": "avif"
+  },
+  {
+    "group": "decorations",
+    "name": "acanthus-title-ivy",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-title-ivy",
+    "role": "image",
+    "widths": [384, 512, 768, 1024, 1536],
+    "format": "avif",
+    "quality": 82
   }
 ]

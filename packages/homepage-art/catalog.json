@@ -268,5 +268,57 @@
       "audit": "../../output/imagegen/illuminated-acanthus-saltarello-simple.json",
       "encoding": "lossless WebP; no resampling"
     }
+  },
+  {
+    "name": "illuminated-acanthus-title-ivy",
+    "description": "An open ivy-and-acanthus curl around the initial and a smaller finishing sprig, with opaque gold caps for the adjoining divider rules.",
+    "width": 1774,
+    "height": 887,
+    "webp": "webp/illuminated-acanthus-title-ivy.webp",
+    "uses": [
+      "image"
+    ],
+    "has_transparency": true,
+    "source": {
+      "audit": "illuminated-acanthus-title-ivy.json",
+      "encoding": "Lossless WebP; original dimensions, pixels and alpha preserved."
+    },
+    "title_flourishes": {
+      "opening": {
+        "bounds": [
+          136,
+          78,
+          670,
+          806
+        ],
+        "join": [
+          185,
+          478
+        ],
+        "text": [
+          590,
+          478
+        ],
+        "safeHalfHeight": 47
+      },
+      "closing": {
+        "bounds": [
+          1145,
+          332,
+          1661,
+          639
+        ],
+        "join": [
+          1610,
+          520.5
+        ],
+        "safeHalfHeight": 43
+      }
+    },
+    "usage_notes": [
+      "Render each complete ornament at its original aspect ratio, using the bounds as transparent display windows with 3px native padding.",
+      "The first letter begins at opening.text, vertically aligned at its capital midline. The smaller sprig follows the final letter, including when the heading wraps.",
+      "Rules end inside the opaque gold joins, beneath the artwork. No line crosses or underlines the text."
+    ]
   }
 ]

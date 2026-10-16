@@ -1,0 +1,45 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: two separate manuscript acanthus ornaments for a responsive text heading. The images are painting STYLE REFERENCES only. Match the flat painted late-medieval/early-Renaissance acanthus: muted lapis blue, vermilion red, worn ochre gold, small olive ivy leaves, fine dark sepia contours, delicate ivory leaf veins, matte tempera grain. No glossy metal, no 3D rendering, no generic vector flourishes.\nMake a transparent landscape canvas about 1800 x 900. Place exactly TWO separate ornaments on it, with a broad fully TRANSPARENT vertical gap at the center, so the left and right halves can be used separately. NO TEXT. NO underline. NO frame, banner, wreath, or connecting stroke between the two ornaments.\nLEFT HALF: an opening flourish shaped around a CLEAR EMPTY POCKET OPEN TO THE RIGHT for the FIRST LETTER only. One continuous curling stem / leaf hugs the left side of this empty letter pocket and turns inward briefly above and below it. The clear pocket is at the RIGHT of the left ornament, centered vertically, about 180px wide by 280px tall in the 1800x900 composition. All painting stays out of this pocket. The future letter will sit partly inside the curl, not to the far right of a disconnected bouquet. No long lower branch, no line going beneath the word, no Y-shaped branching arms around the whole heading.\nCRITICAL LEFT CONNECTION: a SMALL OPAQUE GOLD TREFOIL CAP is the farthest-left point at exactly mid-height. A very SHORT solid horizontal gold neck connects this cap smoothly to the single curved spine of the opening flourish. A straight divider will later approach the cap FROM THE LEFT, along the canvas midline. The outward approach must be completely empty and transparent: no foliage crossing it, no leaves further left of the cap. Cap and neck are thick enough to conceal a fine horizontal rule without a notch.\nRIGHT HALF: a SEPARATE much smaller finishing flourish, about half the height of the left ornament, centered on the same horizontal axis. It sits after the last letter. Its own gold stem ends in an opaque small trefoil cap at its far RIGHT, with an empty transparent approach from the right for a continuing divider. It must be a complete naturally finished ornament, not a cropped fragment and not a mirror of the large one. All tips fully inside the canvas.\nThe painting must remain graceful and legible at a small heading size. Transparent outside and through the letter pocket. No shadows, no lettering, no paper, no guide marks. VARIATION: a light botanical crescent built from a very thin continuous ochre-gold vine, two small olive ivy leaves, and small alternating blue and vermilion acanthus curls. More transparent negative space and fine drawing than a solid broad leaf. The vine makes a gentle semicircle around the left of the empty initial-letter pocket, then ends above and below the first letter in two short fine inward curls. These are ends of ONE continuous arc, not branching Y arms. No trailing vine under text. The finishing ornament is a single small olive ivy leaf beside a tiny blue-red folded acanthus curl on a short gold stem, leading to the right cap.",
+  "references": [
+    "@ranx729/medieval-ornaments-assets-decorations-001/webp/illuminated-acanthus-headpiece.webp",
+    "@ranx729/medieval-ornaments-assets-decorations-010/webp/illuminated-acanthus-divider-start.webp"
+  ],
+  "generation": "exec-1c21b327-cb48-44a4-af36-754cd0a15efa.png",
+  "output": "webp/illuminated-acanthus-title-ivy.webp",
+  "preparation": "Lossless WebP; original dimensions, pixels and alpha preserved.",
+  "selection": "C \u2014 Ivy tendril, selected from output/acanthus-bouquet-variations. Original approved artwork and proportions retained.",
+  "geometry": {
+    "opening": {
+      "bounds": [
+        136,
+        78,
+        670,
+        806
+      ],
+      "join": [
+        185,
+        478
+      ],
+      "text": [
+        590,
+        478
+      ],
+      "safeHalfHeight": 47
+    },
+    "closing": {
+      "bounds": [
+        1145,
+        332,
+        1661,
+        639
+      ],
+      "join": [
+        1610,
+        520.5
+      ],
+      "safeHalfHeight": 43
+    }
+  },
+  "delivery": "AVIF quality 82, minimum 384px copy to retain fine contours at the drawn size."
+}

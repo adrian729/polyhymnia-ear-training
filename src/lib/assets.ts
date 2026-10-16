@@ -28,6 +28,19 @@ export interface ImageAsset {
   /** Intrinsic size of the source art, so the layout reserves the right box before it loads. */
   width: number;
   height: number;
+  /** Optional display windows and opaque rule junctions, in master-image pixels. */
+  titleFlourishes?: TitleFlourishes;
+}
+
+interface TitleFlourish {
+  bounds: readonly [left: number, top: number, right: number, bottom: number];
+  join: readonly [x: number, y: number];
+  safeHalfHeight: number;
+}
+
+export interface TitleFlourishes {
+  opening: TitleFlourish & { text: readonly [left: number, capMidline: number] };
+  closing: TitleFlourish;
 }
 
 /** One drawn size at 1x, 2x and 3x. A copy is capped at the master, so the densest screens may get

@@ -88,6 +88,24 @@ describe('asset manifest', () => {
     expect(paths.get(vertical!)).toBe(`${FIXTURE_PACKAGE}/webp/upright-divider.webp`);
   });
 
+  it('preserves catalog title windows and junctions alongside the responsive image', () => {
+    const root = fixtureRoot();
+    const geometry = {
+      opening: { bounds: [10, 20, 180, 300], join: [20, 150], text: [160, 150], safeHalfHeight: 12 },
+      closing: { bounds: [400, 80, 550, 240], join: [540, 160], safeHalfHeight: 10 },
+    };
+    writeFileSync(join(root, 'node_modules', FIXTURE_PACKAGE, 'catalog.json'), JSON.stringify([
+      { name: 'title', webp: 'webp/title.webp', width: 600, height: 320, uses: ['image'], title_flourishes: geometry },
+    ]));
+    writeFileSync(join(root, 'scripts/ornament-selection.json'), JSON.stringify([
+      { group: 'titles', name: 'title', package: FIXTURE_PACKAGE, design: 'title', role: 'image', widths: [200, 400] },
+    ]));
+    generateAssets(root);
+    const source = readFileSync(join(root, OUT, 'titles.ts'), 'utf8');
+    expect(source).toContain(`titleFlourishes: ${JSON.stringify(geometry)}`);
+    expect(generatedImports(root).some(({ query }) => query.get('as') === 'srcset')).toBe(true);
+  });
+
   it('draws a frame at the slice its catalog declares, so a change cannot cut motifs', () => {
     generateAssets(ROOT);
     const generated = readFileSync(join(ROOT, OUT, 'frames.ts'), 'utf8');

@@ -1,0 +1,144 @@
+{
+  "compact-curl": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-8e5a41ab-e6cd-4f38-8b8e-18c42310d64a.png",
+    "asset": "assets/compact-curl.webp",
+    "width": 1774,
+    "height": 887,
+    "left": [
+      140,
+      78,
+      730,
+      806
+    ],
+    "right": [
+      1191,
+      354,
+      1647,
+      692
+    ],
+    "conversion": "Lossless WebP; original dimensions, pixels and alpha preserved.",
+    "leftJoin": [
+      164,
+      484.5
+    ],
+    "leftSafeHalfHeight": 25.5,
+    "rightJoin": [
+      1623,
+      546.5
+    ],
+    "rightSafeHalfHeight": 21.5,
+    "leftSlot": [
+      550,
+      484.5
+    ],
+    "openingEm": 3.45,
+    "closingEm": 1.45,
+    "multilineClosingEm": 1.2
+  },
+  "rising-scroll": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-20b15fad-f379-4404-b9d5-58d0bc475edc.png",
+    "asset": "assets/rising-scroll.webp",
+    "width": 1774,
+    "height": 887,
+    "left": [
+      105,
+      64,
+      735,
+      817
+    ],
+    "right": [
+      1225,
+      298,
+      1673,
+      783
+    ],
+    "conversion": "Lossless WebP; original dimensions, pixels and alpha preserved.",
+    "leftJoin": [
+      129,
+      508.5
+    ],
+    "leftSafeHalfHeight": 22.5,
+    "rightJoin": [
+      1649,
+      626.5
+    ],
+    "rightSafeHalfHeight": 20.5,
+    "leftSlot": [
+      555,
+      508.5
+    ],
+    "openingEm": 3.8,
+    "closingEm": 1.6,
+    "multilineClosingEm": 1.05
+  },
+  "ivy-tendril": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-1c21b327-cb48-44a4-af36-754cd0a15efa.png",
+    "asset": "assets/ivy-tendril.webp",
+    "width": 1774,
+    "height": 887,
+    "left": [
+      136,
+      78,
+      670,
+      806
+    ],
+    "right": [
+      1145,
+      332,
+      1661,
+      639
+    ],
+    "conversion": "Lossless WebP; original dimensions, pixels and alpha preserved.",
+    "leftJoin": [
+      160,
+      478.0
+    ],
+    "leftSafeHalfHeight": 24.0,
+    "rightJoin": [
+      1637,
+      520.5
+    ],
+    "rightSafeHalfHeight": 21.5,
+    "leftSlot": [
+      590,
+      478
+    ],
+    "openingEm": 3.25,
+    "closingEm": 1.2
+  },
+  "folded-fan": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-d0414483-f919-411d-928d-191af343197e.png",
+    "asset": "assets/folded-fan.webp",
+    "width": 1774,
+    "height": 887,
+    "left": [
+      80,
+      53,
+      778,
+      825
+    ],
+    "right": [
+      1178,
+      351,
+      1722,
+      665
+    ],
+    "conversion": "Lossless WebP; original dimensions, pixels and alpha preserved.",
+    "leftJoin": [
+      104,
+      492.5
+    ],
+    "leftSafeHalfHeight": 25.5,
+    "rightJoin": [
+      1698,
+      517.0
+    ],
+    "rightSafeHalfHeight": 23.0,
+    "leftSlot": [
+      610,
+      492.5
+    ],
+    "openingEm": 3.35,
+    "closingEm": 1.2
+  }
+}

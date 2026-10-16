@@ -1,0 +1,62 @@
+[
+  {
+    "scenario": {
+      "width": 1440,
+      "font": "display",
+      "size": "21",
+      "narrow": false,
+      "text": "Intervals and harmony"
+    },
+    "errors": [],
+    "joins": 16,
+    "minimumAlpha": 252
+  },
+  {
+    "scenario": {
+      "width": 768,
+      "font": "junicode",
+      "size": "26",
+      "narrow": false,
+      "text": "Music and memory"
+    },
+    "errors": [],
+    "joins": 16,
+    "minimumAlpha": 252
+  },
+  {
+    "scenario": {
+      "width": 390,
+      "font": "garamond",
+      "size": "26",
+      "narrow": false,
+      "text": "Listen, compare, and sing the phrase"
+    },
+    "errors": [],
+    "joins": 16,
+    "minimumAlpha": 252
+  },
+  {
+    "scenario": {
+      "width": 320,
+      "font": "sans",
+      "size": "32",
+      "narrow": false,
+      "text": "Wide and narrow initials"
+    },
+    "errors": [],
+    "joins": 16,
+    "minimumAlpha": 252
+  },
+  {
+    "scenario": {
+      "width": 1440,
+      "font": "display",
+      "size": "32",
+      "narrow": true,
+      "text": "Listen, compare, and sing the phrase"
+    },
+    "errors": [],
+    "joins": 16,
+    "minimumAlpha": 252
+  }
+]

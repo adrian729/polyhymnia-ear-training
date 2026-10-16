@@ -1,0 +1,30 @@
+{
+  "low-garland": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-a7068444-5275-46ee-9548-63e384af8abd.png",
+    "asset": "output/acanthus-directions/assets/low-garland.webp",
+    "width": 2172,
+    "height": 724,
+    "conversion": "Lossless WebP; original pixels, dimensions and alpha preserved."
+  },
+  "marginal-bouquet": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-4ca4cbf9-f7bd-4767-b569-e75ac8285bed.png",
+    "asset": "output/acanthus-directions/assets/marginal-bouquet.webp",
+    "width": 1218,
+    "height": 1291,
+    "conversion": "Lossless WebP; original pixels, dimensions and alpha preserved."
+  },
+  "illuminated-panel": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-e0212863-61d1-42bd-9e1a-711c48e2a243.png",
+    "asset": "output/acanthus-directions/assets/illuminated-panel.webp",
+    "width": 1967,
+    "height": 800,
+    "conversion": "Lossless WebP; original pixels, dimensions and alpha preserved."
+  },
+  "folded-scroll": {
+    "source": "/home/ranx729/.codex/generated_images/01a14446-4495-73a1-9924-ef77c85ec0ac/exec-87f22e53-9918-4961-8a6f-211579b73116.png",
+    "asset": "output/acanthus-directions/assets/folded-scroll-responsive.webp",
+    "width": 2032,
+    "height": 774,
+    "conversion": "Lossless WebP; original pixels, dimensions and alpha preserved."
+  }
+}

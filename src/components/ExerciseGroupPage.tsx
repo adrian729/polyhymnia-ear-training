@@ -2,7 +2,7 @@ import { useMemo, type ReactNode } from 'react';
 import { EXERCISE_GROUPS, type ExerciseGroupId } from '@/exercises/groups';
 import { ExerciseIndexList } from './ExerciseIndexList';
 import { TitleText } from './Initial';
-import { AcanthusFleuron, AcanthusRule } from './Acanthus';
+import { AcanthusFleuron, AcanthusRule, AcanthusTitle } from './Acanthus';
 import { Sheet } from './SheetLayout';
 import { ExerciseMasthead } from './lesson/ExerciseMasthead';
 import { WorkshopAside } from './lesson/WorkshopAside';
@@ -34,8 +34,7 @@ export function ExerciseGroupPage({ groupId, settings, illustration, closing }: 
       </div>
       {settings}
       <section aria-labelledby="exercises" className="flex flex-col gap-base">
-        <h2 id="exercises" className="text-center font-display text-subhead text-primary-strong">Exercises</h2>
-        <AcanthusRule placement="above-fold" />
+        <AcanthusTitle id="exercises" placement="above-fold">Exercises</AcanthusTitle>
         <ExerciseIndexList entries={exercises} />
         <AcanthusRule placement="below-fold" flipEnds />
       </section>

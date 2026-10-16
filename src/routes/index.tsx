@@ -7,7 +7,7 @@ import { PolyhymniaName } from '@/components/PolyhymniaName';
 import { ExerciseIndexList } from '@/components/ExerciseIndexList';
 import { EXERCISE_GROUPS } from '@/exercises/groups';
 import { Sheet } from '@/components/SheetLayout';
-import { AcanthusFleuron, AcanthusRule } from '@/components/Acanthus';
+import { AcanthusFleuron, AcanthusRule, AcanthusTitle } from '@/components/Acanthus';
 import { BorderFrame } from '@/components/BorderFrame';
 import { OrnamentImage } from '@/components/OrnamentImage';
 import { NearView } from '@/components/NearView';
@@ -68,10 +68,7 @@ function HomePage() {
       </BorderFrame>
 
       <section aria-labelledby="exercises" className="flex flex-col gap-base">
-        <h2 id="exercises" className="text-center font-display text-subhead text-primary-strong">
-          Exercises
-        </h2>
-        <AcanthusRule placement="below-fold" />
+        <AcanthusTitle id="exercises" placement="below-fold">Exercises</AcanthusTitle>
         <ExerciseIndexList entries={EXERCISE_GROUPS} flourishes />
         <AcanthusRule placement="below-fold" flipEnds />
       </section>
