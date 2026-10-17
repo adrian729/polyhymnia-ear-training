@@ -105,19 +105,26 @@
 
 /* The root layout's persistent sheets (SheetLayout). Catalog pages ("workshop") scroll the main
    and sidebar sheets in separate panes; every other page leaves both panes in normal flow so the
-   document scrolls. The same elements serve both, so navigating never remounts a sheet. */
+   document scrolls. The same elements serve both, so navigating never remounts a sheet.
+   The main pane covers the whole table, its sheet inset to the layout's centred width, and the
+   sidebar lies over it: the main scrollbar runs down the window's edge and the wheel scrolls the
+   main sheet anywhere on the table outside the sidebar. The document then never scrolls, so it
+   reserves no gutter. */
 .sheet-layout[data-layout='workshop'] {
+  --workshop-width: calc(48rem + 15rem + 4 * (42px + var(--spacing-base)) + var(--spacing-base));
+  --workshop-inset: max(var(--worktable-inline-gap), (100% - var(--workshop-width)) / 2);
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: var(--spacing-base);
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   height: 100svh;
-  max-width: calc(48rem + 15rem + 4 * (42px + var(--spacing-base)) + var(--spacing-base));
-  margin-block: calc(-1 * var(--worktable-block-gap));
-  margin-inline: auto;
+  margin: calc(-1 * var(--worktable-block-gap)) calc(-1 * var(--worktable-inline-gap));
+}
+
+:root:has(.sheet-layout[data-layout='workshop']) {
+  scrollbar-gutter: auto;
 }
 
 .sheet-layout[data-layout='workshop'] > .sheet-pane {
+  grid-area: 1 / 1;
   min-width: 0;
   min-height: 0;
   /* Keep the initial gap inside the scrollport so the sheet can travel all
@@ -133,8 +140,17 @@
   outline-offset: -2px;
 }
 
+.sheet-layout[data-layout='workshop'] > .sheet-pane-main {
+  z-index: 0;
+  padding-inline: var(--workshop-inset);
+  /* Its scrollbar runs down the window's edge on the wood, dark in both schemes, so it is drawn light. */
+  scrollbar-color: color-mix(in oklab, var(--color-neutral-200) 45%, transparent) transparent;
+}
+
 .sheet-layout[data-layout='workshop'] > .sheet-pane-aside {
+  z-index: 1;
   max-height: min(18rem, 35svh);
+  margin-inline: var(--workshop-inset);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -170,7 +186,6 @@
     --contents-art-bottom: 6px;
     --contents-rolled-height: calc(2 * (100px - 30px) + var(--contents-rolled) - var(--contents-art-top) - var(--contents-art-bottom));
     --contents-fold: var(--contents-rolled);
-    grid-template-rows: minmax(0, 1fr);
     /* The main pane, pushed down, never makes the page itself scroll. */
     overflow: visible clip;
   }
@@ -182,13 +197,8 @@
     --contents-fold: 0px;
   }
 
-  /* Both panes fill the screen; the rolled scroll lies over the top of the main pane. */
-  .sheet-layout[data-layout='workshop'] > .sheet-pane {
-    grid-area: 1 / 1;
-  }
-
+  /* The rolled scroll lies over the top of the main pane. */
   .sheet-layout[data-layout='workshop'] > .sheet-pane-main {
-    z-index: 0;
     padding-top: calc(var(--contents-rolled-height) + var(--worktable-block-gap));
     scroll-padding-top: var(--contents-rolled-height);
   }
@@ -202,7 +212,6 @@
   }
 
   .sheet-layout[data-layout='workshop'] > .sheet-pane-aside[data-contents] {
-    z-index: 1;
     align-self: start;
     max-height: none;
     padding-block: 0;
@@ -306,13 +315,19 @@
   }
 }
 
+/* Wide screens: the sidebar stands at the left of the centred width, and the main sheet beside it. */
 @media (width >= 64rem) {
   .sheet-layout[data-layout='workshop'] {
-    grid-template-columns: calc(15rem + 2 * (42px + var(--spacing-base))) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
+    --workshop-aside: calc(15rem + 2 * (42px + var(--spacing-base)));
+  }
+
+  .sheet-layout[data-layout='workshop'] > .sheet-pane-main {
+    padding-left: calc(var(--workshop-inset) + var(--workshop-aside) + var(--spacing-base));
   }
 
   .sheet-layout[data-layout='workshop'] > .sheet-pane-aside {
+    justify-self: start;
+    width: var(--workshop-aside);
     max-height: none;
   }
 }
