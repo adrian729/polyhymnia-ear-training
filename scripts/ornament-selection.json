@@ -1,5 +1,15 @@
 [
   {
+    "group": "decorations",
+    "name": "acanthus-module-sprig",
+    "package": "@ranx729/medieval-ornaments-assets-polyhymnia",
+    "design": "illuminated-acanthus-module-sprig",
+    "role": "image",
+    "widths": [24, 48, 72],
+    "format": "avif",
+    "quality": 82
+  },
+  {
     "group": "illustrations",
     "name": "anafiles",
     "package": "@ranx729/medieval-ornaments-assets-illustrations-001",

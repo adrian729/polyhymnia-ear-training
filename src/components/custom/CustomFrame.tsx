@@ -42,13 +42,13 @@ export function CustomFrame({ lessonsTo, help, summary, errors, startDisabledRea
           <ExerciseMasthead />
         </nav>
         <div className="-ml-2.5 flex items-center justify-between gap-3">
-          <Button asChild variant="ghost" size="sm" className="text-muted-foreground">
+          <Button asChild variant="ghost" size="sm" className="min-h-11 text-meta text-muted-foreground">
             <Link to={lessonsTo}>
               <ArrowLeft />
               Lessons
             </Link>
           </Button>
-          <Button variant="outline" size="sm" onClick={onReset}>
+          <Button variant="outline" size="sm" className="min-h-11 text-meta" onClick={onReset}>
             <RotateCcw />
             Reset to defaults
           </Button>
@@ -73,7 +73,7 @@ export function CustomFrame({ lessonsTo, help, summary, errors, startDisabledRea
             ))}
           </ul>
         )}
-        <Button size="lg" className="px-6" disabled={errors.length > 0 || !!startDisabledReason} onClick={() => setRunning(true)}>
+        <Button size="lg" className="min-h-11 px-6 text-meta" disabled={errors.length > 0 || !!startDisabledReason} onClick={() => setRunning(true)}>
           <Play />
           Start
         </Button>

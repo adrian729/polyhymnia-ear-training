@@ -19,14 +19,14 @@ function PitchWorkshop() {
     getLessonResult={getLessonResult} soundControls={null}
     headerAction={<div className="flex flex-col gap-base">
       <PitchSetup microphoneRequirementId="pitch-microphone-required" value={settings} onChange={value => { savePitchSettings(value); setSettings(value); }} />
-      <Button asChild variant="outline" className="self-start">
+      <Button asChild variant="outline" className="min-h-11 self-start px-base text-meta">
         <Link to="/practice/pitch-matching/custom"><SlidersHorizontal />Set up custom exercise</Link>
       </Button>
     </div>}
     renderLessonLink={(lessonId, className, children) => microphone.resource ? <Link to="/practice/pitch-matching/lessons/$lessonId"
       params={{ lessonId }} className={className}>{children}</Link>
       : <button type="button" disabled aria-describedby="pitch-microphone-required"
-          className={cn(className, 'w-full cursor-not-allowed text-left [&>span]:pointer-events-none [&>span:first-child]:opacity-60 [&>span:nth-child(2)]:opacity-60')}>{children}
-          <span className="flex items-center gap-tight text-body font-semibold text-foreground"><MicOff aria-hidden="true" className="size-5" />Microphone required</span>
+          className={cn(className, 'w-full cursor-not-allowed text-left sm:flex-wrap [&>span]:pointer-events-none [&>span:first-child]:opacity-60 [&>span:nth-child(2)]:opacity-60')}>{children}
+          <span className="flex items-center gap-tight text-meta text-foreground sm:basis-full"><MicOff aria-hidden="true" className="size-4" />Microphone required</span>
         </button>} />;
 }

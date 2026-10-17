@@ -25,7 +25,7 @@ function ChordIdentificationWorkshop() {
       lessonsForModule={lessonsForModule}
       getLessonResult={getLessonResult}
       headerAction={
-        <Button asChild variant="outline" className="self-start">
+        <Button asChild variant="outline" className="min-h-11 self-start px-base text-meta">
           <Link to="/practice/chord-identification/custom" search={parseCustomSearch({})}>
             <SlidersHorizontal />
             Set up custom exercise

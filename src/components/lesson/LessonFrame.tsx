@@ -19,21 +19,24 @@ export function LessonFrame({ exerciseTitle, title, onBack, onFinish, progress, 
   currentIndex?: number;
   children: ReactNode;
 }) {
-  return <Sheet size="exercise" className="flex flex-col gap-loose py-base">
+  const completed = progress?.filter(segment => segment !== 'upcoming').length ?? 0;
+  return <Sheet size="exercise" className="flex flex-col gap-base py-base sm:gap-loose">
     <nav aria-label="Breadcrumb"><ExerciseMasthead /></nav>
     <header className="flex flex-col gap-base">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-base">
-        <Button variant="ghost" size="sm" onClick={onBack} className="rubricated font-specimen justify-self-start text-subhead">Back</Button>
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-tight sm:grid-cols-[1fr_auto_1fr] sm:gap-base">
+        <Button variant="ghost" size="sm" onClick={onBack} className="rubricated font-specimen min-h-11 justify-self-start text-subhead">Back</Button>
         <div className="flex flex-col items-center gap-tight text-center">
           <p className="rubricated font-specimen text-meta text-rubric-strong">{exerciseTitle}</p>
-          <h2 className="rubricated font-specimen text-subhead text-foreground">{title}</h2>
+          <h1 className="rubricated font-specimen text-subhead text-foreground">{title}</h1>
         </div>
-        {onFinish ? <Button variant="ghost" size="sm" onClick={onFinish} className="rubricated font-specimen justify-self-end text-subhead">Finish</Button> : <div />}
+        {onFinish ? <Button variant="ghost" size="sm" onClick={onFinish} className="rubricated font-specimen min-h-11 justify-self-end text-subhead">Finish</Button> : <div />}
       </div>
       {/* Lighter than the page dividers, so it never competes with the question. */}
       <OrnamentImage asset={FLOURISH} sizes="(min-width: 40rem) 10rem, 8rem" placement="above-fold" className="mx-auto h-auto w-32 sm:w-40" />
     </header>
-    {progress && <div className="flex gap-[3px]" aria-hidden>
+    {progress && progress.length > 0 && <div className="flex gap-[3px]" role="progressbar" aria-label="Lesson progress"
+      aria-valuemin={0} aria-valuemax={progress.length} aria-valuenow={completed}
+      aria-valuetext={`${completed} of ${progress.length} completed`}>
       {progress.map((segment, index) => <div key={index} className={cn('h-[3px] flex-1 transition-colors duration-fast',
         segment === 'upcoming' && 'bg-border', segment === 'right' && 'bg-success',
         segment === 'wrong' && 'bg-destructive', index === currentIndex && 'bg-rubric')} />)}
@@ -47,7 +50,7 @@ export function LessonActions({ children }: { children: ReactNode }) {
 }
 
 export function LessonActionButton({ className, ...props }: ComponentProps<typeof Button>) {
-  return <Button className={cn('rubricated font-specimen text-subhead', className)} {...props} />;
+  return <Button className={cn('rubricated font-specimen min-h-11 px-base text-subhead', className)} {...props} />;
 }
 
 export function LessonSummaryFrame({ exerciseTitle, title, completed = true, children }: { exerciseTitle: string; title: string; completed?: boolean; children: ReactNode }) {
@@ -56,7 +59,7 @@ export function LessonSummaryFrame({ exerciseTitle, title, completed = true, chi
     <div className="flex flex-col items-center gap-tight">
       <OrnamentImage asset={HEADPIECE} sizes="13rem" placement="above-fold" className="h-auto w-52" />
       <p className="rubricated font-specimen text-meta text-rubric-strong">{exerciseTitle}</p>
-      <h2 className="font-display text-2xl font-semibold">{title} — {completed ? 'done' : 'progress'}</h2>
+      <h1 className="font-display text-2xl font-semibold">{title} — {completed ? 'done' : 'progress'}</h1>
     </div>
     {children}
   </Sheet>;

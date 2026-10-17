@@ -25,7 +25,7 @@ export function PracticeWorkshop({ kind }: { kind: Kind }) {
     getLessonResult={id => definition.timed ? getTimingLessonResult(resultKey(id, list.find(l => l.id === id)!.options, preferences)) : resultStore.getLessonResult(resultKey(id, list.find(l => l.id === id)!.options))}
     headerAction={<div className="flex flex-col gap-base">
       {definition.timed && <TimingSetup value={preferences} onChange={value => { saveTimingPreferences(value); setPreferences(value); }} />}
-      <Button asChild variant="outline" className="self-start"><Link to={`/practice/${kind}/custom` as CustomPath} search={SEARCH_PARSERS[kind]({})}>Set up custom exercise</Link></Button>
+      <Button asChild variant="outline" className="min-h-11 self-start px-base text-meta"><Link to={`/practice/${kind}/custom` as CustomPath} search={SEARCH_PARSERS[kind]({})}>Set up custom exercise</Link></Button>
     </div>}
     renderLessonLink={(lessonId, className, children) => <Link to={`/practice/${kind}/lessons/$lessonId` as LessonPath} params={{ lessonId }} className={className}>{children}</Link>} />;
 }

@@ -1,5 +1,18 @@
 [
   {
+    "name": "illuminated-acanthus-module-sprig",
+    "description": "A compact blue acanthus curl with a small red leaf and ochre-gold stem, painted to precede practice module headings.",
+    "width": 763,
+    "height": 994,
+    "webp": "webp/illuminated-acanthus-module-sprig.webp",
+    "uses": ["image"],
+    "has_transparency": true,
+    "source": {
+      "audit": "illuminated-acanthus-module-sprig.json",
+      "encoding": "Lossless WebP; transparent margin cropped, retained pixels and alpha preserved."
+    }
+  },
+  {
     "name": "illuminated-acanthus-floral-frame",
     "description": "Original gold floral and illuminated acanthus frame with four individually drawn corners.",
     "width": 1367,

@@ -35,10 +35,10 @@ export function WorkshopPage({
     <Sheet className="flex flex-col gap-loose pt-base" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
       {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}
       <nav aria-label="Breadcrumb" className="lg:hidden"><ExerciseMasthead /></nav>
-      <div className="flex flex-col gap-tight">
+      <header className="flex flex-col gap-tight">
         <div className="flex flex-wrap items-center justify-between gap-base">
           <div className="flex min-w-0 items-center gap-1">
-            <h1 className="font-display text-title text-primary-strong">
+            <h1 aria-label={title} className="min-w-0 font-display text-title text-primary-strong">
               <TitleText title={title} />
             </h1>
             <OverviewHelpPopover ariaLabel={`About ${title}`} sections={overview} />
@@ -46,7 +46,7 @@ export function WorkshopPage({
           {soundControls}
         </div>
         <p className="max-w-[64ch] text-body text-muted-foreground">{blurb}</p>
-      </div>
+      </header>
 
       {headerAction}
 

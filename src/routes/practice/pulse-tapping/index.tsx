@@ -15,7 +15,7 @@ function Workshop() {
     getLessonResult={id => getTimingLessonResult(policyKey(id, lessonById(id)!.options, preferences))}
     headerAction={<div className="flex flex-col gap-base">
       <TimingSetup value={preferences} onChange={next => { saveTimingPreferences(next); setPreferences(next); }} />
-      <Button asChild variant="outline" className="self-start"><Link to="/practice/pulse-tapping/custom" search={parseCustomSearch({})}>Set up custom exercise</Link></Button>
+      <Button asChild variant="outline" className="min-h-11 self-start px-base text-meta"><Link to="/practice/pulse-tapping/custom" search={parseCustomSearch({})}>Set up custom exercise</Link></Button>
     </div>}
     renderLessonLink={(lessonId, className, children) => <Link to="/practice/pulse-tapping/lessons/$lessonId" params={{ lessonId }} className={className}>{children}</Link>} />;
 }

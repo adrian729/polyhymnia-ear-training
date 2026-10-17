@@ -68,11 +68,11 @@ function TocList({ modules, active }: { modules: readonly TocModule[]; active: s
               href={`#${module.id}`}
               aria-current={isActive ? 'true' : undefined}
               className={cn(
-                'flex items-baseline gap-1.5 border-b border-border/60 py-1.5 text-meta leading-snug transition-colors hover:text-primary-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
+                'flex min-h-11 items-baseline gap-tight border-b border-border/60 py-2 text-start text-meta leading-snug transition-colors hover:text-primary-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
                 isActive ? 'text-rubric-strong' : 'text-muted-foreground',
               )}
             >
-              <span aria-hidden className="rubricated font-specimen shrink-0 tabular-nums">
+              <span aria-hidden className="rubricated font-specimen min-w-5 shrink-0 tabular-nums">
                 {ROMAN[i] ?? i + 1}
               </span>
               <span className="rubricated">
