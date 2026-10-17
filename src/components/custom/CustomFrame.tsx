@@ -36,7 +36,7 @@ export function CustomFrame({ lessonsTo, help, summary, errors, startDisabledRea
   if (running) return <>{runner({ title: TITLE, onBack: () => setRunning(false) })}</>;
 
   return (
-    <Sheet size="custom" className="flex flex-col gap-6 px-base pt-loose">
+    <Sheet size="custom" className="flex flex-col gap-6 pt-base">
       <div className="flex flex-col gap-3">
         <nav aria-label="Breadcrumb">
           <ExerciseMasthead />

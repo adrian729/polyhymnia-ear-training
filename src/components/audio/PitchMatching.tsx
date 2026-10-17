@@ -244,7 +244,7 @@ export function PitchMatching({ options, title, lessonId, onBack, onNextLesson }
       renderAnswer={item => item.answer && <PitchHoldSummary target={item.question} statistics={item.answer} />}
       revealPlaceholder={<span>Reference note</span>} summaryNote={() => ' · skipped'} />;
 
-  if (!microphone.resource || !practiceReady) return <Sheet size="custom" className="flex flex-col gap-loose px-base py-loose">
+  if (!microphone.resource || !practiceReady) return <Sheet size="custom" className="flex flex-col gap-loose py-base">
     <nav aria-label="Breadcrumb"><ExerciseMasthead /></nav>
     <Button variant="ghost" className="self-start" onClick={onBack}>Back to lessons</Button>
     <header className="flex flex-col gap-tight">

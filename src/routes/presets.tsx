@@ -115,7 +115,7 @@ const SCALES: readonly Scale[] = [
 
 function PresetsPage() {
   return (
-    <Sheet className="flex flex-col gap-loose px-base py-loose">
+    <Sheet className="flex flex-col gap-loose py-base">
       <h1 className="text-title">Notation presets</h1>
       <Section title="Chords">
         {CHORDS.map((c) => (

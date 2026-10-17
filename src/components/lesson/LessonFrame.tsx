@@ -19,7 +19,7 @@ export function LessonFrame({ exerciseTitle, title, onBack, onFinish, progress, 
   currentIndex?: number;
   children: ReactNode;
 }) {
-  return <Sheet size="exercise" className="flex flex-col gap-loose px-base py-loose">
+  return <Sheet size="exercise" className="flex flex-col gap-loose py-base">
     <nav aria-label="Breadcrumb"><ExerciseMasthead /></nav>
     <header className="flex flex-col gap-base">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-base">

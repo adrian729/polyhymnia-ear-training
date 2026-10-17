@@ -42,7 +42,7 @@ const prepareScore = () => loadScore().then(score => score.prepare());
 
 function HomePage() {
   return (
-    <Sheet className="flex flex-col gap-section px-base pt-base">
+    <Sheet className="flex flex-col gap-section pt-base">
       <BorderFrame asset={HERO_FRAME} className="relative">
         {HERO_CORNERS.map(({ asset, position }) => (
           <OrnamentImage

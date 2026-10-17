@@ -32,7 +32,7 @@ export function WorkshopPage({
   soundControls?: ReactNode;
 }) {
   return (
-    <Sheet className="flex flex-col gap-loose pt-loose" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
+    <Sheet className="flex flex-col gap-loose pt-base" aside={<WorkshopAside modules={modules} />} label={`${title} lessons`}>
       {/* Wide screens show it atop the sidebar; stacked, the sidebar starts rolled up. */}
       <nav aria-label="Breadcrumb" className="lg:hidden"><ExerciseMasthead /></nav>
       <div className="flex flex-col gap-tight">
