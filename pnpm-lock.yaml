@@ -183,8 +183,8 @@ importers:
         version: 1.4.0
     devDependencies:
       '@ranx729/ducktape-assets':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.2.0
+        version: 1.2.0
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.2(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))
@@ -1938,8 +1938,8 @@ packages:
   '@radix-ui/rect@1.1.3':
     resolution: {integrity: sha512-JtyZR+mqgBibTo8xea3B6ZRmzZiM/YeVBtUkas6zMuXjAlfIFIW2FgqeM9eLyvEaYX66vr6DJMK+4U6LV0KhNw==}
 
-  '@ranx729/ducktape-assets@1.0.0':
-    resolution: {integrity: sha512-+/mEDXY0zIoPx62XXDKV85wA7UGtE6erP+euD3giEfljGitAa0LCQODuVrLm4bCv9dO73J0q0YHu7jwx9a6XeQ==}
+  '@ranx729/ducktape-assets@1.2.0':
+    resolution: {integrity: sha512-McdySpXttp7/lRdLyngE8/iEIHjSVfz7wTbku3BfYE4URePCgdvwop+D6VpZ7ERPTgjGBwV/APe4W0uOmeXydw==}
     engines: {node: '>=22.14'}
     hasBin: true
 
@@ -6622,7 +6622,7 @@ snapshots:
 
   '@radix-ui/rect@1.1.3': {}
 
-  '@ranx729/ducktape-assets@1.0.0': {}
+  '@ranx729/ducktape-assets@1.2.0': {}
 
   '@ranx729/elder-scrolls@0.1.7(react@19.3.0)':
     optionalDependencies:

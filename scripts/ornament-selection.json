@@ -1,7 +1,7 @@
 [
   {"group": "decorations", "name": "acanthus-module-sprig", "id": "illuminated-acanthus/module-sprig", "role": "image", "widths": [24, 48, 72], "format": "avif", "quality": 82},
   {"group": "illustrations", "name": "anafiles", "id": "medieval-cutouts/anafiles", "role": "image", "widths": [384, 512, 768, 964], "quality": 82},
-  {"group": "frames", "name": "hero-frame", "id": "illuminated-acanthus/floral-frame", "role": "frame", "thicknessesPx": [28, 40], "quality": 60, "atlas": {"crop": [22, 57, 1367, 1000], "slicePx": 146}},
+  {"group": "frames", "name": "hero-frame", "id": "illuminated-acanthus/floral-frame", "role": "frame", "thicknessesPx": [28, 40], "quality": 60},
   {"group": "decorations", "name": "acanthus-corner-top-left", "id": "illuminated-acanthus/corner-top-left", "role": "image", "widths": [96, 160, 240], "format": "avif"},
   {"group": "decorations", "name": "acanthus-corner-top-right", "id": "illuminated-acanthus/corner-top-right", "role": "image", "widths": [96, 160, 240], "format": "avif"},
   {"group": "decorations", "name": "acanthus-corner-bottom-left", "id": "illuminated-acanthus/corner-bottom-left", "role": "image", "widths": [96, 160, 240], "format": "avif"},

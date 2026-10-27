@@ -1,161 +1,130 @@
 {
-  "pin": "@ranx729/ducktape-assets@1.0.0",
+  "pin": "@ranx729/ducktape-assets@1.2.0",
   "out": "src/assets/ducktape",
   "assets": [
     {
       "id": "illuminated-acanthus/module-sprig",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/floral-frame",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/corner-top-left",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/corner-top-right",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/corner-bottom-left",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/corner-bottom-right",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/headpiece",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/saltarello-upper-simple",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/saltarello-lower-simple",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/divider-start",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/divider-center",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/divider-end",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/section-fleuron",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/horizontal-flourish",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/ornate-inner-frame",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/inward-growth-top-left",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/inward-growth-top-right",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/inward-growth-bottom-left",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/inward-growth-bottom-right",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/polyhymnia",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/rosette",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/title-ivy-open",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "illuminated-acanthus/title-ivy-close",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/anafiles",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/bunny-trumpet",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/donkey-organist",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/animal-musicians-ensemble",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/musicians-and-dancers",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/cat-reading-book",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "medieval-cutouts/animal-choir-landscape",
-      "masters": true,
-      "formats": []
+      "masters": true
     },
     {
       "id": "walters-w102/horse-flute-drum",
-      "masters": true,
-      "formats": []
+      "masters": true
     }
   ]
 }

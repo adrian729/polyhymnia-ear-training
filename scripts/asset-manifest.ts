@@ -1,8 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import { join, relative, resolve } from 'node:path';
 import type { Plugin } from 'vite';
-import type { TransformFactory } from 'vite-imagetools';
 import type { Flourish } from '../src/lib/assets.ts';
 
 /*
@@ -15,10 +13,10 @@ import type { Flourish } from '../src/lib/assets.ts';
  * art and frames, and never an upscale (a copy a dense screen would need beyond the master is the
  * master).
  *
- * The library does not carry everything the app draws with: a border-image slice for a frame it
- * ships as a whole picture, and the points a heading's text and rules align to on a flourish. Those
- * stay in the selection entry (`atlas`, `flourish`), in master pixels, and are checked against the
- * master here.
+ * A frame's border-image slice comes from the copy manifest (render.frame), where the library
+ * declares it for the master. The one thing the library does not carry is the points a heading's text
+ * and rules align to on a flourish; that stays in the selection entry (`flourish`), in master pixels,
+ * and is checked against the master here.
  *
  * This is the one place an ornament is added. Components read the generated group; nothing else
  * names a master. Run at dev/build/test start (vite.config.ts, vitest.config.ts), like the fonts,
@@ -52,9 +50,6 @@ interface SelectionEntry {
   /** frame/divider: the drawn border or strip width in CSS pixels; one, or a narrow one and the wider
    *  one drawn from the `sm` breakpoint up. */
   thicknessesPx?: number[];
-  /** frame: the border-image atlas within the master (`crop`: left, top, width, height) and its slice,
-   *  in master pixels. */
-  atlas?: { crop: [number, number, number, number]; slicePx: number };
   /** image: where a heading's text and rules meet the art, in master pixels. */
   flourish?: Flourish;
 }
@@ -63,6 +58,9 @@ interface SelectionEntry {
 interface CopiedAsset {
   set: string;
   version: string;
+  type: string;
+  transparent: boolean | null;
+  render: { frame?: { slice: { top: number; right: number; bottom: number; left: number }; slicePx: number } };
   files: { master?: { w: number; h: number; path: string } };
 }
 
@@ -71,6 +69,8 @@ interface Master {
   path: string;
   width: number;
   height: number;
+  /** frame: the library's border-image slice for this master. */
+  frame?: NonNullable<CopiedAsset['render']['frame']>;
 }
 
 /** Names one import per distinct specifier, so copies capped at the same size share a file. */
@@ -87,15 +87,6 @@ function readCopied(root: string): { dir: string; assets: Record<string, CopiedA
   const file = join(dir, 'ducktape.manifest.json');
   if (!existsSync(file)) throw new Error(`asset-manifest: ${relative(root, file)} is missing; run \`pnpm exec ducktape-assets copy\`.`);
   return { dir, assets: (JSON.parse(readFileSync(file, 'utf8')) as { assets: Record<string, CopiedAsset> }).assets };
-}
-
-/** Whether the library marks an asset transparent. The copy manifest leaves it out, so this reads the
- *  set manifest of the installed index package, which must be the version that was copied. */
-function isTransparent(root: string, entry: SelectionEntry, copied: CopiedAsset): boolean {
-  const require = createRequire(join(root, 'package.json'));
-  const set = require(`@ranx729/ducktape-assets/sets/${copied.set}.json`) as { version: string; assets: Record<string, { transparent?: boolean }> };
-  if (set.version !== copied.version) fail(entry, `the installed index has ${copied.set}@${set.version}, but ${copied.version} was copied; run the copy command again.`);
-  return set.assets[entry.id.slice(copied.set.length + 1)]?.transparent === true;
 }
 
 /** The ladder rungs a mask is generated at: fixed steps up to the master, never above it. */
@@ -138,17 +129,14 @@ function emitImage(entry: SelectionEntry, master: Master, use: Use, q: number): 
 }
 
 function emitFrame(entry: SelectionEntry, master: Master, use: Use, q: number): string {
-  const [left, top, width, height] = entry.atlas!.crop;
-  const { slicePx } = entry.atlas!;
-  // The atlas is drawn at `thickness` px, so a slice of slicePx maps to that width: scale the atlas by
-  // the thickness-to-slice ratio. `extract` (extractTransform) cuts it from the master first.
-  const encode = `extract=${left},${top},${width},${height}&quality=${q}&format=avif`;
+  const { slice, slicePx } = master.frame!;
+  // The master is drawn at `thickness` px, so a slice of slicePx maps to that width: scale the master by
+  // the thickness-to-slice ratio.
+  const encode = `quality=${q}&format=avif`;
   const copies = thicknesses(entry).map(thickness =>
-    `{ thickness: ${thickness}, images: ${densities(use, master.path, 'w', (thickness * width) / slicePx, width, encode)} }`);
-  // Percentages are relative to each axis. A rectangular painting needs a different vertical
-  // percentage to keep its original square corners and equal border thickness.
-  const horizontal = (slicePx / width) * 100;
-  const slices = width === height ? `${horizontal}` : `[${(slicePx / height) * 100}, ${horizontal}]`;
+    `{ thickness: ${thickness}, images: ${densities(use, master.path, 'w', (thickness * master.width) / slicePx, master.width, encode)} }`);
+  // Percentages are relative to each axis, as the library declares them.
+  const slices = slice.top === slice.left ? `${slice.left}` : `[${slice.top}, ${slice.left}]`;
   return `slicePercent: ${slices}, copies: [${copies.join(', ')}]`;
 }
 
@@ -206,19 +194,18 @@ function checkEntry(root: string, entry: SelectionEntry, copied: CopiedAsset | u
   if (!master) fail(entry, `"${entry.id}" was copied without its master; set "masters": true in ${CONFIG}.`);
   const file = join(dir, master.path);
   if (!existsSync(file)) fail(entry, `${relative(root, file)} is missing; run \`pnpm exec ducktape-assets copy\`.`);
-  if (entry.role === 'mask' && !isTransparent(root, entry, copied)) fail(entry, `"${entry.id}" has no transparency, so it cannot be a mask.`);
+  if (entry.role === 'mask' && copied.transparent !== true) fail(entry, `"${entry.id}" has no transparency, so it cannot be a mask.`);
+  const frame = copied.render.frame;
   if (entry.role === 'frame') {
-    const [left, top, width, height] = entry.atlas?.crop ?? [];
-    if (width === undefined || height === undefined || !entry.atlas!.slicePx) fail(entry, 'a frame needs its border-image atlas: "atlas": { "crop": [left, top, width, height], "slicePx" }.');
-    if (!inside(master, [left!, top!]) || !inside(master, [left! + width, top! + height])) fail(entry, `atlas crop falls outside the ${master.w}x${master.h} master.`);
-    if (entry.atlas!.slicePx * 2 >= Math.min(width, height)) fail(entry, 'atlas slicePx leaves no edge between the corners.');
-  } else if (entry.atlas) fail(entry, 'atlas is only for frames.');
+    if (!frame) fail(entry, `"${entry.id}" declares no render.frame in the library, so it cannot be a frame.`);
+    if (frame.slicePx * 2 >= Math.min(master.w, master.h)) fail(entry, 'the library slice leaves no edge between the corners.');
+  }
   if (entry.flourish) {
     const { join: junction, text } = entry.flourish;
     if (entry.role !== 'image') fail(entry, 'flourish is only for images.');
     if (!inside(master, junction) || (text && !inside(master, text))) fail(entry, `flourish points fall outside the ${master.w}x${master.h} master.`);
   }
-  return { path: relative(resolve(root, OUT_DIR), file), width: master.w, height: master.h };
+  return { path: relative(resolve(root, OUT_DIR), file), width: master.w, height: master.h, ...(entry.role === 'frame' ? { frame } : {}) };
 }
 
 /** Writes one module per group, rewriting only those that changed and removing stale ones. */
@@ -244,23 +231,6 @@ export function generateAssets(root = process.cwd()): { groups: string[] } {
   }
   return { groups: [...grouped.keys()] };
 }
-
-/**
- * The `extract=left,top,width,height` directive: cuts a region from the source before any other
- * directive, so a frame's atlas can be drawn from a master that also holds margins. vite-imagetools
- * has no crop of its own. Pass to `imagetools({ extendTransforms: builtins => [extractTransform, ...builtins] })`.
- */
-export const extractTransform: TransformFactory<{ extract: string }> = ({ extract }, context) => {
-  if (!extract) return undefined;
-  const [left, top, width, height] = extract.split(',').map(Number);
-  if (![left, top, width, height].every(value => Number.isInteger(value) && value! >= 0)) throw new Error(`extract=${extract}: expected left,top,width,height in pixels.`);
-  context.useParam('extract');
-  return (state, image) => {
-    // autoOrient, which runs next, resets the size from `autoOriented`, so both describe the region.
-    state.info = { width: width!, height: height!, autoOriented: { width: width!, height: height! } };
-    return image.extract({ left: left!, top: top!, width: width!, height: height! });
-  };
-};
 
 /** Generates the asset modules at config load, so they exist before any import is resolved. */
 export function assetManifest(): Plugin {

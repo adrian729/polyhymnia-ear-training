@@ -72,4 +72,4 @@ Rhythm exercises use the published `@polyhymnia/rhythm`, `@polyhymnia/rhythm-rea
 
 ## License
 
-[MIT](LICENSE) © 2026 Adrián Sánchez Albanell. Bundled fonts, samples and ornaments keep their own licences — see the OFL and CREDITS files beside them. The pitch worker preserves Pitchy and fft.js MIT notices; a copy ships in [public/licenses/pitchy-fft.txt](public/licenses/pitchy-fft.txt).
+[MIT](LICENSE) © 2026 Adrián Sánchez Albanell. Bundled fonts, samples and ornaments keep their own licences — see the OFL and CREDITS files beside them. Ornament art from the Ducktape Assets library is by adrian729 (CC-BY-4.0). The pitch worker preserves Pitchy and fft.js MIT notices; a copy ships in [public/licenses/pitchy-fft.txt](public/licenses/pitchy-fft.txt).

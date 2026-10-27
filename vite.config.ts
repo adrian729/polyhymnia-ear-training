@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { imagetools } from 'vite-imagetools';
 import { VitePWA } from 'vite-plugin-pwa';
-import { assetManifest, extractTransform } from './scripts/asset-manifest.ts';
+import { assetManifest } from './scripts/asset-manifest.ts';
 import { artworkPreload } from './scripts/artwork-preload.ts';
 import { cnTables } from './scripts/cn-tables.ts';
 import { favicon } from './scripts/favicon.ts';
@@ -38,8 +38,6 @@ export default defineConfig({
     imagetoolsDevCache(),
     imagetools({
       include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|tiff|webp|svg)(\?.*)?$/,
-      // `extract` cuts a frame's atlas from its master before any resize (scripts/asset-manifest.ts).
-      extendTransforms: builtins => [extractTransform as typeof builtins[number], ...builtins],
     }),
     // Lesson loaders read their exercise catalogs; split with the component, so catalogs load with
     // the lesson's own chunk instead of at startup.
