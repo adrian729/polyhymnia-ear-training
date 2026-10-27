@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:link": "node scripts/dev-link.mjs link",
     "dev:unlink": "node scripts/dev-link.mjs unlink",
+    "assets:sync": "ducktape-assets copy && node -e \"import('./scripts/asset-manifest.ts').then(m => console.log(m.generateAssets()))\"",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p sw/tsconfig.json --noEmit",
     "test": "vitest run",
     "build": "vite build && cp dist/index.html dist/404.html",

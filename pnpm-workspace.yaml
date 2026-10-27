@@ -1,6 +1,9 @@
 allowBuilds:
   esbuild: true
+# These packages are the owner's own, published by the owner's trusted-publishing workflow, so the
+# supply-chain release-age delay protects nothing. Version-free, so a fresh release needs no new entry.
 minimumReleaseAgeExclude:
   - '@polyhymnia/*'
-  - '@ranx729/elder-scrolls@0.1.0 || 0.1.1 || 0.1.2 || 0.1.3 || 0.1.4 || 0.1.5 || 0.1.6 || 0.1.7'
-  - '@ranx729/ducktape-assets@1.2.0'
+  - '@ranx729/elder-scrolls'
+  - '@ranx729/ducktape-assets'
+  - '@ranx729/ducktape-assets-*'

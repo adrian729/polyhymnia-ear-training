@@ -2,12 +2,11 @@
 // consume. Generated group modules are typed by the ambient declaration in src/generated-assets.d.ts,
 // so this file is the single source for both.
 //
-// Four roles, because the art is genuinely two kinds (tinted line art vs painted colour) and two
-// placements (a whole image vs a repeating/bordered frame):
+// Three roles, because the art is genuinely two kinds (tinted line art vs painted colour) and two
+// placements (a whole image vs a bordered frame):
 //   mask    – alpha silhouette drawn in currentColor, generated as a ladder of raster heights.
 //   image   – a finished picture, drawn through <img> with a srcset.
 //   frame   – a border-image atlas with a slice, drawn at each density.
-//   divider – a repeating tile, sized for each direction and density.
 
 export interface ImageVariant {
   src: string;
@@ -62,13 +61,7 @@ export interface FrameAsset {
   copies: Thicknesses<{ thickness: number; images: DensityCopies }>;
 }
 
-export interface DividerAsset {
-  kind: 'divider';
-  /** For each drawn strip thickness in CSS pixels, the tile repeating along each direction. */
-  copies: Thicknesses<{ thickness: number; horizontal: DensityCopies; vertical: DensityCopies }>;
-}
-
-export type Asset = MaskAsset | ImageAsset | FrameAsset | DividerAsset;
+export type Asset = MaskAsset | ImageAsset | FrameAsset;
 
 /** One generated module per group; names are the keys pages use. */
 export type AssetGroup = Readonly<Record<string, Asset>>;
@@ -87,7 +80,6 @@ function pick<T extends Asset>(group: AssetGroup, name: string, kind: AssetRole)
 export const maskAsset = (group: AssetGroup, name: string) => pick<MaskAsset>(group, name, 'mask');
 export const imageAsset = (group: AssetGroup, name: string) => pick<ImageAsset>(group, name, 'image');
 export const frameAsset = (group: AssetGroup, name: string) => pick<FrameAsset>(group, name, 'frame');
-export const dividerAsset = (group: AssetGroup, name: string) => pick<DividerAsset>(group, name, 'divider');
 
 /**
  * A copy set as a CSS image, for art only CSS can draw (a border or background image).

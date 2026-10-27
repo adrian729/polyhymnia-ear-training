@@ -29,10 +29,10 @@ const CONFIG = 'ducktape.json';
 const DEFAULT_COPY_DIR = 'src/assets/ducktape';
 const GENERATOR = 'scripts/asset-manifest.ts';
 
-const ROLES = ['mask', 'image', 'frame', 'divider'] as const;
+const ROLES = ['mask', 'image', 'frame'] as const;
 type Role = typeof ROLES[number];
 
-const DEFAULT_QUALITY: Record<Role, number> = { mask: 82, image: 82, frame: 60, divider: 82 };
+const DEFAULT_QUALITY: Record<Role, number> = { mask: 82, image: 82, frame: 60 };
 const AVIF_QUALITY = 60;
 
 interface SelectionEntry {
@@ -47,7 +47,7 @@ interface SelectionEntry {
   format?: 'webp' | 'avif';
   /** Lossy encode quality. */
   quality?: number;
-  /** frame/divider: the drawn border or strip width in CSS pixels; one, or a narrow one and the wider
+  /** frame: the drawn border or strip width in CSS pixels; one, or a narrow one and the wider
    *  one drawn from the `sm` breakpoint up. */
   thicknessesPx?: number[];
   /** image: where a heading's text and rules meet the art, in master pixels. */
@@ -94,7 +94,7 @@ function maskRungs(height: number): number[] {
   return [...[32, 64, 128, 256, 512, 768].filter(step => step < height), height];
 }
 
-/** The drawn thicknesses: one, or narrow then wide, which is all BorderFrame and Divider draw. */
+/** The drawn thicknesses: one, or narrow then wide, which is all BorderFrame draws. */
 function thicknesses(entry: SelectionEntry): number[] {
   const drawn = entry.thicknessesPx ?? [];
   if (drawn.length < 1 || drawn.length > 2 || (drawn.length === 2 && drawn[1]! <= drawn[0]!)) {
@@ -140,18 +140,10 @@ function emitFrame(entry: SelectionEntry, master: Master, use: Use, q: number): 
   return `slicePercent: ${slices}, copies: [${copies.join(', ')}]`;
 }
 
-function emitDivider(entry: SelectionEntry): string {
-  // A divider repeats a tile along the strip and a rotated copy across it. Ducktape describes tiles
-  // (render.tile), but none is published yet and the copy command brings no rotated master to
-  // re-encode, so there is nothing to draw one from.
-  fail(entry, 'Ducktape Assets has no repeat tile with a lossless rotated master yet; draw dividers from image pieces (see Acanthus.tsx).');
-}
-
 const EMIT: Record<Role, (entry: SelectionEntry, master: Master, use: Use, q: number) => string> = {
   mask: emitMask,
   image: emitImage,
   frame: emitFrame,
-  divider: emitDivider,
 };
 
 function renderGroup(entries: { entry: SelectionEntry; master: Master }[]): string {
