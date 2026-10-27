@@ -1,0 +1,595 @@
+{
+  "schema": 1,
+  "pin": "@ranx729/ducktape-assets@1.0.0",
+  "assets": {
+    "illuminated-acanthus/module-sprig": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Module sprig",
+      "description": "A compact upright sprig: a large blue acanthus leaf curling up and to the right, a gold leaf below it and a small red leaf at the lower right on a gold stem, on a transparent background.",
+      "width": 763,
+      "height": 994,
+      "thumbhash": "WgeCJAg4CFaXmKhaMwvp0qBNcHdpOYZnBw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 763,
+          "h": 994,
+          "path": "illuminated-acanthus/masters/module-sprig.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/floral-frame": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Floral frame",
+      "description": "A complete landscape rectangular frame with an opaque ochre-gold band filled with blue and red acanthus, green leaves, white five-petal flowers and red berries, bounded by thin red rules, around a transparent opening, on a transparent background.",
+      "width": 1410,
+      "height": 1116,
+      "thumbhash": "W2qCBIAmqepogmBUavt1w092fox4+Eh4CA==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1410,
+          "h": 1116,
+          "path": "illuminated-acanthus/masters/floral-frame.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/corner-top-left": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus corner, top-left",
+      "description": "A top-left corner of thin red and gold rules with red and gold acanthus leaves springing upward above the join, a blue acanthus leaf curling down into the corner, gold scrolls, green ivy leaves and small red finials at the ends of both rules, on a transparent background.",
+      "width": 1266,
+      "height": 1243,
+      "thumbhash": "2jiCDYIT6QVmKKtnV/dFjY/mbzONVVQoJw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1266,
+          "h": 1243,
+          "path": "illuminated-acanthus/masters/corner-top-left.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/corner-top-right": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus corner, top-right",
+      "description": "A top-right corner of thin red and gold rules with a large blue acanthus leaf sweeping down and left from the join, a red leaf curling up and right, gold scrolls, green ivy leaves and blue finials at the ends of both rules, on a transparent background.",
+      "width": 1312,
+      "height": 1199,
+      "thumbhash": "2CiCBYATJn87t0kpO/hrbM+0oGmPtacmGQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1312,
+          "h": 1199,
+          "path": "illuminated-acanthus/masters/corner-top-right.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/corner-bottom-left": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus corner, bottom-left",
+      "description": "A bottom-left corner of thin red and gold rules with a tall red acanthus leaf rising up the left rule, blue and gold leaves at the join, gold scrolls, green ivy leaves and red finials at the ends of both rules, on a transparent background.",
+      "width": 1287,
+      "height": 1222,
+      "thumbhash": "mFmCBYATaBBDtZxHyPfuvv57nxSRmlmGSQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1287,
+          "h": 1222,
+          "path": "illuminated-acanthus/masters/corner-bottom-left.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/corner-bottom-right": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus corner, bottom-right",
+      "description": "A bottom-right corner of thin red and gold rules with blue and gold acanthus leaves at the join, a red leaf rising up the right rule to a red finial, green ivy leaves along both rules, gold scrolls and a red finial at the left end, on a transparent background.",
+      "width": 1536,
+      "height": 1024,
+      "thumbhash": "WDmCA4AT8afmgVi4D5frYMBmgGmppRY=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1536,
+          "h": 1024,
+          "path": "illuminated-acanthus/masters/corner-bottom-right.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/headpiece": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus headpiece",
+      "description": "A wide, nearly symmetric headpiece: a tall blue acanthus crest with a gold base in the centre, flanked by blue and red acanthus curls, gold scrolls and green ivy leaves spreading to both sides, on a transparent background.",
+      "width": 2172,
+      "height": 724,
+      "thumbhash": "miiCAoAkCqZ5l2PQjgP/OGeHh4hwiHc=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 2048,
+          "h": 683,
+          "path": "illuminated-acanthus/masters/headpiece.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/saltarello-upper-simple": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Saltarello margin rod, upper, simple",
+      "description": "A top-left corner piece for a left margin: a vertical gold rod edged in red, from which a horizontal spray of red and blue acanthus, green leaves and gold scrolls in a lighter, muted palette with fewer berries grows to the right along the top; the rod ends at the bottom in a small gold and blue foliate finial. Transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "GimCBQASuwaFmmRoZrowox9EjhWPdnqGOA==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/saltarello-upper-simple.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/saltarello-lower-simple": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Saltarello margin rod, lower, simple",
+      "description": "A bottom-left corner piece for a left margin: a vertical gold rod edged in red, from which a horizontal spray of red and blue acanthus, green leaves and gold scrolls in a lighter, muted palette with fewer berries grows to the right along the bottom; the rod ends at the top in a small blue and gold fleuron finial. Transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "WzmCBQATnDhZd5emCPx716+FjiRwmWqHWQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/saltarello-lower-simple.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/divider-start": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Divider, left terminal",
+      "description": "The left end of a horizontal divider: a blue acanthus leaf curling up, a red leaf curling down, gold lobes and tendrils and a green ivy leaf fanning out to the left from a small gold three-lobed cap at the right edge, on a transparent background.",
+      "width": 1448,
+      "height": 1086,
+      "thumbhash": "2TiCDII0R/eEapfqtwl5enCJcIp3OJd3Bw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1448,
+          "h": 1086,
+          "path": "illuminated-acanthus/masters/divider-start.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/divider-center": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Divider centrepiece",
+      "description": "A symmetric horizontal centrepiece of blue acanthus leaves curling outward to both sides, an upright red leaf in the middle, gold lower lobes and a green ivy leaf hanging below a small gold knot, on a transparent background.",
+      "width": 1774,
+      "height": 887,
+      "thumbhash": "2AeCE4I2CZeDfmQIh4yQt1d4doeAmIg=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1774,
+          "h": 887,
+          "path": "illuminated-acanthus/masters/divider-center.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/divider-end": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Divider, right terminal",
+      "description": "The right end of a horizontal divider: a blue acanthus leaf curling up, a red leaf curling down, gold lobes and tendrils and a green ivy leaf fanning out to the right from a small gold three-lobed cap at the left edge, on a transparent background.",
+      "width": 1448,
+      "height": 1086,
+      "thumbhash": "mSiCDIIkOfl0mmb8SAp3hYBpkIp4N6iHBw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1448,
+          "h": 1086,
+          "path": "illuminated-acanthus/masters/divider-end.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/section-fleuron": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Section fleuron",
+      "description": "A symmetric section ornament: a central red and blue foliate crest over gold lobes, gold curls to both sides, a green ivy leaf hanging below and two more on short gold side stems that end in red-tipped finials, on a transparent background.",
+      "width": 1536,
+      "height": 1024,
+      "thumbhash": "mhiCC4AjePeHenP3c3q89ziIeIdweqg=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1536,
+          "h": 1024,
+          "path": "illuminated-acanthus/masters/section-fleuron.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/horizontal-flourish": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Horizontal flourish",
+      "description": "A low horizontal flourish on a gold stem: a red acanthus leaf curling at the left, a blue leaf in the centre, a gold leaf at the right, three green ivy leaves, a small red bud and curling tendrils at both ends, on a transparent background.",
+      "width": 2172,
+      "height": 724,
+      "thumbhash": "GTmCCoIjUw92lpH5h9aPeFh4h3hwiaY=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 2048,
+          "h": 683,
+          "path": "illuminated-acanthus/masters/horizontal-flourish.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/ornate-inner-frame": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Ornate inner frame",
+      "description": "A complete landscape rectangular frame of four red, blue and gold acanthus corners with green leaves, white flowers and red berries, joined by thin red and gold rules with a small gold knot at the middle of each side, around a transparent opening, on a transparent background.",
+      "width": 1402,
+      "height": 1122,
+      "thumbhash": "mUmCBIAj2IlpiYtvW7BRVF+If3l4yIeHBA==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1402,
+          "h": 1122,
+          "path": "illuminated-acanthus/masters/ornate-inner-frame.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/inward-growth-top-left": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Inward-growing floral corner, top-left",
+      "description": "A top-left corner of gold, red and blue acanthus with green leaves, white five-petal flowers and red berries, with extra branches reaching diagonally from the corner into the interior of the page, on a transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "lkmCBQAk+3rJj7l7JveanX+Jj5ieZmd4hw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/inward-growth-top-left.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/inward-growth-top-right": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Inward-growing floral corner, top-right",
+      "description": "A top-right corner of gold, red and blue acanthus with green leaves, white five-petal flowers and red berries, with extra branches reaching diagonally from the corner into the interior of the page, on a transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "VzmCBQAklGgMXTuqVCMMbLCzkJZvlpiIiQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/inward-growth-top-right.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/inward-growth-bottom-left": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Inward-growing floral corner, bottom-left",
+      "description": "A bottom-left corner of gold, red and blue acanthus with green leaves, white five-petal flowers and red berries, with extra branches reaching diagonally from the corner into the interior of the page, on a transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "ljmCDQIljZoGZNeqNvtWmH9Xj5lwmmh4iQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/inward-growth-bottom-left.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/inward-growth-bottom-right": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Inward-growing floral corner, bottom-right",
+      "description": "A bottom-right corner of gold, red and blue acanthus with green leaves, white five-petal flowers and red berries, with extra branches reaching diagonally from the corner into the interior of the page, on a transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "WDmCDQIklWbGlVb6BfW0ZH4IkIaCaZh4hg==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/inward-growth-bottom-right.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/polyhymnia": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Polyhymnia playing a portative organ",
+      "description": "The muse Polyhymnia, a veiled young woman in a cream gown, pink sleeves and a blue mantle, sits on a stone bench and plays a portative organ, head bowed and turned to the right, before a garden and a hilly landscape with a castle. The arched scene is set in an opaque gold border strewn with pink roses, blue cornflowers, pansies, white acanthus sprays, butterflies and a bird; only the outer edge is transparent.",
+      "width": 1004,
+      "height": 1567,
+      "thumbhash": "HzmCEwIeH3brxWP6g7wfyQkJe3dwuAc=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1004,
+          "h": 1567,
+          "path": "illuminated-acanthus/masters/polyhymnia.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/rosette": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Acanthus rosette",
+      "description": "A compact fourfold rosette turning around a small gold disc: alternating red and blue acanthus leaves with gold curls, and four green ivy leaves between them at the diagonals, on a transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "mjiCFQQnKJeaNoJfSGf4eIePFyiHd3B4OA==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "illuminated-acanthus/masters/rosette.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/title-ivy-open": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Title ivy, opening bracket",
+      "description": "A large opening bracket for a heading, of blue and red acanthus leaves curling to the right around a gold three-lobed cap, with two green ivy leaves on short stems. It sits before the first letter of a title and faces right into the text; the background is transparent.",
+      "width": 539,
+      "height": 733,
+      "thumbhash": "mSiCDAIl+23FInGKqw44toBnkJiGaIOXBQ==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 539,
+          "h": 733,
+          "path": "illuminated-acanthus/masters/title-ivy-open.webp"
+        }
+      }
+    },
+    "illuminated-acanthus/title-ivy-close": {
+      "set": "illuminated-acanthus",
+      "version": "1.0.0",
+      "title": "Title ivy, closing sprig",
+      "description": "A small closing sprig for a heading, of blue, gold and red acanthus leaves on a stem that runs from a green ivy leaf at the left to a gold three-lobed cap at the right. It sits after the last letter of a title, the cap outward; the background is transparent.",
+      "width": 519,
+      "height": 312,
+      "thumbhash": "WTmCC4IloKiItcLjcCQFmCmnh3dwl4Y=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 519,
+          "h": 312,
+          "path": "illuminated-acanthus/masters/title-ivy-close.webp"
+        }
+      }
+    },
+    "medieval-cutouts/anafiles": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Two añafil players in a framed miniature",
+      "description": "Two seated musicians in red and purple robes, on gold chairs inside a blue framed miniature, blow long straight gold trumpets (añafiles) hung with heraldic pennants; they face left. The frame and blue ground are part of the image; only the area outside the frame is transparent.",
+      "width": 964,
+      "height": 670,
+      "thumbhash": "mQeCDII6lkpvpWk3B49q4JeGgIOIaId3Bg==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 964,
+          "h": 670,
+          "path": "medieval-cutouts/masters/anafiles.webp"
+        }
+      }
+    },
+    "medieval-cutouts/bunny-trumpet": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Rabbit blowing a long trumpet",
+      "description": "A seated brown rabbit with upright ears blows a long straight gold trumpet that stretches to the left edge of the image; it faces left on a transparent background. Wide landscape cut-out with the trumpet bell at the far left.",
+      "width": 1536,
+      "height": 1024,
+      "thumbhash": "WSmCA4AjdgqkZqWXwxAIHmEflmiBeXY=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1536,
+          "h": 1024,
+          "path": "medieval-cutouts/masters/bunny-trumpet.webp"
+        }
+      }
+    },
+    "medieval-cutouts/donkey-organist": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Donkey playing a portative organ",
+      "description": "A gray donkey with tall ears sits on the ground facing right and plays a gold portative organ with a row of pipes that stands to its right; transparent background.",
+      "width": 1211,
+      "height": 1299,
+      "thumbhash": "mUmCFQIovQxHljKoSqCZBop5FCaDl5CYSA==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1211,
+          "h": 1299,
+          "path": "medieval-cutouts/masters/donkey-organist.webp"
+        }
+      }
+    },
+    "medieval-cutouts/animal-musicians-ensemble": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Animal musicians in a framed miniature",
+      "description": "A complete framed miniature on a diapered blue, gold and pink ground: on green grass a hooded dog-like animal sings from an open book on a lectern, a spotted creature plays a fiddle, a donkey plays a portative organ, white geese gather in the middle, a red fox plays beside a drum, a small white animal rings bells on a stand at the right and a harp lies on the ground. Fully opaque, with pink and green border columns; nothing is transparent.",
+      "width": 720,
+      "height": 533,
+      "thumbhash": "2igGHYRaqXmPZoeIilZ3eXhwoboH",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 720,
+          "h": 533,
+          "path": "medieval-cutouts/masters/animal-musicians-ensemble.webp"
+        }
+      }
+    },
+    "medieval-cutouts/musicians-and-dancers": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Musicians and dancers on a blue platform",
+      "description": "A wide strip: a curling green vine with red, blue and gold leaves rises at the left; to its right a bagpiper, a small drummer and a tabor player accompany four dancers in short tunics stepping across a blue patterned platform edged in red and gold. The figures face mixed directions on a transparent background.",
+      "width": 2032,
+      "height": 774,
+      "thumbhash": "liiCCoIVBZmBeWuHbFC3BmdYkImCp2c=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 2032,
+          "h": 774,
+          "path": "medieval-cutouts/masters/musicians-and-dancers.webp"
+        }
+      }
+    },
+    "medieval-cutouts/cat-reading-book": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Cat with an open book",
+      "description": "A seated blue-gray cat with a striped tail and long whiskers lifts its head up and to the right while resting a front paw on an open book that lies to its right; transparent background.",
+      "width": 1254,
+      "height": 1254,
+      "thumbhash": "4BeGBQAkgF6UetPZ1cB0nHn1KWV4doCapw==",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 1254,
+          "h": 1254,
+          "path": "medieval-cutouts/masters/cat-reading-book.webp"
+        }
+      }
+    },
+    "medieval-cutouts/animal-choir-landscape": {
+      "set": "medieval-cutouts",
+      "version": "1.0.0",
+      "title": "Cattle singing at a music stand",
+      "description": "Three oxen and a small sheep stand on a strip of green ground and face left toward a wooden music stand holding an open score, while two small birds fly above at the right; coloured print-like line work on a transparent background.",
+      "width": 2135,
+      "height": 737,
+      "thumbhash": "2TmCCoAmWJWSiW9IcK+RBjZpgHmDioU=",
+      "license": "CC-BY-4.0",
+      "attribution": "",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 2048,
+          "h": 707,
+          "path": "medieval-cutouts/masters/animal-choir-landscape.webp"
+        }
+      }
+    },
+    "walters-w102/horse-flute-drum": {
+      "set": "walters-w102",
+      "version": "1.0.0",
+      "title": "Horse playing pipe and tabor",
+      "description": "A blue dappled horse stands upright on its hind legs, facing right in profile, blowing a three-hole pipe held in one hand while beating a red-rimmed tabor drum, slung from a red strap over its shoulder, with a curved stick in the other hand. Transparent background.",
+      "width": 236,
+      "height": 400,
+      "thumbhash": "l+eBCwImkD+odGXQPg/98wiETHZXiUo=",
+      "license": "CC0-1.0",
+      "attribution": "Walters Art Museum W.102 (CC0-1.0)",
+      "files": {
+        "sources": {},
+        "master": {
+          "w": 236,
+          "h": 400,
+          "path": "walters-w102/masters/horse-flute-drum.webp"
+        }
+      }
+    }
+  }
+}

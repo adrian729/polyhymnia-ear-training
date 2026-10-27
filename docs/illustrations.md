@@ -1,6 +1,6 @@
 # Illustrations: medieval / renaissance, free
 
-> Sourcing has moved: illustrations now live in `@ranx729/medieval-ornaments` (github.com/adrian729/medieval-ornaments) and the app imports them directly from its resource packages. Add new artwork there, not under `src/assets`; the research below is kept for reference.
+> Sourcing has moved: artwork now lives in the Ducktape Assets library (github.com/adrian729/ducktape-assets) and the app copies its lossless masters with `ducktape.json` (see AGENTS.md). Add new artwork there, not under `src/assets`; the research below is kept for reference.
 
 Research date 2026-09-30. Nothing downloaded. "Free" = usable in this public repo and in a possibly commercial app. Each source below says what you get, how to find it, and which pipeline (A–D) turns it into a project asset.
 

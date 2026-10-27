@@ -1,23 +1,34 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { createRequire } from 'node:module';
+import { join, relative, resolve } from 'node:path';
 import type { Plugin } from 'vite';
-import type { TitleFlourishes } from '../src/lib/assets.ts';
+import type { TransformFactory } from 'vite-imagetools';
+import type { Flourish } from '../src/lib/assets.ts';
 
 /*
  * Turns a hand-curated selection (scripts/ornament-selection.json) into per-group asset modules
- * under the gitignored src/generated/assets. For each named design it reads the installed package's
- * catalog.json for the facts the app must not hardcode — intrinsic size, transparency, the frame
- * slice, the repeat axis — and emits vite-imagetools imports sized the way the app draws them:
- * lossy WebP for images, masks and dividers, AVIF for fine-coloured frames, and never an upscale
- * (a copy a dense screen would need beyond the master is the master).
+ * under the gitignored src/generated/assets. Each entry names a Ducktape Assets id; the lossless
+ * master comes from the copy command (`pnpm exec ducktape-assets copy`, configured by ducktape.json),
+ * which writes the masters and ducktape.manifest.json under the config's `out`. From the manifest it
+ * takes the facts the app must not hardcode (the master's size and path) and emits vite-imagetools
+ * imports sized the way the app draws them: lossy WebP for images and masks, AVIF for fine-coloured
+ * art and frames, and never an upscale (a copy a dense screen would need beyond the master is the
+ * master).
+ *
+ * The library does not carry everything the app draws with: a border-image slice for a frame it
+ * ships as a whole picture, and the points a heading's text and rules align to on a flourish. Those
+ * stay in the selection entry (`atlas`, `flourish`), in master pixels, and are checked against the
+ * master here.
  *
  * This is the one place an ornament is added. Components read the generated group; nothing else
- * names a package. Run at dev/build/test start (vite.config.ts, vitest.config.ts), like the fonts,
- * and again whenever the dev server sees the selection change.
+ * names a master. Run at dev/build/test start (vite.config.ts, vitest.config.ts), like the fonts,
+ * and again whenever the dev server sees the selection or the copied manifest change.
  */
 
 const OUT_DIR = 'src/generated/assets';
 const SELECTION = 'scripts/ornament-selection.json';
+const CONFIG = 'ducktape.json';
+const DEFAULT_COPY_DIR = 'src/assets/ducktape';
 const GENERATOR = 'scripts/asset-manifest.ts';
 
 const ROLES = ['mask', 'image', 'frame', 'divider'] as const;
@@ -29,8 +40,8 @@ const AVIF_QUALITY = 60;
 interface SelectionEntry {
   group: string;
   name: string;
-  package: string;
-  design: string;
+  /** The Ducktape Assets id, `<set>/<asset>`, listed in ducktape.json with `masters: true`. */
+  id: string;
   role: Role;
   /** image: the widths the srcset offers. */
   widths?: number[];
@@ -41,26 +52,25 @@ interface SelectionEntry {
   /** frame/divider: the drawn border or strip width in CSS pixels; one, or a narrow one and the wider
    *  one drawn from the `sm` breakpoint up. */
   thicknessesPx?: number[];
+  /** frame: the border-image atlas within the master (`crop`: left, top, width, height) and its slice,
+   *  in master pixels. */
+  atlas?: { crop: [number, number, number, number]; slicePx: number };
+  /** image: where a heading's text and rules meet the art, in master pixels. */
+  flourish?: Flourish;
 }
 
-interface Raster {
-  webp?: string;
+/** One asset of ducktape.manifest.json, as the copy command writes it. */
+interface CopiedAsset {
+  set: string;
+  version: string;
+  files: { master?: { w: number; h: number; path: string } };
+}
+
+interface Master {
+  /** The import path, relative to the generated modules. */
+  path: string;
   width: number;
   height: number;
-}
-
-interface CatalogDesign extends Raster {
-  name: string;
-  title_flourishes?: TitleFlourishes;
-  has_transparency?: boolean;
-  /** What the package draws the design for: frame, divider, image. */
-  uses?: string[];
-  border_image_slice_percent?: number;
-  repeat_axis?: 'x' | 'y' | 'none';
-  components?: {
-    border_image?: Raster & { slice_pixels?: number };
-    rotated_tile?: Raster;
-  };
 }
 
 /** Names one import per distinct specifier, so copies capped at the same size share a file. */
@@ -70,12 +80,22 @@ function fail(entry: Pick<SelectionEntry, 'group' | 'name'>, message: string): n
   throw new Error(`asset-manifest: ${entry.group}/${entry.name}: ${message}`);
 }
 
-function readCatalog(root: string, pkg: string): Map<string, CatalogDesign> {
-  const file = join(root, 'node_modules', pkg, 'catalog.json');
-  if (!existsSync(file)) throw new Error(`asset-manifest: ${pkg}/catalog.json is missing; is the package installed?`);
-  const parsed = JSON.parse(readFileSync(file, 'utf8')) as CatalogDesign[] | { designs: Record<string, CatalogDesign> };
-  const list = Array.isArray(parsed) ? parsed : Object.values(parsed.designs);
-  return new Map(list.map(design => [design.name, design]));
+/** The copied directory and its manifest, as ducktape.json places them. */
+function readCopied(root: string): { dir: string; assets: Record<string, CopiedAsset> } {
+  const config = JSON.parse(readFileSync(join(root, CONFIG), 'utf8')) as { out?: string };
+  const dir = resolve(root, config.out ?? DEFAULT_COPY_DIR);
+  const file = join(dir, 'ducktape.manifest.json');
+  if (!existsSync(file)) throw new Error(`asset-manifest: ${relative(root, file)} is missing; run \`pnpm exec ducktape-assets copy\`.`);
+  return { dir, assets: (JSON.parse(readFileSync(file, 'utf8')) as { assets: Record<string, CopiedAsset> }).assets };
+}
+
+/** Whether the library marks an asset transparent. The copy manifest leaves it out, so this reads the
+ *  set manifest of the installed index package, which must be the version that was copied. */
+function isTransparent(root: string, entry: SelectionEntry, copied: CopiedAsset): boolean {
+  const require = createRequire(join(root, 'package.json'));
+  const set = require(`@ranx729/ducktape-assets/sets/${copied.set}.json`) as { version: string; assets: Record<string, { transparent?: boolean }> };
+  if (set.version !== copied.version) fail(entry, `the installed index has ${copied.set}@${set.version}, but ${copied.version} was copied; run the copy command again.`);
+  return set.assets[entry.id.slice(copied.set.length + 1)]?.transparent === true;
 }
 
 /** The ladder rungs a mask is generated at: fixed steps up to the master, never above it. */
@@ -98,73 +118,64 @@ function densities(use: Use, path: string, side: 'w' | 'h', drawn: number, maste
   return `{ ${copies.join(', ')} }`;
 }
 
-function emitMask(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {
-  if (!design.webp) fail(entry, `"${design.name}" has no webp master.`);
-  if (design.has_transparency !== true) fail(entry, `"${design.name}" has no transparency, so it cannot be a mask.`);
-  const rungs = maskRungs(design.height);
+function emitMask(entry: SelectionEntry, master: Master, use: Use, q: number): string {
+  const rungs = maskRungs(master.height);
   // One rung imports as an object, several as an array.
-  const ladder = use(design.webp, `h=${rungs.join(';')}&quality=${q}&format=webp&as=metadata:src;width;height`);
+  const ladder = use(master.path, `h=${rungs.join(';')}&quality=${q}&format=webp&as=metadata:src;width;height`);
   return `ladder: [${ladder}].flat().sort((a, b) => a.height - b.height)`;
 }
 
-function emitImage(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {
-  if (!design.webp) fail(entry, `"${design.name}" has no webp master.`);
+function emitImage(entry: SelectionEntry, master: Master, use: Use, q: number): string {
   const widths = [...new Set(entry.widths ?? [])].sort((a, b) => a - b);
   if (widths.length < 2) fail(entry, 'an image needs at least two widths.');
-  const over = widths.filter(width => width > design.width);
-  if (over.length > 0) fail(entry, `widths ${over.join(', ')} exceed the ${design.width}px master; it would be upscaled.`);
+  const over = widths.filter(width => width > master.width);
+  if (over.length > 0) fail(entry, `widths ${over.join(', ')} exceed the ${master.width}px master; it would be upscaled.`);
   const encode = entry.format === 'avif' ? `quality=${entry.quality ?? AVIF_QUALITY}&format=avif` : `quality=${q}&format=webp`;
-  const src = use(design.webp, `w=${widths.at(-1)}&${encode}`);
-  const srcSet = use(design.webp, `w=${widths.join(';')}&${encode}&as=srcset`);
-  const flourishes = design.title_flourishes ? `, titleFlourishes: ${JSON.stringify(design.title_flourishes)}` : '';
-  return `src: ${src}, srcSet: ${srcSet}, width: ${design.width}, height: ${design.height}${flourishes}`;
+  const src = use(master.path, `w=${widths.at(-1)}&${encode}`);
+  const srcSet = use(master.path, `w=${widths.join(';')}&${encode}&as=srcset`);
+  const flourish = entry.flourish ? `, flourish: ${JSON.stringify(entry.flourish)}` : '';
+  return `src: ${src}, srcSet: ${srcSet}, width: ${master.width}, height: ${master.height}${flourish}`;
 }
 
-function emitFrame(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {
-  const border = design.components?.border_image;
-  const slicePercent = design.border_image_slice_percent;
-  if (!border?.webp || slicePercent === undefined) fail(entry, `"${design.name}" has no border_image atlas.`);
-  const slicePx = border.slice_pixels ?? (border.width * slicePercent) / 100;
+function emitFrame(entry: SelectionEntry, master: Master, use: Use, q: number): string {
+  const [left, top, width, height] = entry.atlas!.crop;
+  const { slicePx } = entry.atlas!;
   // The atlas is drawn at `thickness` px, so a slice of slicePx maps to that width: scale the atlas by
-  // the thickness-to-slice ratio.
+  // the thickness-to-slice ratio. `extract` (extractTransform) cuts it from the master first.
+  const encode = `extract=${left},${top},${width},${height}&quality=${q}&format=avif`;
   const copies = thicknesses(entry).map(thickness =>
-    `{ thickness: ${thickness}, images: ${densities(use, border.webp!, 'w', (thickness * border.width) / slicePx, border.width, `quality=${q}&format=avif`)} }`);
+    `{ thickness: ${thickness}, images: ${densities(use, master.path, 'w', (thickness * width) / slicePx, width, encode)} }`);
   // Percentages are relative to each axis. A rectangular painting needs a different vertical
   // percentage to keep its original square corners and equal border thickness.
-  const slices = border.width === border.height ? `${slicePercent}` : `[${slicePx / border.height * 100}, ${slicePercent}]`;
+  const horizontal = (slicePx / width) * 100;
+  const slices = width === height ? `${horizontal}` : `[${(slicePx / height) * 100}, ${horizontal}]`;
   return `slicePercent: ${slices}, copies: [${copies.join(', ')}]`;
 }
 
-function emitDivider(entry: SelectionEntry, design: CatalogDesign, use: Use, q: number): string {
-  const rotated = design.components?.rotated_tile;
-  if (!design.webp || !rotated?.webp) fail(entry, `"${design.name}" has no repeat tile and rotated tile.`);
-  // The tile repeats along its axis and the rotated copy along the other; a strip's thickness is
-  // the tile's other side.
-  const [horizontal, vertical] = design.repeat_axis === 'y' ? [rotated, design] : [design, rotated];
-  const encode = `quality=${q}&format=webp`;
-  const copies = thicknesses(entry).map(thickness => `{ thickness: ${thickness}, `
-    + `horizontal: ${densities(use, horizontal.webp!, 'h', thickness, horizontal.height, encode)}, `
-    + `vertical: ${densities(use, vertical.webp!, 'w', thickness, vertical.width, encode)} }`);
-  return `copies: [${copies.join(', ')}]`;
+function emitDivider(entry: SelectionEntry): string {
+  // A divider repeats a tile along the strip and a rotated copy across it. Ducktape describes tiles
+  // (render.tile), but none is published yet and the copy command brings no rotated master to
+  // re-encode, so there is nothing to draw one from.
+  fail(entry, 'Ducktape Assets has no repeat tile with a lossless rotated master yet; draw dividers from image pieces (see Acanthus.tsx).');
 }
 
-const EMIT: Record<Role, (entry: SelectionEntry, design: CatalogDesign, use: Use, q: number) => string> = {
+const EMIT: Record<Role, (entry: SelectionEntry, master: Master, use: Use, q: number) => string> = {
   mask: emitMask,
   image: emitImage,
   frame: emitFrame,
   divider: emitDivider,
 };
 
-function renderGroup(entries: { entry: SelectionEntry; design: CatalogDesign }[]): string {
+function renderGroup(entries: { entry: SelectionEntry; master: Master }[]): string {
   const imports = new Map<string, string>();
   const bodies: string[] = [];
-  for (const { entry, design } of entries) {
+  for (const { entry, master } of entries) {
     const use: Use = (path, query) => {
-      const specifier = `${entry.package}/${path}?${query}`;
+      const specifier = `${path}?${query}`;
       if (!imports.has(specifier)) imports.set(specifier, `a${imports.size}`);
       return imports.get(specifier)!;
     };
-    const body = EMIT[entry.role](entry, design, use, entry.quality ?? DEFAULT_QUALITY[entry.role]);
+    const body = EMIT[entry.role](entry, master, use, entry.quality ?? DEFAULT_QUALITY[entry.role]);
     bodies.push(`  '${entry.name}': { kind: '${entry.role}', ${body} },`);
   }
   return [
@@ -181,31 +192,44 @@ function renderGroup(entries: { entry: SelectionEntry; design: CatalogDesign }[]
   ].join('\n');
 }
 
-function checkEntry(entry: SelectionEntry, design: CatalogDesign | undefined, seen: Set<string>): CatalogDesign {
+const inside = (master: { w: number; h: number }, [x, y]: readonly number[]) => x! >= 0 && y! >= 0 && x! <= master.w && y! <= master.h;
+
+function checkEntry(root: string, entry: SelectionEntry, copied: CopiedAsset | undefined, dir: string, seen: Set<string>): Master {
   if (!/^[a-z][a-z0-9-]*$/.test(entry.group)) fail(entry, 'group must be lower-case kebab-case; it names a file.');
   const key = `${entry.group}/${entry.name}`;
   if (seen.has(key)) fail(entry, 'declared twice.');
   seen.add(key);
   if (!ROLES.includes(entry.role)) fail(entry, `role "${entry.role}" is not one of ${ROLES.join(', ')}.`);
   if (entry.format !== undefined && (entry.role !== 'image' || !['webp', 'avif'].includes(entry.format))) fail(entry, 'format is webp or avif, and only for images.');
-  if (!design) fail(entry, `"${entry.design}" is not in ${entry.package}.`);
-  // Any transparent design can be a mask; the other roles are the ones the catalog lists it for.
-  if (entry.role !== 'mask' && design.uses && !design.uses.includes(entry.role)) {
-    fail(entry, `${entry.package} draws "${design.name}" as ${design.uses.join(', ')}, not ${entry.role}.`);
+  if (!copied) fail(entry, `"${entry.id}" is not in ${CONFIG}'s copy; add it with "masters": true and run \`pnpm exec ducktape-assets copy\`.`);
+  const master = copied.files.master;
+  if (!master) fail(entry, `"${entry.id}" was copied without its master; set "masters": true in ${CONFIG}.`);
+  const file = join(dir, master.path);
+  if (!existsSync(file)) fail(entry, `${relative(root, file)} is missing; run \`pnpm exec ducktape-assets copy\`.`);
+  if (entry.role === 'mask' && !isTransparent(root, entry, copied)) fail(entry, `"${entry.id}" has no transparency, so it cannot be a mask.`);
+  if (entry.role === 'frame') {
+    const [left, top, width, height] = entry.atlas?.crop ?? [];
+    if (width === undefined || height === undefined || !entry.atlas!.slicePx) fail(entry, 'a frame needs its border-image atlas: "atlas": { "crop": [left, top, width, height], "slicePx" }.');
+    if (!inside(master, [left!, top!]) || !inside(master, [left! + width, top! + height])) fail(entry, `atlas crop falls outside the ${master.w}x${master.h} master.`);
+    if (entry.atlas!.slicePx * 2 >= Math.min(width, height)) fail(entry, 'atlas slicePx leaves no edge between the corners.');
+  } else if (entry.atlas) fail(entry, 'atlas is only for frames.');
+  if (entry.flourish) {
+    const { join: junction, text } = entry.flourish;
+    if (entry.role !== 'image') fail(entry, 'flourish is only for images.');
+    if (!inside(master, junction) || (text && !inside(master, text))) fail(entry, `flourish points fall outside the ${master.w}x${master.h} master.`);
   }
-  return design;
+  return { path: relative(resolve(root, OUT_DIR), file), width: master.w, height: master.h };
 }
 
 /** Writes one module per group, rewriting only those that changed and removing stale ones. */
 export function generateAssets(root = process.cwd()): { groups: string[] } {
   const selection = JSON.parse(readFileSync(join(root, SELECTION), 'utf8')) as SelectionEntry[];
-  const catalogs = new Map<string, Map<string, CatalogDesign>>();
-  const grouped = new Map<string, { entry: SelectionEntry; design: CatalogDesign }[]>();
+  const copied = readCopied(root);
+  const grouped = new Map<string, { entry: SelectionEntry; master: Master }[]>();
   const seen = new Set<string>();
   for (const entry of selection) {
-    if (!catalogs.has(entry.package)) catalogs.set(entry.package, readCatalog(root, entry.package));
-    const design = checkEntry(entry, catalogs.get(entry.package)!.get(entry.design), seen);
-    grouped.set(entry.group, [...(grouped.get(entry.group) ?? []), { entry, design }]);
+    const master = checkEntry(root, entry, copied.assets[entry.id], copied.dir, seen);
+    grouped.set(entry.group, [...(grouped.get(entry.group) ?? []), { entry, master }]);
   }
   // Everything renders before anything is written, so a selection mistake leaves the last good output.
   const sources = new Map([...grouped].map(([group, entries]) => [`${group}.ts`, renderGroup(entries)]));
@@ -221,6 +245,23 @@ export function generateAssets(root = process.cwd()): { groups: string[] } {
   return { groups: [...grouped.keys()] };
 }
 
+/**
+ * The `extract=left,top,width,height` directive: cuts a region from the source before any other
+ * directive, so a frame's atlas can be drawn from a master that also holds margins. vite-imagetools
+ * has no crop of its own. Pass to `imagetools({ extendTransforms: builtins => [extractTransform, ...builtins] })`.
+ */
+export const extractTransform: TransformFactory<{ extract: string }> = ({ extract }, context) => {
+  if (!extract) return undefined;
+  const [left, top, width, height] = extract.split(',').map(Number);
+  if (![left, top, width, height].every(value => Number.isInteger(value) && value! >= 0)) throw new Error(`extract=${extract}: expected left,top,width,height in pixels.`);
+  context.useParam('extract');
+  return (state, image) => {
+    // autoOrient, which runs next, resets the size from `autoOriented`, so both describe the region.
+    state.info = { width: width!, height: height!, autoOriented: { width: width!, height: height! } };
+    return image.extract({ left: left!, top: top!, width: width!, height: height! });
+  };
+};
+
 /** Generates the asset modules at config load, so they exist before any import is resolved. */
 export function assetManifest(): Plugin {
   let root = process.cwd();
@@ -231,12 +272,12 @@ export function assetManifest(): Plugin {
       generateAssets(root);
     },
     configureServer(server) {
-      // An edited selection regenerates the modules, and Vite reloads what imports them. A mistake is
-      // reported and keeps the last good modules instead of stopping the server.
-      const selection = resolve(root, SELECTION);
-      server.watcher.add(selection);
+      // An edited selection or a new copy regenerates the modules, and Vite reloads what imports them.
+      // A mistake is reported and keeps the last good modules instead of stopping the server.
+      const watched = [resolve(root, SELECTION), join(readCopied(root).dir, 'ducktape.manifest.json')];
+      server.watcher.add(watched);
       server.watcher.on('change', file => {
-        if (resolve(file) !== selection) return;
+        if (!watched.includes(resolve(file))) return;
         try {
           generateAssets(root);
         } catch (error) {

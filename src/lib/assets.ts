@@ -28,19 +28,19 @@ export interface ImageAsset {
   /** Intrinsic size of the source art, so the layout reserves the right box before it loads. */
   width: number;
   height: number;
-  /** Optional display windows and opaque rule junctions, in master-image pixels. */
-  titleFlourishes?: TitleFlourishes;
+  /** Where a heading's text and rules meet the art, from the selection entry. */
+  flourish?: Flourish;
 }
 
-interface TitleFlourish {
-  bounds: readonly [left: number, top: number, right: number, bottom: number];
+/** Points on a heading flourish, in master-image pixels. The library carries none of them, so the
+ *  selection entry declares them and the generator checks they fall on the master. */
+export interface Flourish {
+  /** An opaque point inside the gold cap, where the adjoining rule ends beneath the art. */
   join: readonly [x: number, y: number];
+  /** Half the height around `join` that a rule can be drawn without leaving the cap. */
   safeHalfHeight: number;
-}
-
-export interface TitleFlourishes {
-  opening: TitleFlourish & { text: readonly [left: number, capMidline: number] };
-  closing: TitleFlourish;
+  /** Opening flourishes: where the first letter starts, at its capital midline. */
+  text?: readonly [left: number, capMidline: number];
 }
 
 /** One drawn size at 1x, 2x and 3x. A copy is capped at the master, so the densest screens may get
@@ -56,7 +56,7 @@ type Thicknesses<T> = readonly [T] | readonly [T, T];
 
 export interface FrameAsset {
   kind: 'frame';
-  /** The atlas slice as a percentage, from the design's catalog metadata. */
+  /** The atlas slice as a percentage, from the selection entry's atlas. */
   slicePercent: number | readonly [number, number];
   /** For each drawn border width in CSS pixels. */
   copies: Thicknesses<{ thickness: number; images: DensityCopies }>;

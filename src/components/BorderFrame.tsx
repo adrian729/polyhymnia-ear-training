@@ -5,9 +5,8 @@ import { cn } from '@/lib/utils';
 /*
  * A painted border-image frame. The atlas (corners + one repeat per edge) draws with `round`, which
  * fits whole repeats and keeps each edge ending where its corners expect. The slice, the pixel-sized
- * copies and their densities all come from the design's catalog metadata (scripts/asset-manifest.ts);
- * only the drawn thicknesses are composition, taken from the same selection entry so they cannot
- * drift from the copies. A second thickness draws from the `sm` breakpoint up.
+ * copies and their densities all come from the selection entry's atlas (scripts/asset-manifest.ts),
+ * as do the drawn thicknesses, so they cannot drift from the copies. A second thickness draws from the `sm` breakpoint up.
  */
 export function BorderFrame({ asset, children, className }: { asset: FrameAsset; children: ReactNode; className?: string }) {
   const [narrow, wide = narrow] = asset.copies;

@@ -1,58 +1,53 @@
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
+import { applyTransforms, builtins, generateTransforms } from 'vite-imagetools';
 import { describe, expect, it } from 'vitest';
-import { generateAssets } from '../scripts/asset-manifest.ts';
+import { extractTransform, generateAssets } from '../scripts/asset-manifest.ts';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const OUT = 'src/generated/assets';
 
-interface Raster { webp?: string; width: number; height: number }
-type Design = Raster & { name: string; components?: Record<string, Raster> };
+interface Master { w: number; h: number; path: string }
+interface Entry { id: string; role: string; atlas?: { crop: number[]; slicePx: number } }
 
-const designsOf = (catalog: Design[] | { designs: Record<string, Design> }) => Array.isArray(catalog) ? catalog : Object.values(catalog.designs);
+const readJson = <T,>(path: string) => JSON.parse(readFileSync(path, 'utf8')) as T;
+const copyDir = (root: string) => resolve(root, readJson<{ out?: string }>(join(root, 'ducktape.json')).out ?? 'src/assets/ducktape');
+const mastersOf = (root: string) =>
+  readJson<{ assets: Record<string, { files: { master?: Master } }> }>(join(copyDir(root), 'ducktape.manifest.json')).assets;
 
-/** A package no page uses: a frame whose 3x copies would exceed its small atlas, and a divider whose
- *  tile repeats down (axis y), so its horizontal strip must come from the rotated tile. */
-const FIXTURE_PACKAGE = '@fixture/borders';
-const FIXTURE_CATALOG: object[] = [
-  {
-    name: 'thin-frame', webp: 'webp/thin-frame.webp', width: 162, height: 29, uses: ['frame'],
-    border_image_slice_percent: 13.18, repeat_axis: 'x',
-    components: { border_image: { webp: 'webp/thin-frame-border.webp', width: 220, height: 220, slice_pixels: 29 } },
-  },
-  {
-    name: 'upright-divider', webp: 'webp/upright-divider.webp', width: 262, height: 335, uses: ['divider'], repeat_axis: 'y',
-    components: { rotated_tile: { webp: 'webp/upright-divider-rotated.webp', width: 335, height: 262 } },
-  },
-];
+/** A frame whose 3x copies would exceed its small atlas, cut from a master with margins. */
+const FIXTURE_MASTER: Master = { w: 240, h: 60, path: 'fixture/masters/thin-frame.webp' };
 const FIXTURE_SELECTION = [
-  { group: 'frames', name: 'thin', package: FIXTURE_PACKAGE, design: 'thin-frame', role: 'frame', thicknessesPx: [28, 40] },
-  { group: 'dividers', name: 'upright', package: FIXTURE_PACKAGE, design: 'upright-divider', role: 'divider', thicknessesPx: [200, 300] },
+  { group: 'frames', name: 'thin', id: 'fixture/thin-frame', role: 'frame', thicknessesPx: [28, 40], atlas: { crop: [10, 15, 220, 30], slicePx: 13 } },
 ];
 
-function fixtureRoot(): string {
+function fixtureRoot(selection: object[] = FIXTURE_SELECTION, master = FIXTURE_MASTER): string {
   const root = mkdtempSync(join(tmpdir(), 'asset-manifest-'));
+  const copied = join(root, 'art');
   mkdirSync(join(root, 'scripts'));
-  mkdirSync(join(root, 'node_modules', FIXTURE_PACKAGE), { recursive: true });
-  writeFileSync(join(root, 'scripts/ornament-selection.json'), JSON.stringify(FIXTURE_SELECTION));
-  writeFileSync(join(root, 'node_modules', FIXTURE_PACKAGE, 'catalog.json'), JSON.stringify(FIXTURE_CATALOG));
+  mkdirSync(join(copied, 'fixture/masters'), { recursive: true });
+  writeFileSync(join(root, 'scripts/ornament-selection.json'), JSON.stringify(selection));
+  writeFileSync(join(root, 'ducktape.json'), JSON.stringify({ out: 'art', assets: [] }));
+  writeFileSync(join(copied, master.path), '');
+  const assets = Object.fromEntries((selection as Entry[]).map(entry => [entry.id, { set: 'fixture', version: '1.0.0', files: { master } }]));
+  writeFileSync(join(copied, 'ducktape.manifest.json'), JSON.stringify({ schema: 1, assets }));
   return root;
 }
 
-/** Every generated image import, with the master it is drawn from. */
+/** Every generated image import, with the size of the region it is drawn from. */
 function generatedImports(root: string) {
-  const selection = JSON.parse(readFileSync(join(root, 'scripts/ornament-selection.json'), 'utf8')) as { package: string }[];
-  const masters = new Map<string, Raster>();
-  for (const pkg of new Set(selection.map(entry => entry.package))) {
-    for (const design of designsOf(JSON.parse(readFileSync(join(root, 'node_modules', pkg, 'catalog.json'), 'utf8')))) {
-      for (const raster of [design, ...Object.values(design.components ?? {})]) if (raster.webp) masters.set(`${pkg}/${raster.webp}`, raster);
-    }
-  }
+  const masters = new Map(Object.values(mastersOf(root)).flatMap(({ files }) => files.master ? [[resolve(copyDir(root), files.master.path), files.master] as const] : []));
   return readdirSync(join(root, OUT)).flatMap(file =>
     [...readFileSync(join(root, OUT, file), 'utf8').matchAll(/import (\w+) from '([^'?]+)\?([^']*)'/g)]
-      .map(([, name, path, query]) => ({ file, name: name!, path: path!, query: new URLSearchParams(query), master: masters.get(path!) })));
+      .map(([, name, path, query]) => {
+        const params = new URLSearchParams(query);
+        const master = masters.get(resolve(root, OUT, path!));
+        const [, , w, h] = params.get('extract')?.split(',').map(Number) ?? [];
+        return { file, name: name!, path: path!, query: params, region: master && { width: w ?? master.w, height: h ?? master.h } };
+      }));
 }
 
 describe('asset manifest', () => {
@@ -62,59 +57,49 @@ describe('asset manifest', () => {
     expect(readdirSync(join(ROOT, OUT)).sort()).toEqual(groups.map(group => `${group}.ts`).sort());
   });
 
-  it.each([['the app selection', ROOT], ['a frame and a divider that would upscale', fixtureRoot()]])(
+  it.each([['the app selection', ROOT], ['a frame that would upscale', fixtureRoot()]])(
     'sizes every copy at build time and never above its master: %s',
     (_, root) => {
       generateAssets(root);
       const imports = generatedImports(root);
       expect(imports.length).toBeGreaterThan(0);
-      for (const { file, path, query, master } of imports) {
-        expect(master, `${file}: ${path} is not in its catalog`).toBeDefined();
+      for (const { file, path, query, region } of imports) {
+        expect(region, `${file}: ${path} is not a copied master`).toBeDefined();
         expect(query.has('format') && (query.has('w') || query.has('h')), `${file}: ${path} is unsized`).toBe(true);
-        for (const [side, limit] of [['w', master!.width], ['h', master!.height]] as const) {
+        for (const [side, limit] of [['w', region!.width], ['h', region!.height]] as const) {
           for (const size of query.get(side)?.split(';') ?? []) expect(Number(size), `${file}: ${path} ${side}=${size}`).toBeLessThanOrEqual(limit);
         }
       }
     },
   );
 
-  it('draws a divider along the tile that repeats in that direction', () => {
-    const root = fixtureRoot();
-    generateAssets(root);
-    const source = readFileSync(join(root, OUT, 'dividers.ts'), 'utf8');
-    const paths = new Map(generatedImports(root).filter(({ file }) => file === 'dividers.ts').map(({ name, path }) => [name, path]));
-    const [, horizontal, vertical] = /horizontal: \{ '1x': (\w+).*?vertical: \{ '1x': (\w+)/.exec(source)!;
-    expect(paths.get(horizontal!)).toBe(`${FIXTURE_PACKAGE}/webp/upright-divider-rotated.webp`);
-    expect(paths.get(vertical!)).toBe(`${FIXTURE_PACKAGE}/webp/upright-divider.webp`);
-  });
-
-  it('preserves catalog title windows and junctions alongside the responsive image', () => {
-    const root = fixtureRoot();
-    const geometry = {
-      opening: { bounds: [10, 20, 180, 300], join: [20, 150], text: [160, 150], safeHalfHeight: 12 },
-      closing: { bounds: [400, 80, 550, 240], join: [540, 160], safeHalfHeight: 10 },
-    };
-    writeFileSync(join(root, 'node_modules', FIXTURE_PACKAGE, 'catalog.json'), JSON.stringify([
-      { name: 'title', webp: 'webp/title.webp', width: 600, height: 320, uses: ['image'], title_flourishes: geometry },
-    ]));
-    writeFileSync(join(root, 'scripts/ornament-selection.json'), JSON.stringify([
-      { group: 'titles', name: 'title', package: FIXTURE_PACKAGE, design: 'title', role: 'image', widths: [200, 400] },
-    ]));
+  it('passes a flourish through alongside the responsive image', () => {
+    const flourish = { join: [20, 150], text: [160, 150], safeHalfHeight: 12 };
+    const root = fixtureRoot([
+      { group: 'titles', name: 'title', id: 'fixture/title', role: 'image', widths: [200, 400], flourish },
+    ], { w: 600, h: 320, path: 'fixture/masters/title.webp' });
     generateAssets(root);
     const source = readFileSync(join(root, OUT, 'titles.ts'), 'utf8');
-    expect(source).toContain(`titleFlourishes: ${JSON.stringify(geometry)}`);
+    expect(source).toContain(`flourish: ${JSON.stringify(flourish)}`);
     expect(generatedImports(root).some(({ query }) => query.get('as') === 'srcset')).toBe(true);
   });
 
-  it('draws a frame at the slice its catalog declares, so a change cannot cut motifs', () => {
+  it('draws a frame at the slice and from the atlas its entry declares, so a change cannot cut motifs', () => {
     generateAssets(ROOT);
     const generated = readFileSync(join(ROOT, OUT, 'frames.ts'), 'utf8');
-    const selection = JSON.parse(readFileSync(join(ROOT, 'scripts/ornament-selection.json'), 'utf8')) as { design: string; package: string; role: string }[];
-    for (const entry of selection.filter(item => item.role === 'frame')) {
-      const designs = designsOf(JSON.parse(readFileSync(join(ROOT, 'node_modules', entry.package, 'catalog.json'), 'utf8'))) as (Design & { border_image_slice_percent?: number })[];
-      const design = designs.find(item => item.name === entry.design)!;
-      expect(design.border_image_slice_percent).toBeTypeOf('number');
-      expect(generated).toContain(String(design.border_image_slice_percent));
+    for (const { atlas } of readJson<Entry[]>(join(ROOT, 'scripts/ornament-selection.json')).filter(entry => entry.role === 'frame')) {
+      expect(generated).toContain(String((atlas!.slicePx / atlas!.crop[2]!) * 100));
+      expect(generated).toContain(`extract=${atlas!.crop.join(',')}&`);
     }
+  });
+
+  // autoOrient used to reset the size to the whole master, so the copy kept the master's aspect.
+  it('cuts the atlas before resizing a copy', async () => {
+    const master = sharp({ create: { width: 400, height: 300, channels: 4, background: '#0000' } }).webp();
+    const config = { extract: '20,50,200,100', w: '100', format: 'webp' };
+    const { transforms } = generateTransforms(config, [extractTransform as typeof builtins[number], ...builtins], new URLSearchParams(config));
+    const { image } = await applyTransforms(transforms, sharp(await master.toBuffer()));
+    const { info } = await image.toBuffer({ resolveWithObject: true });
+    expect([info.width, info.height]).toEqual([100, 50]);
   });
 });

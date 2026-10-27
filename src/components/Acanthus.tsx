@@ -8,8 +8,8 @@ const START = imageAsset(decorations, 'acanthus-divider-start');
 const CENTRE = imageAsset(decorations, 'acanthus-divider-centre');
 const END = imageAsset(decorations, 'acanthus-divider-end');
 const FLEURON = imageAsset(decorations, 'acanthus-section-fleuron');
-const TITLE_IVY = imageAsset(decorations, 'acanthus-title-ivy');
-const FLOURISHES = TITLE_IVY.titleFlourishes!;
+const TITLE_OPEN = imageAsset(decorations, 'acanthus-title-ivy-open');
+const TITLE_CLOSE = imageAsset(decorations, 'acanthus-title-ivy-close');
 
 /** The illuminated acanthus divider: painted terminals and centrepiece joined by rules (`acanthus-rule`).
  *  `flipEnds` mirrors the terminals top to bottom. */
@@ -42,7 +42,7 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
 }) {
   const root = useRef<HTMLDivElement>(null);
   const text = useRef<HTMLElement>(null);
-  const [imageWidths, setImageWidths] = useState([167, 146]);
+  const [imageWidths, setImageWidths] = useState([51, 43]);
 
   useLayoutEffect(() => {
     const rule = root.current!;
@@ -54,18 +54,15 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
     const startTerminal = rule.querySelector<HTMLElement>('.acanthus-title-terminal-start')!;
     const context = document.createElement('canvas').getContext('2d')!;
     const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
-    const { opening: left, closing: right } = FLOURISHES;
+    const [left, right] = [TITLE_OPEN.flourish!, TITLE_CLOSE.flourish!];
+    const openingText = left.text!;
 
-    const paint = (element: HTMLElement, bounds: readonly number[], scale: number, x: number, y: number) => {
-      // Keep the complete leaf tips and their antialiasing inside the transparent window.
-      const [l, t, r, b] = bounds;
+    // Each piece is cropped to its leaf tips, with a few pixels for their antialiasing.
+    const paint = (element: HTMLElement, art: typeof TITLE_OPEN, scale: number, x: number, y: number) => {
       Object.assign(element.style, {
-        left: `${x + (l - 3) * scale}px`, top: `${y + (t - 3) * scale}px`,
-        width: `${(r - l + 6) * scale}px`, height: `${(b - t + 6) * scale}px`,
+        left: `${x}px`, top: `${y}px`, width: `${art.width * scale}px`, height: `${art.height * scale}px`,
       });
-      Object.assign(element.querySelector('img')!.style, {
-        width: `${TITLE_IVY.width * scale}px`, left: `${-(l - 3) * scale}px`, top: `${-(t - 3) * scale}px`,
-      });
+      Object.assign(element.querySelector('img')!.style, { width: `${art.width * scale}px`, left: '0', top: '0' });
     };
 
     const fit = () => {
@@ -94,19 +91,19 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
       // Keep the original outer terminals and rule width. Only the new middle painting becomes
       // more compact when necessary to leave room for the text; never stretch or hide the ends.
       const minimumArtSize = Math.max(
-        thickness * (left.bounds[3] - left.bounds[1]) / (2 * left.safeHalfHeight * 3.25),
-        thickness * (right.bounds[3] - right.bounds[1]) / (2 * right.safeHalfHeight * 1.2),
+        thickness * TITLE_OPEN.height / (2 * left.safeHalfHeight * 3.25),
+        thickness * TITLE_CLOSE.height / (2 * right.safeHalfHeight * 1.2),
       ) * 1.05;
       let artSize = rule.clientWidth < 360 ? Math.min(fontSize, 21) : fontSize;
       const reserves = (size: number) => {
-        const openingScale = 3.25 * size / (left.bounds[3] - left.bounds[1]);
-        const closingScale = 1.2 * size / (right.bounds[3] - right.bounds[1]);
+        const openingScale = 3.25 * size / TITLE_OPEN.height;
+        const closingScale = 1.2 * size / TITLE_CLOSE.height;
         const clearance = Math.max(0, fontSize - size) * .5;
         return {
           openingScale, closingScale, clearance,
-          left: (left.text[0] - left.bounds[0]) * openingScale + clearance + 5,
-          right: (right.bounds[2] - right.bounds[0]) * closingScale + gap + 5,
-          overhang: Math.max(0, (left.bounds[2] - left.text[0]) * openingScale - clearance) + 4,
+          left: openingText[0] * openingScale + clearance + 5,
+          right: TITLE_CLOSE.width * closingScale + gap + 5,
+          overhang: Math.max(0, (TITLE_OPEN.width - openingText[0]) * openingScale - clearance) + 4,
         };
       };
       while (artSize > minimumArtSize) {
@@ -145,12 +142,12 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
       const first = edge(nodes[0], false);
       const last = edge(nodes.at(-1)!, true);
       const box = rule.getBoundingClientRect();
-      const openingX = first.rect.left - box.left - left.text[0] * openingScale - initialClearance;
-      const openingY = first.axis - box.top - left.text[1] * openingScale;
-      const closingX = last.rect.right - box.left + gap - right.bounds[0] * closingScale;
+      const openingX = first.rect.left - box.left - openingText[0] * openingScale - initialClearance;
+      const openingY = first.axis - box.top - openingText[1] * openingScale;
+      const closingX = last.rect.right - box.left + gap;
       const closingY = last.axis - box.top - right.join[1] * closingScale;
-      paint(opening, left.bounds, openingScale, openingX, openingY);
-      paint(closing, right.bounds, closingScale, closingX, closingY);
+      paint(opening, TITLE_OPEN, openingScale, openingX, openingY);
+      paint(closing, TITLE_CLOSE, closingScale, closingX, closingY);
 
       // Stop each line inside opaque gold, before any transparent fork in the painted stem.
       const startX = openingX + left.join[0] * openingScale;
@@ -166,7 +163,7 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
         left: `${endX}px`, width: `${Math.max(0, rule.clientWidth - terminalWidth * .705 - endX)}px`, height: `${thickness}px`,
         top: `${closingY + right.join[1] * closingScale - thickness / 2}px`,
       });
-      const widths = [Math.ceil(TITLE_IVY.width * openingScale), Math.ceil(TITLE_IVY.width * closingScale)];
+      const widths = [Math.ceil(TITLE_OPEN.width * openingScale), Math.ceil(TITLE_CLOSE.width * closingScale)];
       setImageWidths(current => current.every((width, i) => width === widths[i]) ? current : widths);
     };
     fit();
@@ -185,13 +182,13 @@ export function AcanthusTitle({ as: Tag = 'h2', id, placement, children, classNa
       <OrnamentImage asset={START} sizes="(min-width: 40rem) 3.5rem, 2.75rem" placement={placement} className="acanthus-title-terminal acanthus-title-terminal-start" />
       <span aria-hidden="true" className="acanthus-band acanthus-title-line acanthus-title-line-start" />
       <span aria-hidden="true" className="acanthus-title-art acanthus-title-opening">
-        <OrnamentImage asset={TITLE_IVY} sizes={`${imageWidths[0]}px`} placement={placement} />
+        <OrnamentImage asset={TITLE_OPEN} sizes={`${imageWidths[0]}px`} placement={placement} />
       </span>
       <div className="acanthus-title-space">
         <Tag ref={text} id={id} className="acanthus-title-text">{children}</Tag>
       </div>
       <span aria-hidden="true" className="acanthus-title-art acanthus-title-closing">
-        <OrnamentImage asset={TITLE_IVY} sizes={`${imageWidths[1]}px`} placement={placement} />
+        <OrnamentImage asset={TITLE_CLOSE} sizes={`${imageWidths[1]}px`} placement={placement} />
       </span>
       <span aria-hidden="true" className="acanthus-band acanthus-title-line acanthus-title-line-end" />
       <OrnamentImage asset={END} sizes="(min-width: 40rem) 3.5rem, 2.75rem" placement={placement} className="acanthus-title-terminal acanthus-title-terminal-end" />
