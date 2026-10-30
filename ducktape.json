@@ -1,5 +1,5 @@
 {
-  "pin": "@ranx729/ducktape-assets@1.2.0",
+  "pin": "@ranx729/ducktape-assets@1.6.0",
   "out": "src/assets/ducktape",
   "assets": [
     {
